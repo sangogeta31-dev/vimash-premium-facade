@@ -35,10 +35,10 @@ export function SiteNav() {
             VM
           </span>
           <span className="min-w-0">
-            <span className="block truncate font-display text-base font-bold leading-tight text-charcoal">
+            <span className={cn("block truncate font-display text-base font-bold leading-tight", scrolled ? "text-charcoal" : "text-primary-foreground")}>
               Vimash
             </span>
-            <span className="block truncate text-[0.62rem] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            <span className={cn("block truncate text-[0.62rem] font-medium uppercase tracking-[0.2em]", scrolled ? "text-muted-foreground" : "text-primary-foreground/60")}>
               Manufacturing
             </span>
           </span>
@@ -49,8 +49,13 @@ export function SiteNav() {
             <Link
               key={link.to}
               to={link.to}
-              className="group relative text-sm font-medium text-charcoal/80 transition-colors hover:text-primary"
-              activeProps={{ className: "text-primary" }}
+              className=cn(
+                "group relative text-sm font-medium transition-colors",
+                scrolled
+                  ? "text-charcoal/80 hover:text-primary"
+                  : "text-primary-foreground/85 hover:text-primary-foreground",
+              )
+              activeProps={{ className: scrolled ? "text-primary" : "text-accent" }}
               activeOptions={{ exact: link.to === "/" }}
             >
               {link.label}
@@ -70,7 +75,7 @@ export function SiteNav() {
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-border bg-background/70 text-charcoal lg:hidden"
+          className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-xl border lg:hidden", scrolled ? "border-border bg-background/70 text-charcoal" : "border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground")}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>

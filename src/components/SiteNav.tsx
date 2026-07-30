@@ -49,12 +49,13 @@ export function SiteNav() {
             <Link
               key={link.to}
               to={link.to}
-              className=cn(
+              className={cn(
                 "group relative text-sm font-medium transition-colors",
                 scrolled
                   ? "text-charcoal/80 hover:text-primary"
                   : "text-primary-foreground/85 hover:text-primary-foreground",
-              )
+              )}
+
               activeProps={{ className: scrolled ? "text-primary" : "text-accent" }}
               activeOptions={{ exact: link.to === "/" }}
             >

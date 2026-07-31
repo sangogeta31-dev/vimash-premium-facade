@@ -71,51 +71,58 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative isolate min-h-[92vh] overflow-hidden">
-        <img
-          src={heroImg}
-          alt="Commercial pulverizer machine on a modern factory floor"
-          width={1600}
-          height={1104}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+      <section className="relative isolate overflow-hidden bg-background">
         <div
-          className="absolute inset-0"
-          style={{ background: "var(--gradient-hero)" }}
+          className="pointer-events-none absolute inset-x-0 top-0 h-[70vh] opacity-60"
+          style={{
+            background:
+              "radial-gradient(60% 60% at 50% 0%, color-mix(in oklab, var(--accent) 14%, transparent) 0%, transparent 70%)",
+          }}
         />
-        <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-center px-5 pb-24 pt-36 lg:px-8">
-          <Reveal className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full glass-dark px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground">
+        <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-36 text-center lg:px-8 lg:pt-44">
+          <Reveal>
+            <span className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               Since 2003 · Ahmedabad, India
             </span>
-            <h1 className="mt-7 font-display text-4xl font-bold leading-[1.05] text-primary-foreground sm:text-6xl lg:text-7xl">
+            <h1 className="mx-auto mt-8 max-w-4xl font-display text-4xl font-bold leading-[1.05] text-charcoal sm:text-6xl lg:text-7xl">
               Pulverizing power,
               <br />
               <span className="text-gradient">engineered to last.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-primary-foreground/75 sm:text-lg">
+            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {site.tagline}. Atta and masala pulverizers from 5 HP to 30 HP, built for
               round-the-clock commercial output.
             </p>
-            <div className="mt-9 flex flex-wrap gap-4">
+            <div className="mt-9 flex flex-wrap justify-center gap-4">
               <Link
                 to="/products"
-                className="group inline-flex items-center gap-3 rounded-full bg-accent px-7 py-4 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:-translate-y-1"
+                className="group inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-1"
               >
                 Explore the range
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-3 rounded-full glass-dark px-7 py-4 text-sm font-semibold text-primary-foreground transition-colors duration-300 hover:bg-primary-foreground/15"
+                className="inline-flex items-center gap-3 rounded-full border border-border px-7 py-4 text-sm font-semibold text-charcoal transition-colors duration-300 hover:bg-secondary"
               >
                 Request a quotation
               </Link>
             </div>
           </Reveal>
+
+          <Reveal delay={140}>
+            <img
+              src={heroImg}
+              alt="Vimash commercial pulverizer machine"
+              width={1600}
+              height={1200}
+              className="mx-auto mt-14 w-full max-w-5xl object-contain drop-shadow-[0_60px_70px_oklch(0.22_0.062_258/0.22)]"
+            />
+          </Reveal>
         </div>
       </section>
+
 
       {/* Stats */}
       <section className="relative z-10 mx-auto -mt-16 max-w-7xl px-5 lg:px-8">

@@ -25,12 +25,13 @@ export function SiteNav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-50 border-b transition-all duration-500",
         scrolled
-          ? "glass-card border-b shadow-[0_10px_40px_-24px_oklch(0.25_0.09_264/0.5)]"
-          : "border-b border-transparent bg-background/60 backdrop-blur-sm",
+          ? "glass-card shadow-[0_10px_40px_-24px_oklch(0.25_0.09_264/0.5)]"
+          : "border-transparent bg-background",
       )}
     >
+
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 lg:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-3">
           <img

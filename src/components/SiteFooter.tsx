@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { navLinks, site } from "@/data/site";
+import logoMark from "@/assets/vimash-mark.png.asset.json";
+
 
 export function SiteFooter() {
   return (

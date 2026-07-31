@@ -3,6 +3,7 @@ import { useState } from "react";
 import { PageHero } from "@/components/PageHero";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionHeading } from "@/components/SectionHeading";
+import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { products, type Category } from "@/data/products";
 import { cn } from "@/lib/utils";
@@ -111,6 +112,8 @@ function Products() {
           </div>
         </div>
       </section>
+
+      <QuoteBand />
     </>
   );
 }

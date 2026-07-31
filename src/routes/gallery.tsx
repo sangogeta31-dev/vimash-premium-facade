@@ -8,6 +8,7 @@ import factoryImg from "@/assets/factory-floor.jpg";
 import rotorImg from "@/assets/rotor-detail.jpg";
 import qcImg from "@/assets/quality-check.jpg";
 import { PageHero } from "@/components/PageHero";
+import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
 
@@ -108,6 +109,8 @@ function Gallery() {
           ))}
         </div>
       </section>
+
+      <QuoteBand />
 
       {lightbox ? (
         <div

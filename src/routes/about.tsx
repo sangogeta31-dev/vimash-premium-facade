@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Compass, HeartHandshake, Target } from "lucide-react";
 import factoryImg from "@/assets/factory-floor.jpg";
 import rotorImg from "@/assets/rotor-detail.jpg";
+import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { PageHero } from "@/components/PageHero";
@@ -135,6 +136,8 @@ function About() {
           </Reveal>
         </div>
       </section>
+
+      <QuoteBand />
     </>
   );
 }

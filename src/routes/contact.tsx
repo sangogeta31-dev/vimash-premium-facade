@@ -127,26 +127,3 @@ function Contact() {
     </>
   );
 }
-
-function Field({
-  label,
-  placeholder,
-  type = "text",
-}: {
-  label: string;
-  placeholder: string;
-  type?: string;
-}) {
-  return (
-    <label className="block">
-      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-        {label}
-      </span>
-      <input
-        type={type}
-        placeholder={placeholder}
-        className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-accent"
-      />
-    </label>
-  );
-}

@@ -2,7 +2,9 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/data/site";
+import logoMark from "@/assets/vimash-mark.png.asset.json";
 import { cn } from "@/lib/utils";
+
 
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);

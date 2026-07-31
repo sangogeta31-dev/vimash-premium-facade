@@ -10,23 +10,24 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
 
   return (
     <Reveal delay={delay} className="h-full">
-      <article className="hover-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card">
-        <div className="relative overflow-hidden bg-secondary">
+      <article className="hover-lift group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card">
+        <div className="relative overflow-hidden bg-background px-8 pb-6 pt-10">
           <img
             src={isAtta ? attaImg : masalaImg}
             alt={`${product.hp} HP ${isAtta ? "atta" : "masala"} pulverizer`}
             loading="lazy"
-            width={1024}
-            height={768}
-            className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            width={1408}
+            height={1056}
+            className="mx-auto h-56 w-full object-contain drop-shadow-[0_28px_40px_oklch(0.22_0.062_258/0.16)] transition-transform duration-700 group-hover:scale-105"
           />
-          <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-bold tracking-wide text-primary-foreground">
+          <span className="absolute left-6 top-6 rounded-full bg-primary px-3 py-1 text-xs font-bold tracking-wide text-primary-foreground">
             {product.hp} HP
           </span>
-          <span className="absolute right-4 top-4 rounded-full glass-card px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-charcoal">
+          <span className="absolute right-6 top-6 rounded-full border border-border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
             {isAtta ? "Atta" : "Masala"}
           </span>
         </div>
+
 
         <div className="flex flex-1 flex-col p-6">
           <h3 className="font-display text-xl font-bold text-charcoal">

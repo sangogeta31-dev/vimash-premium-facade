@@ -157,16 +157,17 @@ function Home() {
           ].map((cat, i) => (
             <Reveal key={cat.tag} delay={i * 120}>
               <article className="hover-lift group relative h-full overflow-hidden rounded-3xl border border-border bg-card">
-                <div className="overflow-hidden">
+                <div className="overflow-hidden px-10 pb-4 pt-12">
                   <img
                     src={cat.img}
                     alt={cat.title}
                     loading="lazy"
-                    width={1024}
-                    height={768}
-                    className="h-72 w-full object-cover transition-transform duration-[900ms] group-hover:scale-[1.06]"
+                    width={1408}
+                    height={1056}
+                    className="mx-auto h-72 w-full object-contain drop-shadow-[0_36px_50px_oklch(0.22_0.062_258/0.18)] transition-transform duration-[900ms] group-hover:scale-[1.05]"
                   />
                 </div>
+
                 <div className="p-8">
                   <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
                     {cat.tag}

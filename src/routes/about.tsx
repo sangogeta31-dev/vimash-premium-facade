@@ -114,28 +114,30 @@ function About() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden">
-        <img
-          src={rotorImg}
-          alt="Precision rotor assembly detail"
-          loading="lazy"
-          width={1200}
-          height={900}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
-        <div className="relative mx-auto max-w-3xl px-5 py-24 text-center lg:px-8 lg:py-32">
+      <section className="bg-background">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-24 lg:grid-cols-2 lg:px-8 lg:py-32">
           <Reveal>
-            <h2 className="font-display text-3xl font-bold text-primary-foreground sm:text-4xl">
+            <img
+              src={rotorImg}
+              alt="Precision rotor assembly detail"
+              loading="lazy"
+              width={1408}
+              height={1056}
+              className="mx-auto w-full max-w-lg object-contain drop-shadow-[0_44px_54px_oklch(0.22_0.062_258/0.2)]"
+            />
+          </Reveal>
+          <Reveal delay={120}>
+            <h2 className="font-display text-3xl font-bold text-charcoal sm:text-4xl">
               The rotor is the machine.
             </h2>
-            <p className="mt-5 text-primary-foreground/75">
+            <p className="mt-5 text-muted-foreground">
               Everything else is housing. We machine, harden and dynamically balance every rotor
               in-house, then log the readings against the serial number before dispatch.
             </p>
           </Reveal>
         </div>
       </section>
+
 
       <QuoteBand />
     </>

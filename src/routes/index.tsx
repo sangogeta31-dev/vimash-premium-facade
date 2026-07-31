@@ -1,3 +1,4 @@
+import { CallbackForm } from "@/components/CallbackForm";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -291,13 +292,7 @@ function Home() {
                 </ul>
               </div>
               <div className="flex flex-col gap-3">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-4 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-1"
-                >
-                  Request a quotation
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+                <CallbackForm />
                 <a
                   href={site.phoneHref}
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-7 py-4 text-sm font-semibold text-charcoal transition-colors hover:bg-secondary"
@@ -305,6 +300,7 @@ function Home() {
                   Call {site.phone}
                 </a>
               </div>
+
             </div>
           </div>
         </Reveal>

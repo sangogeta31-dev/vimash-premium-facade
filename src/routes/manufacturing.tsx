@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import factoryImg from "@/assets/factory-floor.jpg";
 import qcImg from "@/assets/quality-check.jpg";
 import { PageHero } from "@/components/PageHero";
+import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 
@@ -152,6 +153,8 @@ function Manufacturing() {
           </Reveal>
         </div>
       </section>
+
+      <QuoteBand />
     </>
   );
 }

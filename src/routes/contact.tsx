@@ -42,47 +42,42 @@ function Contact() {
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
           <Reveal>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="glass-card rounded-3xl p-8 shadow-[var(--shadow-elevated)] lg:p-10"
-            >
-              <h2 className="font-display text-2xl font-bold text-charcoal">Enquiry form</h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Fields marked with an asterisk help us size the machine accurately.
+            <div className="glass-card rounded-3xl p-8 shadow-[var(--shadow-elevated)] lg:p-10">
+              <span className="inline-flex items-center gap-2 rounded-full bg-accent/12 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                <Send className="h-3.5 w-3.5" />
+                Request a callback
+              </span>
+              <h2 className="mt-5 font-display text-3xl font-bold text-charcoal lg:text-4xl">
+                One field. That's it.
+              </h2>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+                No forms, no formalities. Drop your mobile number and our application engineer will
+                call you to understand your material, mesh and tonnage, then send a sized quotation.
               </p>
 
-              <div className="mt-8 grid gap-5 sm:grid-cols-2">
-                <Field label="Full name *" placeholder="Ramesh Patel" />
-                <Field label="Company" placeholder="Shree Flour Mills" />
-                <Field label="Phone *" placeholder="+91 98250 00000" type="tel" />
-                <Field label="Email" placeholder="you@company.com" type="email" />
-                <Field label="Material to grind *" placeholder="Wheat / Turmeric / Chilli" />
-                <Field label="Required output *" placeholder="e.g. 150 kg per hour" />
+              <CallbackForm className="mt-8" />
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href={site.phoneHref}
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5"
+                >
+                  <Phone className="h-4 w-4" />
+                  Call now
+                </a>
+                <a
+                  href={site.whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold text-charcoal transition-colors hover:border-accent hover:text-primary"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  WhatsApp us
+                </a>
               </div>
-
-              <label className="mt-5 block">
-                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                  Additional details
-                </span>
-                <textarea
-                  rows={4}
-                  placeholder="Mesh size, shift hours, existing setup, delivery location…"
-                  className="mt-2 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-accent"
-                />
-              </label>
-
-              <button
-                type="submit"
-                className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-4 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:-translate-y-1 sm:w-auto"
-              >
-                Send enquiry
-                <Send className="h-4 w-4" />
-              </button>
-              <p className="mt-3 text-xs text-muted-foreground">
-                This is a design preview — the form is not connected yet.
-              </p>
-            </form>
+            </div>
           </Reveal>
+
 
           <div className="space-y-5">
             {details.map((d, i) => (

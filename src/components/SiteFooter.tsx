@@ -9,11 +9,12 @@ export function SiteFooter() {
       <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-4 lg:px-8 lg:py-20">
         <div className="lg:col-span-1">
           <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent font-display text-sm font-bold text-accent-foreground">
-              VM
+            <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl bg-primary-foreground">
+              <img src={logoMark.url} alt="Vimash Manufacturing logo" className="h-9 w-9 object-contain" />
             </span>
             <span className="font-display text-lg font-bold">Vimash</span>
           </div>
+
           <p className="mt-5 text-sm leading-relaxed text-primary-foreground/65">
             {site.tagline}. Engineered in India, built for continuous commercial duty.
           </p>

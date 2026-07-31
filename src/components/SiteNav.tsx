@@ -2,7 +2,9 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/data/site";
+import logoMark from "@/assets/vimash-mark.png.asset.json";
 import { cn } from "@/lib/utils";
+
 
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -23,22 +25,27 @@ export function SiteNav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-50 border-b transition-all duration-500",
         scrolled
-          ? "glass-card border-b shadow-[0_10px_40px_-24px_oklch(0.25_0.09_264/0.5)]"
-          : "border-b border-transparent",
+          ? "glass-card shadow-[0_10px_40px_-24px_oklch(0.25_0.09_264/0.5)]"
+          : "border-transparent bg-background",
       )}
     >
+
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 lg:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-3">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-sm font-bold text-primary-foreground shadow-[var(--shadow-elevated)]">
-            VM
-          </span>
+          <img
+            src={logoMark.url}
+            alt="Vimash Manufacturing logo"
+            width={512}
+            height={512}
+            className="h-11 w-11 shrink-0 object-contain"
+          />
           <span className="min-w-0">
-            <span className={cn("block truncate font-display text-base font-bold leading-tight", scrolled ? "text-charcoal" : "text-primary-foreground")}>
+            <span className="block truncate font-display text-base font-bold leading-tight text-charcoal">
               Vimash
             </span>
-            <span className={cn("block truncate text-[0.62rem] font-medium uppercase tracking-[0.2em]", scrolled ? "text-muted-foreground" : "text-primary-foreground/60")}>
+            <span className="block truncate text-[0.62rem] font-medium uppercase tracking-[0.2em] text-muted-foreground">
               Manufacturing
             </span>
           </span>
@@ -49,14 +56,8 @@ export function SiteNav() {
             <Link
               key={link.to}
               to={link.to}
-              className={cn(
-                "group relative text-sm font-medium transition-colors",
-                scrolled
-                  ? "text-charcoal/80 hover:text-primary"
-                  : "text-primary-foreground/85 hover:text-primary-foreground",
-              )}
-
-              activeProps={{ className: scrolled ? "text-primary" : "text-accent" }}
+              className="group relative text-sm font-medium text-charcoal/75 transition-colors hover:text-primary"
+              activeProps={{ className: "text-primary" }}
               activeOptions={{ exact: link.to === "/" }}
             >
               {link.label}
@@ -65,7 +66,7 @@ export function SiteNav() {
           ))}
           <a
             href={site.phoneHref}
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-0.5"
           >
             <Phone className="h-4 w-4" />
             Get a Quote
@@ -76,11 +77,12 @@ export function SiteNav() {
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
-          className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-xl border lg:hidden", scrolled ? "border-border bg-background/70 text-charcoal" : "border-primary-foreground/25 bg-primary-foreground/10 text-primary-foreground")}
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-border bg-background/70 text-charcoal lg:hidden"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
+
 
       <div
         className={cn(

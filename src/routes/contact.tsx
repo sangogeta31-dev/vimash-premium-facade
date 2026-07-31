@@ -37,7 +37,7 @@ function Contact() {
       <PageHero
         eyebrow="Contact"
         title="Tell us what you need to grind"
-        description="Share your material, mesh requirement and daily tonnage. We'll recommend the HP rating and send a detailed quotation within one working day."
+        description="Leave your mobile number and our application engineer calls you back — we'll size the machine and share a quotation on the call."
       />
 
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">

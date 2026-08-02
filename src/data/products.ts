@@ -1,71 +1,155 @@
 export type Category = "atta" | "masala";
 
+export type SpecRowData = { label: string; value: string };
+
 export type Product = {
-  id: string;
+  slug: string;
   category: Category;
+  name: string;
   hp: string;
   model: string;
-  output: string;
-  rpm: string;
-  screen: string;
+  tagline: string;
+  description: string;
+  capacity: string;
+  automation: string;
+  material: string;
+  powerConsumption: string;
+  current: string;
+  dimension: string;
+  mainMotor: string;
+  cycloneMotor: string;
+  chamber: string;
+  beaterRpm?: string;
   features: string[];
+  applications: string[];
 };
 
-const attaSpecs = [
-  { hp: "5", output: "45 – 60 kg/hr", rpm: "3000", screen: "16\"" },
-  { hp: "7.5", output: "70 – 90 kg/hr", rpm: "2800", screen: "20\"" },
-  { hp: "10", output: "100 – 130 kg/hr", rpm: "2800", screen: "24\"" },
-  { hp: "15", output: "150 – 190 kg/hr", rpm: "2600", screen: "28\"" },
-  { hp: "20", output: "210 – 260 kg/hr", rpm: "2400", screen: "30\"" },
-  { hp: "30", output: "320 – 400 kg/hr", rpm: "2200", screen: "36\"" },
+const attaBase = {
+  automation: "Automatic",
+  material: "SS / MS Body",
+  chamberDefault: "Double Chamber",
+};
+
+type Raw = {
+  hp: string;
+  capacity: string;
+  current: string;
+  power: string;
+  chamber: string;
+  dimension: string;
+  mainMotor: string;
+  cycloneMotor: string;
+};
+
+const attaRaw: Raw[] = [
+  { hp: "3", capacity: "25 – 35 kg/hr", current: "5 A", power: "3.00 KWH", chamber: "Double Chamber", dimension: "L 1370 × W 510 × H 1155 mm", mainMotor: "3 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
+  { hp: "5", capacity: "40 – 60 kg/hr", current: "7.5 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1440 × W 600 × H 1200 mm", mainMotor: "5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
+  { hp: "7.5", capacity: "60 – 100 kg/hr", current: "11 A", power: "7.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1570 × W 700 × H 1320 mm", mainMotor: "7.5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
+  { hp: "10", capacity: "70 – 120 kg/hr", current: "15 A", power: "9.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1650 × W 800 × H 1365 mm", mainMotor: "10 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
+  { hp: "15", capacity: "120 – 160 kg/hr", current: "22 A", power: "14.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1730 × W 860 × H 1460 mm", mainMotor: "15 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP" },
+  { hp: "20", capacity: "150 – 200 kg/hr", current: "28 A", power: "15.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1800 × W 960 × H 1520 mm", mainMotor: "20 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP" },
 ];
 
-const masalaSpecs = [
-  { hp: "5", output: "30 – 45 kg/hr", rpm: "3200", screen: "14\"" },
-  { hp: "7.5", output: "50 – 70 kg/hr", rpm: "3000", screen: "18\"" },
-  { hp: "10", output: "80 – 105 kg/hr", rpm: "2900", screen: "22\"" },
-  { hp: "15", output: "120 – 155 kg/hr", rpm: "2700", screen: "26\"" },
-  { hp: "20", output: "170 – 215 kg/hr", rpm: "2500", screen: "30\"" },
-  { hp: "30", output: "260 – 330 kg/hr", rpm: "2300", screen: "34\"" },
+const masalaRaw: Raw[] = [
+  { hp: "3", capacity: "30 – 35 kg/hr", current: "5 A", power: "3.50 KWH", chamber: "Double Chamber", dimension: "L 1270 × W 510 × H 1088 mm", mainMotor: "3 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
+  { hp: "5", capacity: "50 – 60 kg/hr", current: "7.5 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1306 × W 600 × H 1170 mm", mainMotor: "5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
+  { hp: "7.5", capacity: "60 – 80 kg/hr", current: "11 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1448 × W 700 × H 1290 mm", mainMotor: "7.5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
+  { hp: "10", capacity: "80 – 100 kg/hr", current: "15 A", power: "7.50 KWH", chamber: "Double Chamber", dimension: "L 1530 × W 800 × H 1355 mm", mainMotor: "10 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
+  { hp: "15", capacity: "80 – 100 kg/hr", current: "22 A", power: "10.00 KWH", chamber: "Double Chamber", dimension: "L 1600 × W 860 × H 1430 mm", mainMotor: "15 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP" },
+  { hp: "20", capacity: "150 – 190 kg/hr", current: "28 A", power: "17.00 KWH", chamber: "Double Chamber", dimension: "L 1670 × W 960 × H 1520 mm", mainMotor: "20 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP" },
 ];
 
 const attaFeatures = [
-  ["Cool grinding", "Mild steel body", "Direct drive"],
-  ["Cool grinding", "Dust-free hopper", "Direct drive"],
-  ["Twin bearing", "Dust-free hopper", "Low maintenance"],
-  ["Twin bearing", "Heavy duty rotor", "Low maintenance"],
-  ["Heavy duty rotor", "Balanced shaft", "Continuous duty"],
-  ["Heavy duty rotor", "Balanced shaft", "Industrial duty"],
+  "Double chamber grinding for finer, uniform flour",
+  "Powder coated SS / MS body with corrosion resistance",
+  "Three phase 415 V, 50 Hz operation",
+  "Twin cyclone assembly for dust-free discharge",
+  "Automatic operation with low maintenance",
+  "Easy screen change for multiple mesh grades",
 ];
 
 const masalaFeatures = [
-  ["SS 304 contact", "Oil-tight seal", "Fine mesh"],
-  ["SS 304 contact", "Oil-tight seal", "Fine mesh"],
-  ["SS 304 contact", "Water jacket ready", "Fine mesh"],
-  ["Full SS build", "Water jacket ready", "Aroma retention"],
-  ["Full SS build", "Cyclone ready", "Aroma retention"],
-  ["Full SS build", "Cyclone ready", "Plant integration"],
+  "Cyclone unit with beater speed of 3840 RPM",
+  "Semi-automatic operation with simple controls",
+  "Powder coated SS / MS body, corrosion resistant",
+  "Cool grinding that protects spice aroma and oils",
+  "Three phase 415 V, 50 Hz motor with 1440 RPM",
+  "Quick-access chamber for cleaning between batches",
 ];
 
-export const products: Product[] = [
-  ...attaSpecs.map((s, i) => ({
-    id: `atta-${s.hp}`,
-    category: "atta" as const,
-    hp: s.hp,
-    model: `VM-A${s.hp.replace(".", "")}`,
-    output: s.output,
-    rpm: s.rpm,
-    screen: s.screen,
-    features: attaFeatures[i],
-  })),
-  ...masalaSpecs.map((s, i) => ({
-    id: `masala-${s.hp}`,
-    category: "masala" as const,
-    hp: s.hp,
-    model: `VM-M${s.hp.replace(".", "")}`,
-    output: s.output,
-    rpm: s.rpm,
-    screen: s.screen,
-    features: masalaFeatures[i],
-  })),
+const attaApplications = [
+  "Commercial flour mills and atta chakki units",
+  "Wheat, bajra, jowar, rice and pulses grinding",
+  "Besan and dal flour production",
+  "Grocery stores, co-operatives and franchise chakkis",
 ];
+
+const masalaApplications = [
+  "Chilli, turmeric, coriander and cumin grinding",
+  "Masala blending and packaging units",
+  "Dry herb, sugar and salt pulverizing",
+  "Spice traders and small-to-mid scale food plants",
+];
+
+function build(raw: Raw, category: Category): Product {
+  const isAtta = category === "atta";
+  const name = isAtta
+    ? `Double Chamber Pulverizer ${raw.hp} HP`
+    : `Masala Pulverizer with Cyclone ${raw.hp} HP`;
+  return {
+    slug: `${category}-${raw.hp.replace(".", "-")}-hp`,
+    category,
+    name,
+    hp: raw.hp,
+    model: `VM-${isAtta ? "A" : "M"}${raw.hp.replace(".", "")}`,
+    tagline: isAtta
+      ? "Commercial atta pulverizer built for continuous flour output"
+      : "Cyclone masala pulverizer for fine, aromatic spice powder",
+    description: isAtta
+      ? `The ${raw.hp} HP double chamber pulverizer grinds ${raw.capacity} of grain with a fully automatic, dust-controlled cyclone system. The powder coated SS / MS body and partitioned grinding chamber deliver uniform flour with minimum heat build-up, making it ideal for commercial flour mills running long shifts.`
+      : `The ${raw.hp} HP masala pulverizer with cyclone handles ${raw.capacity} of spices at a beater speed of 3840 RPM. Its double chamber and stainless contact zones keep volatile oils and aroma intact while the twin cyclone assembly discharges powder without dust in the workspace.`,
+    capacity: raw.capacity,
+    automation: isAtta ? attaBase.automation : "Semi-automatic",
+    material: attaBase.material,
+    powerConsumption: raw.power,
+    current: raw.current,
+    dimension: raw.dimension,
+    mainMotor: raw.mainMotor,
+    cycloneMotor: raw.cycloneMotor,
+    chamber: raw.chamber,
+    beaterRpm: isAtta ? undefined : "3840 RPM",
+    features: isAtta ? attaFeatures : masalaFeatures,
+    applications: isAtta ? attaApplications : masalaApplications,
+  };
+}
+
+export const products: Product[] = [
+  ...attaRaw.map((r) => build(r, "atta")),
+  ...masalaRaw.map((r) => build(r, "masala")),
+];
+
+export function getProduct(slug: string) {
+  return products.find((p) => p.slug === slug);
+}
+
+export function specTable(p: Product): SpecRowData[] {
+  return [
+    { label: "Grinding Capacity", value: `${p.capacity}` },
+    { label: "Automation Grade", value: p.automation },
+    { label: "Material", value: p.material },
+    { label: "Power Source", value: "Electric" },
+    { label: "Voltage", value: "415 V" },
+    { label: "Current", value: p.current },
+    { label: "Frequency", value: "50 Hz" },
+    { label: "Motor Type", value: "Three Phase" },
+    { label: "Motor Speed", value: "1440 RPM" },
+    ...(p.beaterRpm ? [{ label: "Beater (Cutter) RPM", value: p.beaterRpm }] : []),
+    { label: "Power Consumption", value: p.powerConsumption },
+    { label: "Corrosion Resistance", value: "Yes" },
+    { label: "Coating", value: "Powder Coating" },
+    { label: "Chamber", value: p.chamber },
+    { label: "Main Motor", value: p.mainMotor },
+    { label: "Cyclone Motor", value: p.cycloneMotor },
+    { label: "Machine Dimension", value: p.dimension },
+  ];
+}

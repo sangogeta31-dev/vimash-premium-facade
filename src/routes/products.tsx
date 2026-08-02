@@ -81,7 +81,7 @@ function Products() {
               {products
                 .filter((p) => p.category === section.id)
                 .map((p, i) => (
-                  <ProductCard key={p.id} product={p} delay={i * 70} />
+                  <ProductCard key={p.slug} product={p} delay={i * 70} />
                 ))}
             </div>
           </div>

@@ -11,10 +11,14 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
   return (
     <Reveal delay={delay} className="h-full">
       <article className="hover-lift group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card">
-        <div className="relative overflow-hidden bg-background px-8 pb-6 pt-10">
+        <Link
+          to="/products/$slug"
+          params={{ slug: product.slug }}
+          className="relative block overflow-hidden bg-background px-8 pb-6 pt-10"
+        >
           <img
             src={isAtta ? attaImg : masalaImg}
-            alt={`${product.hp} HP ${isAtta ? "atta" : "masala"} pulverizer`}
+            alt={`${product.name} by Vimash Manufacturing`}
             loading="lazy"
             width={1408}
             height={1056}
@@ -26,25 +30,26 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
           <span className="absolute right-6 top-6 rounded-full border border-border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
             {isAtta ? "Atta" : "Masala"}
           </span>
-        </div>
-
+        </Link>
 
         <div className="flex flex-1 flex-col p-6">
           <h3 className="font-display text-xl font-bold text-charcoal">
-            {isAtta ? "Atta" : "Masala"} Pulverizer {product.hp} HP
+            <Link to="/products/$slug" params={{ slug: product.slug }}>
+              {product.name}
+            </Link>
           </h3>
           <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Model {product.model}
           </p>
 
           <dl className="mt-5 space-y-3 border-t border-border pt-5 text-sm">
-            <SpecRow icon={<Gauge className="h-4 w-4" />} label="Output" value={product.output} />
-            <SpecRow icon={<Zap className="h-4 w-4" />} label="Rotor RPM" value={product.rpm} />
-            <SpecRow icon={<Ruler className="h-4 w-4" />} label="Chamber" value={product.screen} />
+            <SpecRow icon={<Gauge className="h-4 w-4" />} label="Capacity" value={product.capacity} />
+            <SpecRow icon={<Zap className="h-4 w-4" />} label="Main motor" value={product.mainMotor} />
+            <SpecRow icon={<Ruler className="h-4 w-4" />} label="Chamber" value={product.chamber.replace("Double Chamber", "Double")} />
           </dl>
 
           <div className="mt-5 flex flex-wrap gap-2">
-            {product.features.map((f) => (
+            {[product.automation, "415 V · 3 Phase", product.powerConsumption].map((f) => (
               <span
                 key={f}
                 className="rounded-full bg-secondary px-3 py-1 text-[0.7rem] font-medium text-secondary-foreground"
@@ -55,10 +60,11 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
           </div>
 
           <Link
-            to="/contact"
-            className="mt-6 inline-flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm font-semibold text-charcoal transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground"
+            to="/products/$slug"
+            params={{ slug: product.slug }}
+            className="mt-auto inline-flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm font-semibold text-charcoal transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground"
           >
-            Enquire about this model
+            View details & get quote
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
@@ -69,12 +75,12 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
 
 function SpecRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex items-start justify-between gap-4">
       <dt className="flex min-w-0 items-center gap-2 text-muted-foreground">
         <span className="text-accent">{icon}</span>
         {label}
       </dt>
-      <dd className="shrink-0 font-semibold text-charcoal">{value}</dd>
+      <dd className="shrink-0 text-right font-semibold text-charcoal">{value}</dd>
     </div>
   );
 }

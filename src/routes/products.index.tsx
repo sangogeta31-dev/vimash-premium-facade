@@ -8,20 +8,22 @@ import { Reveal } from "@/components/Reveal";
 import { products, type Category } from "@/data/products";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/products")({
+export const Route = createFileRoute("/products/")({
   head: () => ({
     meta: [
-      { title: "Atta & Masala Pulverizer Models 5–30 HP | Vimash Manufacturing" },
+      { title: "Atta & Masala Pulverizer Models 3–20 HP | Vimash Manufacturing" },
       {
         name: "description",
         content:
-          "Browse Vimash atta and masala pulverizers in 5, 7.5, 10, 15, 20 and 30 HP with output, RPM and chamber specifications.",
+          "Browse Vimash double chamber atta pulverizers and cyclone masala pulverizers in 3, 5, 7.5, 10, 15 and 20 HP with full capacity, motor and dimension specifications.",
       },
       { property: "og:title", content: "Pulverizer Product Range — Vimash Manufacturing" },
       {
         property: "og:description",
-        content: "Twelve models across two lines: atta and masala pulverizers from 5 HP to 30 HP.",
+        content: "Twelve models across two lines: double chamber atta pulverizers and masala pulverizers with cyclone, 3 HP to 20 HP.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Products,
@@ -31,8 +33,8 @@ type Filter = "all" | Category;
 
 const filters: { id: Filter; label: string }[] = [
   { id: "all", label: "All machines" },
-  { id: "atta", label: "Atta Pulverizers" },
-  { id: "masala", label: "Masala Pulverizers" },
+  { id: "atta", label: "Commercial Atta Pulverizers" },
+  { id: "masala", label: "Commercial Masala Pulverizers" },
 ];
 
 function Products() {
@@ -40,8 +42,8 @@ function Products() {
 
   const sections = (
     [
-      { id: "atta" as const, title: "Atta Pulverizers", copy: "Cool-grinding flour systems with dust-controlled hoppers and hardened hammers." },
-      { id: "masala" as const, title: "Masala Pulverizers", copy: "Stainless contact zones and fine-mesh screens that keep volatile oils in the powder." },
+      { id: "atta" as const, title: "Commercial Atta Pulverizers", copy: "Double chamber flour mill pulverizers with twin cyclone discharge, automatic operation and powder coated SS / MS bodies." },
+      { id: "masala" as const, title: "Commercial Masala Pulverizers", copy: "Cyclone masala pulverizers running 3840 RPM beaters that keep spice aroma and volatile oils in the powder." },
     ]
   ).filter((s) => filter === "all" || filter === s.id);
 
@@ -49,9 +51,11 @@ function Products() {
     <>
       <PageHero
         eyebrow="Product range"
-        title="Twelve models. Two grinding philosophies."
-        description="Every frame is available from 5 HP up to 30 HP. Pick by material first, then by the output your line needs."
+        title="Twelve models. Two grinding lines."
+        description="Double chamber atta pulverizers and cyclone masala pulverizers, each available in 3, 5, 7.5, 10, 15 and 20 HP. Every model has its own specification page."
       />
+
+
 
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
         <Reveal>
@@ -81,7 +85,7 @@ function Products() {
               {products
                 .filter((p) => p.category === section.id)
                 .map((p, i) => (
-                  <ProductCard key={p.id} product={p} delay={i * 70} />
+                  <ProductCard key={p.slug} product={p} delay={i * 70} />
                 ))}
             </div>
           </div>

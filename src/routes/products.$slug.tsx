@@ -6,7 +6,7 @@ import { CallbackForm } from "@/components/CallbackForm";
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { getProduct, products, specTable } from "@/data/products";
+import { getProduct, products, specTable, type Product } from "@/data/products";
 import { site } from "@/data/site";
 
 export const Route = createFileRoute("/products/$slug")({
@@ -52,7 +52,7 @@ function MachineNotFound() {
 }
 
 function ProductDetail() {
-  const { product } = Route.useLoaderData();
+  const { product } = Route.useLoaderData() as { product: Product };
   const isAtta = product.category === "atta";
   const related = products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3);
 

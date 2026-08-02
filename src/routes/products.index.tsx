@@ -8,7 +8,7 @@ import { Reveal } from "@/components/Reveal";
 import { products, type Category } from "@/data/products";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/products")({
+export const Route = createFileRoute("/products/")({
   head: () => ({
     meta: [
       { title: "Atta & Masala Pulverizer Models 5–30 HP | Vimash Manufacturing" },

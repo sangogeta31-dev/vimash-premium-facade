@@ -154,7 +154,7 @@ function Manufacturing() {
         </div>
       </section>
 
-      <QuoteBand />
+      <QuoteBand source="Manufacturing page" />
     </>
   );
 }

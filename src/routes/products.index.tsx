@@ -117,7 +117,7 @@ function Products() {
         </div>
       </section>
 
-      <QuoteBand />
+      <QuoteBand source="Products page" />
     </>
   );
 }

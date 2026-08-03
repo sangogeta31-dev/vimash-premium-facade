@@ -139,7 +139,7 @@ function About() {
       </section>
 
 
-      <QuoteBand />
+      <QuoteBand source="About page" />
     </>
   );
 }

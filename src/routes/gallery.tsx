@@ -110,7 +110,7 @@ function Gallery() {
         </div>
       </section>
 
-      <QuoteBand />
+      <QuoteBand source="Gallery page" />
 
       {lightbox ? (
         <div

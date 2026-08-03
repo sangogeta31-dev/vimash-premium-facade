@@ -182,7 +182,12 @@ function ProductDetail() {
                 <p className="mt-2 text-sm text-muted-foreground">
                   Share your mobile number — we call back with pricing and delivery time.
                 </p>
-                <CallbackForm className="mt-5" />
+                <CallbackForm
+                  className="mt-5"
+                  machineName={product.name}
+                  machineSlug={product.slug}
+                  source="Product page"
+                />
               </div>
             </Reveal>
           </div>
@@ -217,7 +222,7 @@ function ProductDetail() {
         </section>
       )}
 
-      <QuoteBand />
+      <QuoteBand machineName={product.name} machineSlug={product.slug} source="Product page" />
     </>
   );
 }

@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as ManufacturingRouteImport } from './routes/manufacturing'
+import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 
@@ -25,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -42,6 +49,11 @@ const ManufacturingRoute = ManufacturingRouteImport.update({
   path: '/manufacturing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/admin/leads',
+  path: '/admin/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -56,18 +68,22 @@ const ProductsSlugRoute = ProductsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/manufacturing': typeof ManufacturingRoute
+  '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/manufacturing': typeof ManufacturingRoute
+  '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products': typeof ProductsIndexRoute
 }
@@ -75,9 +91,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/manufacturing': typeof ManufacturingRoute
+  '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
 }
@@ -86,27 +104,33 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/gallery'
     | '/manufacturing'
+    | '/admin/leads'
     | '/products/$slug'
     | '/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/gallery'
     | '/manufacturing'
+    | '/admin/leads'
     | '/products/$slug'
     | '/products'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/gallery'
     | '/manufacturing'
+    | '/admin/leads'
     | '/products/$slug'
     | '/products/'
   fileRoutesById: FileRoutesById
@@ -114,9 +138,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   ManufacturingRoute: typeof ManufacturingRoute
+  AdminLeadsRoute: typeof AdminLeadsRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
 }
@@ -135,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -158,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManufacturingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/admin/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/': {
       id: '/products/'
       path: '/products'
@@ -178,9 +218,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   ManufacturingRoute: ManufacturingRoute,
+  AdminLeadsRoute: AdminLeadsRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   ProductsIndexRoute: ProductsIndexRoute,
 }

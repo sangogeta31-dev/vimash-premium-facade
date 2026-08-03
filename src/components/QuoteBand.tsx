@@ -4,9 +4,15 @@ import { Reveal } from "@/components/Reveal";
 export function QuoteBand({
   title = "Get a price for your requirement",
   description = "Leave your mobile number — our engineer calls back with the right HP rating and a clear quotation.",
+  machineName,
+  machineSlug,
+  source = "Quote band",
 }: {
   title?: string;
   description?: string;
+  machineName?: string;
+  machineSlug?: string;
+  source?: string;
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-primary-deep">
@@ -19,8 +25,14 @@ export function QuoteBand({
           <p className="mt-4 max-w-lg text-primary-foreground/70">{description}</p>
         </Reveal>
         <Reveal delay={120}>
-          <CallbackForm variant="dark" />
+          <CallbackForm
+            variant="dark"
+            machineName={machineName}
+            machineSlug={machineSlug}
+            source={source}
+          />
         </Reveal>
+
       </div>
     </section>
   );

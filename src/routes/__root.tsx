@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingActions } from "@/components/FloatingActions";
+import { MobileActionBar } from "@/components/MobileActionBar";
+
 
 function NotFoundComponent() {
   return (
@@ -126,7 +128,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex min-h-screen flex-col bg-background pb-[4.75rem] lg:pb-0">
         <SiteNav />
         <main className="flex-1">
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
@@ -134,7 +136,9 @@ function RootComponent() {
         </main>
         <SiteFooter />
         <FloatingActions />
+        <MobileActionBar />
       </div>
+
     </QueryClientProvider>
   );
 }

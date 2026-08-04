@@ -37,7 +37,7 @@ export function SectionHeading({
       ) : null}
       <h2
         className={cn(
-          "mt-4 text-3xl font-bold leading-[1.1] sm:text-4xl lg:text-[2.75rem]",
+          "mt-3 text-[1.65rem] font-bold leading-[1.15] sm:mt-4 sm:text-4xl lg:text-[2.75rem]",
           invert ? "text-primary-foreground" : "text-charcoal",
         )}
       >
@@ -46,7 +46,7 @@ export function SectionHeading({
       {description ? (
         <p
           className={cn(
-            "mt-4 text-base leading-relaxed",
+            "mt-3 text-[0.975rem] leading-relaxed sm:mt-4 sm:text-base",
             invert ? "text-primary-foreground/70" : "text-muted-foreground",
           )}
         >

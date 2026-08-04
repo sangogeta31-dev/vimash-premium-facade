@@ -170,7 +170,7 @@ function LeadInboxPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
+    <div className="mx-auto max-w-7xl px-5 py-9 lg:px-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">

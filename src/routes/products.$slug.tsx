@@ -63,7 +63,7 @@ function ProductDetail() {
           className="pointer-events-none absolute left-1/2 top-24 h-[520px] w-[520px] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
           style={{ background: "var(--gradient-accent)" }}
         />
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-32 lg:grid-cols-2 lg:items-center lg:px-8 lg:pb-24 lg:pt-40">
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-10 pt-24 lg:grid-cols-2 lg:items-center lg:px-8 lg:pb-24 lg:pt-40">
           <Reveal>
             <Link
               to="/products"
@@ -130,7 +130,7 @@ function ProductDetail() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
+      <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr]">
           <Reveal>
             <SectionHeading eyebrow="Technical data" title="Full specifications" />
@@ -196,7 +196,7 @@ function ProductDetail() {
 
       {related.length > 0 && (
         <section className="section-tint blueprint section-seam border-t border-border">
-          <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8">
+          <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8">
             <SectionHeading eyebrow="Other capacities" title={`More ${isAtta ? "atta" : "masala"} pulverizers`} />
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
               {related.map((p, i) => (

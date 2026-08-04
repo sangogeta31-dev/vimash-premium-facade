@@ -190,7 +190,7 @@ function Home() {
 
       {/* Why */}
       <section className="section-tint blueprint section-seam border-y border-border">
-        <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
+        <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
           <SectionHeading
             eyebrow="Why Vimash"
             title="Industrial reliability without the industrial headache"
@@ -261,7 +261,7 @@ function Home() {
 
       {/* Testimonial */}
       <section className="section-navy blueprint-dark relative overflow-hidden">
-        <div className="mx-auto max-w-4xl px-5 py-14 text-center lg:px-8">
+        <div className="relative mx-auto max-w-4xl px-5 py-14 text-center lg:px-8">
           <Reveal>
             <Factory className="mx-auto h-8 w-8 text-accent" />
             <blockquote className="mt-8 font-display text-2xl font-semibold leading-snug text-primary-foreground sm:text-3xl">

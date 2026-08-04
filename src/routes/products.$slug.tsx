@@ -195,8 +195,8 @@ function ProductDetail() {
       </section>
 
       {related.length > 0 && (
-        <section className="border-t border-border" style={{ background: "var(--gradient-steel)" }}>
-          <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
+        <section className="section-tint blueprint section-seam border-t border-border">
+          <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8">
             <SectionHeading eyebrow="Other capacities" title={`More ${isAtta ? "atta" : "masala"} pulverizers`} />
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
               {related.map((p, i) => (

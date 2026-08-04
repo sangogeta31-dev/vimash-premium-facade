@@ -93,7 +93,7 @@ function Products() {
       </section>
 
       <section className="section-tint blueprint section-seam border-t border-border">
-        <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8">
           <SectionHeading
             eyebrow="Also supplied"
             title="Everything around the machine"

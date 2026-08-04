@@ -81,7 +81,7 @@ function About() {
       </section>
 
       <section className="section-tint blueprint section-seam border-y border-border">
-        <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
+        <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
           <SectionHeading eyebrow="Milestones" title="Two decades, one direction" align="center" />
           <ol className="mt-16 grid gap-6 md:grid-cols-5">
             {milestones.map((m, i) => (

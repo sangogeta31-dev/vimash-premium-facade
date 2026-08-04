@@ -15,7 +15,7 @@ export function QuoteBand({
   source?: string;
 }) {
   return (
-    <section className="relative isolate overflow-hidden bg-primary-deep">
+    <section className="relative isolate overflow-hidden section-navy blueprint-dark">
       <div className="grid-lines pointer-events-none absolute inset-0 opacity-[0.07]" />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:px-8 lg:py-20">
         <Reveal>

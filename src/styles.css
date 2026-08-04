@@ -174,13 +174,14 @@
 }
 
 @utility hover-lift {
+  box-shadow: var(--shadow-soft);
   transition:
     transform 0.5s var(--transition-smooth),
     box-shadow 0.5s var(--transition-smooth),
     border-color 0.4s ease;
   &:hover {
     transform: translateY(-6px);
-    box-shadow: var(--shadow-elevated);
+    box-shadow: var(--shadow-deep);
   }
 }
 

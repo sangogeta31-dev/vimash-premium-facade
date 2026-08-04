@@ -130,7 +130,7 @@ function ProductDetail() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr]">
           <Reveal>
             <SectionHeading eyebrow="Technical data" title="Full specifications" />

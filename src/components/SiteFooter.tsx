@@ -8,7 +8,7 @@ export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden bg-primary-deep text-primary-foreground">
       <div className="grid-lines pointer-events-none absolute inset-0 opacity-[0.06]" />
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-14 lg:grid-cols-4 lg:px-8 lg:py-14">
+      <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-14 lg:grid-cols-4 lg:px-8 lg:py-20">
         <div className="lg:col-span-1">
           <div className="flex items-center gap-3">
             <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl bg-primary-foreground">

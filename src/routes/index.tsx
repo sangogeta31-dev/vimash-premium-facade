@@ -134,7 +134,7 @@ function Home() {
       </section>
 
       {/* Categories */}
-      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <SectionHeading
           eyebrow="Two specialised lines"
           title="Built separately for grain and for spice"
@@ -190,7 +190,7 @@ function Home() {
 
       {/* Why */}
       <section className="border-y border-border" style={{ background: "var(--gradient-steel)" }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
+        <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
           <SectionHeading
             eyebrow="Why Vimash"
             title="Industrial reliability without the industrial headache"
@@ -213,7 +213,7 @@ function Home() {
       </section>
 
       {/* Process teaser */}
-      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <Reveal>
             <div className="overflow-hidden rounded-3xl border border-border">

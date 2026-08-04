@@ -85,26 +85,25 @@ function Home() {
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               Since 2003 · Ahmedabad, India
             </span>
-            <h1 className="mx-auto mt-8 max-w-4xl font-display text-4xl font-bold leading-[1.05] text-charcoal sm:text-6xl lg:text-7xl">
+            <h1 className="mx-auto mt-6 max-w-4xl font-display text-[2.35rem] font-bold leading-[1.05] text-charcoal sm:text-6xl lg:text-7xl">
               Pulverizing power,
               <br />
               <span className="text-gradient">engineered to last.</span>
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {site.tagline}. Atta and masala pulverizers from 5 HP to 30 HP, built for
-              round-the-clock commercial output.
+            <p className="mx-auto mt-5 max-w-xl text-[1.05rem] leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg">
+              Atta &amp; masala pulverizers, 5 HP to 30 HP. Built for all-day commercial output.
             </p>
-            <div className="mt-9 flex flex-wrap justify-center gap-4">
+            <div className="mt-7 grid gap-3 sm:mt-9 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
               <Link
                 to="/products"
-                className="group inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-1"
+                className="group inline-flex min-h-[3.5rem] items-center justify-center gap-3 rounded-full bg-primary px-7 py-4 text-base sm:text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-1"
               >
                 Explore the range
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-3 rounded-full border border-border px-7 py-4 text-sm font-semibold text-charcoal transition-colors duration-300 hover:bg-secondary"
+                className="inline-flex min-h-[3.5rem] items-center justify-center gap-3 rounded-full border border-border px-7 py-4 text-base font-semibold text-charcoal sm:text-sm transition-colors duration-300 hover:bg-secondary"
               >
                 Request a quotation
               </Link>
@@ -117,7 +116,7 @@ function Home() {
               alt="Vimash commercial pulverizer machine"
               width={1600}
               height={1200}
-              className="mx-auto mt-14 w-full max-w-5xl object-contain drop-shadow-[0_60px_70px_oklch(0.22_0.062_258/0.22)]"
+              className="mx-auto mt-8 w-[112%] max-w-none -translate-x-[6%] object-contain sm:mt-12 sm:w-full sm:max-w-5xl sm:translate-x-0 drop-shadow-[0_60px_70px_oklch(0.22_0.062_258/0.22)]"
             />
           </Reveal>
         </div>
@@ -140,7 +139,7 @@ function Home() {
           title="Built separately for grain and for spice"
           description="Different materials demand different grinding physics. We engineer each line from the rotor outwards instead of rebadging one machine."
         />
-        <div className="mt-14 grid gap-8 lg:grid-cols-2">
+        <div className="mt-9 grid gap-6 sm:mt-14 sm:gap-8 lg:grid-cols-2">
           {[
             {
               img: attaImg,
@@ -157,18 +156,18 @@ function Home() {
           ].map((cat, i) => (
             <Reveal key={cat.tag} delay={i * 120}>
               <article className="hover-lift group relative h-full overflow-hidden rounded-3xl border border-border bg-card">
-                <div className="overflow-hidden px-10 pb-4 pt-12">
+                <div className="overflow-hidden px-5 pb-3 pt-8 sm:px-10 sm:pb-4 sm:pt-12">
                   <img
                     src={cat.img}
                     alt={cat.title}
                     loading="lazy"
                     width={1408}
                     height={1056}
-                    className="mx-auto h-72 w-full object-contain drop-shadow-[0_36px_50px_oklch(0.22_0.062_258/0.18)] transition-transform duration-[900ms] group-hover:scale-[1.05]"
+                    className="mx-auto h-80 w-full object-contain sm:h-72 drop-shadow-[0_36px_50px_oklch(0.22_0.062_258/0.18)] transition-transform duration-[900ms] group-hover:scale-[1.05]"
                   />
                 </div>
 
-                <div className="p-8">
+                <div className="p-6 sm:p-8">
                   <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
                     {cat.tag}
                   </span>
@@ -196,10 +195,10 @@ function Home() {
             title="Industrial reliability without the industrial headache"
             align="center"
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-9 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             {whyItems.map((item, i) => (
               <Reveal key={item.title} delay={i * 90} className="h-full">
-                <div className="hover-lift h-full rounded-2xl border border-border bg-card p-7">
+                <div className="hover-lift h-full rounded-2xl border border-border bg-card p-6 sm:p-7">
                   <span className="grid h-12 w-12 place-items-center rounded-xl bg-primary/8 text-primary">
                     <item.icon className="h-6 w-6" />
                   </span>
@@ -214,7 +213,7 @@ function Home() {
 
       {/* Process teaser */}
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
-        <div className="grid items-center gap-14 lg:grid-cols-2">
+        <div className="grid items-center gap-9 lg:grid-cols-2 lg:gap-14">
           <Reveal>
             <div className="overflow-hidden rounded-3xl border border-border">
               <img
@@ -233,7 +232,7 @@ function Home() {
               title="Every machine passes a full-load trial before it ships"
               description="A 38,000 sq. ft. facility with in-house fabrication, machining, balancing and testing — so quality is never outsourced."
             />
-            <ul className="mt-10 space-y-6">
+            <ul className="mt-7 space-y-5 sm:mt-10 sm:space-y-6">
               {processSteps.map((step, i) => (
                 <Reveal as="li" key={step.n} delay={i * 100}>
                   <div className="flex gap-5">
@@ -249,7 +248,7 @@ function Home() {
             <Reveal delay={280}>
               <Link
                 to="/manufacturing"
-                className="mt-10 inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold text-charcoal transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
+                className="mt-7 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-base sm:mt-10 sm:w-auto sm:text-sm font-semibold text-charcoal transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
               >
                 See the full process
                 <ArrowRight className="h-4 w-4" />
@@ -279,10 +278,10 @@ function Home() {
       <section className="section-tint blueprint section-seam border-t border-border">
         <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8">
         <Reveal>
-          <div className="overflow-hidden rounded-3xl border border-border bg-card p-10 shadow-[var(--shadow-elevated)] lg:p-14">
-            <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+          <div className="overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-elevated)] sm:p-10 lg:p-14">
+            <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
               <div>
-                <h2 className="font-display text-3xl font-bold text-charcoal sm:text-4xl">
+                <h2 className="font-display text-[1.75rem] font-bold leading-tight text-charcoal sm:text-4xl">
                   Tell us your product and target output.
                 </h2>
                 <p className="mt-4 max-w-xl text-muted-foreground">
@@ -304,7 +303,7 @@ function Home() {
                 <CallbackForm source="Home page" />
                 <a
                   href={site.phoneHref}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-7 py-4 text-sm font-semibold text-charcoal transition-colors hover:bg-secondary"
+                  className="inline-flex min-h-[3.5rem] items-center justify-center gap-2 rounded-full border border-border px-7 py-4 text-base font-semibold text-charcoal transition-colors hover:bg-secondary sm:text-sm"
                 >
                   Call {site.phone}
                 </a>

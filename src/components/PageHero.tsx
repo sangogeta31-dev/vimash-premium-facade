@@ -16,7 +16,7 @@ export function PageHero({
         className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-40 blur-3xl"
         style={{ background: "var(--gradient-accent)" }}
       />
-      <div className="relative mx-auto max-w-7xl px-5 pb-14 pt-28 lg:px-8 lg:pb-14 lg:pt-32">
+      <div className="relative mx-auto max-w-7xl px-5 pb-10 pt-24 lg:px-8 lg:pb-14 lg:pt-32">
         <Reveal className="max-w-3xl">
           <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent">
             <span className="h-px w-8 bg-accent" />

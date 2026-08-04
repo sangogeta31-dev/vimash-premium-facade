@@ -22,10 +22,10 @@ export function PageHero({
             <span className="h-px w-8 bg-accent" />
             {eyebrow}
           </span>
-          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.08] text-primary-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 font-display text-[2.1rem] font-bold leading-[1.08] text-primary-foreground sm:text-5xl lg:text-6xl">
             {title}
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-primary-foreground/70">
+          <p className="mt-4 max-w-2xl text-[0.975rem] leading-relaxed sm:mt-6 sm:text-base text-primary-foreground/70">
             {description}
           </p>
         </Reveal>

@@ -89,7 +89,7 @@ export function CallbackForm({
           placeholder="Enter your mobile number"
           aria-label="Mobile number"
           className={cn(
-            "min-w-0 flex-1 bg-transparent px-5 py-3.5 text-sm outline-none",
+            "min-w-0 flex-1 bg-transparent px-5 py-4 text-base outline-none sm:py-3.5 sm:text-sm",
             dark
               ? "text-primary-foreground placeholder:text-primary-foreground/50"
               : "text-charcoal placeholder:text-muted-foreground/70",
@@ -98,7 +98,7 @@ export function CallbackForm({
         <button
           type="submit"
           disabled={busy}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-70"
+          className="inline-flex min-h-[3.25rem] shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-base sm:min-h-0 sm:text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-70"
         >
           {busy ? (
             <Loader2 className="h-4 w-4 animate-spin" />

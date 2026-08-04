@@ -14,7 +14,7 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
         <Link
           to="/products/$slug"
           params={{ slug: product.slug }}
-          className="relative block overflow-hidden bg-background px-8 pb-6 pt-10"
+          className="relative block overflow-hidden bg-background px-5 pb-5 pt-8 sm:px-8 sm:pt-10"
         >
           <img
             src={isAtta ? attaImg : masalaImg}
@@ -22,7 +22,7 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
             loading="lazy"
             width={1408}
             height={1056}
-            className="mx-auto h-56 w-full object-contain drop-shadow-[0_28px_40px_oklch(0.22_0.062_258/0.16)] transition-transform duration-700 group-hover:scale-105"
+            className="mx-auto h-64 w-full object-contain sm:h-56 drop-shadow-[0_28px_40px_oklch(0.22_0.062_258/0.16)] transition-transform duration-700 group-hover:scale-105"
           />
           <span className="absolute left-6 top-6 rounded-full bg-primary px-3 py-1 text-xs font-bold tracking-wide text-primary-foreground">
             {product.hp} HP
@@ -62,7 +62,7 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
           <Link
             to="/products/$slug"
             params={{ slug: product.slug }}
-            className="mt-auto inline-flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm font-semibold text-charcoal transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground"
+            className="mt-auto inline-flex min-h-[3.25rem] items-center justify-between rounded-xl border border-border px-4 py-3 text-base sm:text-sm font-semibold text-charcoal transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground"
           >
             View details & get quote
             <ArrowUpRight className="h-4 w-4" />

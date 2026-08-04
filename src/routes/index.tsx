@@ -276,7 +276,8 @@ function Home() {
       </section>
 
       {/* CTA */}
-      <section className="section-tint blueprint section-seam border-t border-border"><div className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
+      <section className="section-tint blueprint section-seam border-t border-border">
+        <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8">
         <Reveal>
           <div className="overflow-hidden rounded-3xl border border-border bg-card p-10 shadow-[var(--shadow-elevated)] lg:p-14">
             <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">

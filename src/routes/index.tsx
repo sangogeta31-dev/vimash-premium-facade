@@ -189,7 +189,7 @@ function Home() {
       </section>
 
       {/* Why */}
-      <section className="border-y border-border" style={{ background: "var(--gradient-steel)" }}>
+      <section className="section-tint blueprint section-seam border-y border-border">
         <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
           <SectionHeading
             eyebrow="Why Vimash"
@@ -260,7 +260,7 @@ function Home() {
       </section>
 
       {/* Testimonial */}
-      <section className="bg-primary-deep">
+      <section className="section-navy blueprint-dark relative overflow-hidden">
         <div className="mx-auto max-w-4xl px-5 py-14 text-center lg:px-8">
           <Reveal>
             <Factory className="mx-auto h-8 w-8 text-accent" />
@@ -276,7 +276,7 @@ function Home() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
+      <section className="section-tint blueprint section-seam border-t border-border"><div className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
         <Reveal>
           <div className="overflow-hidden rounded-3xl border border-border bg-card p-10 shadow-[var(--shadow-elevated)] lg:p-14">
             <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
@@ -312,6 +312,7 @@ function Home() {
             </div>
           </div>
         </Reveal>
+        </div>
       </section>
     </>
   );

@@ -238,13 +238,13 @@
 
 @utility section-tint {
   position: relative;
-  isolate: isolate;
+  isolation: isolate;
   background: var(--gradient-tint);
 }
 
 @utility section-navy {
   position: relative;
-  isolate: isolate;
+  isolation: isolate;
   background: var(--gradient-navy);
   color: var(--primary-foreground);
 }

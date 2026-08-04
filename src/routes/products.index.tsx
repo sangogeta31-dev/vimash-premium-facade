@@ -92,7 +92,7 @@ function Products() {
         ))}
       </section>
 
-      <section className="border-t border-border" style={{ background: "var(--gradient-steel)" }}>
+      <section className="section-tint blueprint section-seam border-t border-border">
         <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
           <SectionHeading
             eyebrow="Also supplied"

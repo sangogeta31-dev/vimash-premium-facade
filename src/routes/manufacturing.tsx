@@ -104,7 +104,7 @@ function Manufacturing() {
         </div>
       </section>
 
-      <section className="border-y border-border" style={{ background: "var(--gradient-steel)" }}>
+      <section className="section-tint blueprint section-seam border-y border-border">
         <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
           <SectionHeading eyebrow="Infrastructure" title="The plant behind the range" align="center" />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

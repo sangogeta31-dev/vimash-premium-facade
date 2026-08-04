@@ -31,10 +31,10 @@ export const Route = createFileRoute("/products/")({
 
 type Filter = "all" | Category;
 
-const filters: { id: Filter; label: string }[] = [
-  { id: "all", label: "All machines" },
-  { id: "atta", label: "Commercial Atta Pulverizers" },
-  { id: "masala", label: "Commercial Masala Pulverizers" },
+const filters: { id: Filter; label: string; short: string }[] = [
+  { id: "all", label: "All machines", short: "All" },
+  { id: "atta", label: "Commercial Atta Pulverizers", short: "Atta" },
+  { id: "masala", label: "Commercial Masala Pulverizers", short: "Masala" },
 ];
 
 function Products() {
@@ -59,20 +59,21 @@ function Products() {
 
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
         <Reveal>
-          <div className="inline-flex flex-wrap gap-1 rounded-full border border-border bg-secondary p-1.5">
+          <div className="flex w-full gap-1 rounded-full border border-border bg-secondary p-1.5 sm:inline-flex sm:w-auto">
             {filters.map((f) => (
               <button
                 key={f.id}
                 type="button"
                 onClick={() => setFilter(f.id)}
                 className={cn(
-                  "rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300",
+                  "flex-1 rounded-full px-4 py-3 text-sm font-semibold transition-all duration-300 sm:flex-none sm:px-5 sm:py-2.5",
                   filter === f.id
                     ? "bg-primary text-primary-foreground shadow-[var(--shadow-elevated)]"
                     : "text-muted-foreground hover:text-charcoal",
                 )}
               >
-                {f.label}
+                <span className="sm:hidden">{f.short}</span>
+                <span className="hidden sm:inline">{f.label}</span>
               </button>
             ))}
           </div>

@@ -62,7 +62,7 @@ function Gallery() {
         description="A closer look at the machines we ship, the floor they are built on and the components that decide how long they last."
       />
 
-      <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
         <Reveal>
           <div className="inline-flex flex-wrap gap-1 rounded-full border border-border bg-secondary p-1.5">
             {tabs.map((t) => (

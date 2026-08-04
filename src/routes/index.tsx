@@ -79,7 +79,7 @@ function Home() {
               "radial-gradient(60% 60% at 50% 0%, color-mix(in oklab, var(--accent) 14%, transparent) 0%, transparent 70%)",
           }}
         />
-        <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-36 text-center lg:px-8 lg:pt-44">
+        <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-28 text-center lg:px-8 lg:pt-32">
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -134,7 +134,7 @@ function Home() {
       </section>
 
       {/* Categories */}
-      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Two specialised lines"
           title="Built separately for grain and for spice"
@@ -190,7 +190,7 @@ function Home() {
 
       {/* Why */}
       <section className="border-y border-border" style={{ background: "var(--gradient-steel)" }}>
-        <div className="mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+        <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
           <SectionHeading
             eyebrow="Why Vimash"
             title="Industrial reliability without the industrial headache"
@@ -213,7 +213,7 @@ function Home() {
       </section>
 
       {/* Process teaser */}
-      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <Reveal>
             <div className="overflow-hidden rounded-3xl border border-border">
@@ -261,7 +261,7 @@ function Home() {
 
       {/* Testimonial */}
       <section className="bg-primary-deep">
-        <div className="mx-auto max-w-4xl px-5 py-24 text-center lg:px-8">
+        <div className="mx-auto max-w-4xl px-5 py-14 text-center lg:px-8">
           <Reveal>
             <Factory className="mx-auto h-8 w-8 text-accent" />
             <blockquote className="mt-8 font-display text-2xl font-semibold leading-snug text-primary-foreground sm:text-3xl">
@@ -276,7 +276,7 @@ function Home() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
         <Reveal>
           <div className="overflow-hidden rounded-3xl border border-border bg-card p-10 shadow-[var(--shadow-elevated)] lg:p-14">
             <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">

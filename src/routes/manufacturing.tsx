@@ -62,7 +62,7 @@ function Manufacturing() {
         description="Nothing critical is outsourced. From plate to painted machine, every stage happens inside our Ahmedabad plant and is signed off before the next begins."
       />
 
-      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
         <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="lg:sticky lg:top-32 lg:h-fit">
             <SectionHeading
@@ -105,7 +105,7 @@ function Manufacturing() {
       </section>
 
       <section className="border-y border-border" style={{ background: "var(--gradient-steel)" }}>
-        <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
           <SectionHeading eyebrow="Infrastructure" title="The plant behind the range" align="center" />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {infrastructure.map((item, i) => (
@@ -120,7 +120,7 @@ function Manufacturing() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-14">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <div>
             <SectionHeading

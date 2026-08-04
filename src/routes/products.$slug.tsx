@@ -130,7 +130,7 @@ function ProductDetail() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr]">
           <Reveal>
             <SectionHeading eyebrow="Technical data" title="Full specifications" />
@@ -195,8 +195,8 @@ function ProductDetail() {
       </section>
 
       {related.length > 0 && (
-        <section className="border-t border-border" style={{ background: "var(--gradient-steel)" }}>
-          <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <section className="section-tint blueprint section-seam border-t border-border">
+          <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8">
             <SectionHeading eyebrow="Other capacities" title={`More ${isAtta ? "atta" : "masala"} pulverizers`} />
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
               {related.map((p, i) => (

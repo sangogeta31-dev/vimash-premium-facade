@@ -57,7 +57,7 @@ function Products() {
 
 
 
-      <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <Reveal>
           <div className="inline-flex flex-wrap gap-1 rounded-full border border-border bg-secondary p-1.5">
             {filters.map((f) => (
@@ -92,8 +92,8 @@ function Products() {
         ))}
       </section>
 
-      <section className="border-t border-border" style={{ background: "var(--gradient-steel)" }}>
-        <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <section className="section-tint blueprint section-seam border-t border-border">
+        <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8">
           <SectionHeading
             eyebrow="Also supplied"
             title="Everything around the machine"

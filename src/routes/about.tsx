@@ -49,7 +49,7 @@ function About() {
         description="Vimash Manufacturing Pvt. Ltd. has been designing pulverizing systems in Ahmedabad since 2003 — every frame fabricated, machined and tested under one roof."
       />
 
-      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <Reveal>
             <div className="overflow-hidden rounded-3xl border border-border">
@@ -80,8 +80,8 @@ function About() {
         </div>
       </section>
 
-      <section className="border-y border-border" style={{ background: "var(--gradient-steel)" }}>
-        <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <section className="section-tint blueprint section-seam border-y border-border">
+        <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
           <SectionHeading eyebrow="Milestones" title="Two decades, one direction" align="center" />
           <ol className="mt-16 grid gap-6 md:grid-cols-5">
             {milestones.map((m, i) => (
@@ -97,7 +97,7 @@ function About() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <SectionHeading eyebrow="What we hold to" title="Three commitments that do not flex" />
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {values.map((v, i) => (
@@ -115,7 +115,7 @@ function About() {
       </section>
 
       <section className="bg-background">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-24 lg:grid-cols-2 lg:px-8 lg:py-32">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-14 lg:grid-cols-2 lg:px-8 lg:py-20">
           <Reveal>
             <img
               src={rotorImg}

@@ -40,7 +40,7 @@ function Contact() {
         description="Leave your mobile number and our application engineer calls you back — we'll size the machine and share a quotation on the call."
       />
 
-      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
           <Reveal>
             <div className="glass-card rounded-3xl p-8 shadow-[var(--shadow-elevated)] lg:p-10">

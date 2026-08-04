@@ -10,13 +10,13 @@ export function PageHero({
   description: string;
 }) {
   return (
-    <section className="relative isolate overflow-hidden bg-primary-deep">
+    <section className="relative isolate overflow-hidden section-navy blueprint-dark">
       <div className="grid-lines pointer-events-none absolute inset-0 opacity-[0.07]" />
       <div
         className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-40 blur-3xl"
         style={{ background: "var(--gradient-accent)" }}
       />
-      <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-36 lg:px-8 lg:pb-28 lg:pt-44">
+      <div className="relative mx-auto max-w-7xl px-5 pb-14 pt-28 lg:px-8 lg:pb-14 lg:pt-32">
         <Reveal className="max-w-3xl">
           <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent">
             <span className="h-px w-8 bg-accent" />

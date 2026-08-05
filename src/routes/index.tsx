@@ -15,7 +15,7 @@ import masalaImg from "@/assets/masala-pulverizer.jpg";
 import factoryImg from "@/assets/factory-floor.jpg";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { StatStrip } from "@/components/StatStrip";
+import { TrustCards } from "@/components/TrustCards";
 import { site } from "@/data/site";
 
 export const Route = createFileRoute("/")({
@@ -123,13 +123,9 @@ function Home() {
       </section>
 
 
-      {/* Stats */}
+      {/* Trust */}
       <section className="relative z-10 mx-auto mt-6 max-w-7xl px-5 lg:px-8">
-        <Reveal>
-          <div className="rounded-2xl border border-border bg-card p-1 shadow-[var(--shadow-elevated)]">
-            <StatStrip />
-          </div>
-        </Reveal>
+        <TrustCards />
       </section>
 
       {/* Categories */}

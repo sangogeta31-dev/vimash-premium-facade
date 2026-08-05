@@ -41,23 +41,23 @@ export const Route = createFileRoute("/")({
 const whyItems = [
   {
     icon: Cog,
-    title: "Balanced rotor engineering",
-    body: "Dynamically balanced rotors and hardened hammers keep vibration low and output consistent through long shifts.",
+    title: "Strong & Balanced Rotor",
+    body: "Keeps vibration low for smooth grinding and better machine life.",
   },
   {
     icon: ShieldCheck,
-    title: "Food-grade construction",
-    body: "SS 304 contact surfaces, oil-tight seals and dust-controlled hoppers built for hygiene-critical processing.",
+    title: "Food-Grade Build",
+    body: "Made with SS 304 contact parts for safe and hygienic grinding.",
   },
   {
     icon: Wrench,
-    title: "Serviceable by design",
-    body: "Quick-open chambers, standard screens and off-the-shelf spares mean minutes of downtime, not days.",
+    title: "Easy to Maintain",
+    body: "Simple design, easy servicing, and easily available spare parts.",
   },
   {
     icon: Headphones,
     title: "Lifetime support",
-    body: "Installation, operator training and on-call service engineers across 19 states of India.",
+    body: "Installation, training, and after-sales support whenever you need it.",
   },
 ];
 
@@ -86,26 +86,26 @@ function Home() {
               Since 2003 · Ahmedabad, India
             </span>
             <h1 className="mx-auto mt-6 max-w-4xl font-display text-[2.35rem] font-bold leading-[1.05] text-charcoal sm:text-6xl lg:text-7xl">
-              Pulverizing power,
+              Strong Machine,
               <br />
-              <span className="text-gradient">engineered to last.</span>
+              <span className="text-gradient">Daily Production.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-[1.05rem] leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg">
-              Atta &amp; masala pulverizers, 5 HP to 30 HP. Built for all-day commercial output.
+              High-performance pulverizers for flour and spices. 5 HP to 20 HP.
             </p>
             <div className="mt-7 grid gap-3 sm:mt-9 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
               <Link
                 to="/products"
                 className="group inline-flex min-h-[3.5rem] items-center justify-center gap-3 rounded-full bg-primary px-7 py-4 text-base sm:text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-1"
               >
-                Explore the range
+                Explore Machine
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
               <Link
                 to="/contact"
                 className="inline-flex min-h-[3.5rem] items-center justify-center gap-3 rounded-full border border-border px-7 py-4 text-base font-semibold text-charcoal sm:text-sm transition-colors duration-300 hover:bg-secondary"
               >
-                Request a quotation
+                Get a Quote
               </Link>
             </div>
           </Reveal>
@@ -131,23 +131,25 @@ function Home() {
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
         <SectionHeading
-          eyebrow="Two specialised lines"
-          title="Built separately for grain and for spice"
-          description="Different materials demand different grinding physics. We engineer each line from the rotor outwards instead of rebadging one machine."
+          eyebrow="TWO MACHINE TYPES"
+          title="Separate Machines for Better Grinding"
+          description="Grain and spices grind differently. Our machines are specially designed for each, giving better output and longer life."
         />
         <div className="mt-9 grid gap-6 sm:mt-14 sm:gap-8 lg:grid-cols-2">
           {[
             {
               img: attaImg,
               tag: "Atta Pulverizers",
-              title: "Cool-grinding flour systems",
-              body: "Low-heat grinding preserves gluten and colour while delivering up to 400 kg/hr on the 30 HP frame.",
+              title: "High-Performance Atta Pulverizers",
+              body: "Designed for fast grinding with low heat. Get fine flour, better quality, and high production from 5 HP to 20 HP.",
+              cta: "View Atta Pulverizer",
             },
             {
               img: masalaImg,
               tag: "Masala Pulverizers",
-              title: "Aroma-retentive spice mills",
-              body: "Full stainless contact zones and fine-mesh screens hold volatile oils in the powder, not in the air.",
+              title: "High-Performance Masala Pulverizers",
+              body: "Made for fine spice grinding with strong performance. Helps keep natural aroma and delivers high production from 5 HP to 20 HP.",
+              cta: "View Masala Pulverizer",
             },
           ].map((cat, i) => (
             <Reveal key={cat.tag} delay={i * 120}>
@@ -173,7 +175,7 @@ function Home() {
                     to="/products"
                     className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors group-hover:text-accent"
                   >
-                    View 5 – 30 HP models
+                    {cat.cta}
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </div>
@@ -188,7 +190,7 @@ function Home() {
         <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
           <SectionHeading
             eyebrow="Why Vimash"
-            title="Industrial reliability without the industrial headache"
+            title="Built for Daily Production. Made to Last."
             align="center"
           />
           <div className="mt-9 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">

@@ -18,7 +18,7 @@ export function SiteFooter() {
           </div>
 
           <p className="mt-5 text-sm leading-relaxed text-primary-foreground/65">
-            {site.tagline}. Engineered in India, built for continuous commercial duty.
+            {site.tagline}
           </p>
         </div>
 

@@ -1,7 +1,7 @@
 export const site = {
   name: "Vimash Manufacturing India Pvt. Ltd.",
   shortName: "Vimash",
-  tagline: "Precision pulverizing systems for atta & masala processing",
+  tagline: "Vimash Manufacturing Pvt. Ltd. builds reliable atta and masala pulverizers for commercial use. Trusted by businesses across India.",
   phone: "+91 92655 77886",
   phoneHref: "tel:+919265577886",
   whatsappHref: "https://wa.me/919265577886",
@@ -13,9 +13,9 @@ export const site = {
 
 export const navLinks = [
   { label: "Home", to: "/" },
-  { label: "About", to: "/about" },
+  { label: "About us", to: "/about" },
   { label: "Products", to: "/products" },
-  { label: "Manufacturing", to: "/manufacturing" },
+  
   { label: "Gallery", to: "/gallery" },
   { label: "Contact", to: "/contact" },
 ] as const;

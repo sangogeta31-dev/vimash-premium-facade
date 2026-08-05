@@ -62,9 +62,9 @@ const whyItems = [
 ];
 
 const processSteps = [
-  { n: "01", title: "Design & sizing", body: "Capacity study and drive selection matched to your product." },
-  { n: "02", title: "Fabrication", body: "CNC-cut, jig-welded frames with stress-relieved housings." },
-  { n: "03", title: "Assembly & QC", body: "Balanced rotor fitment and full-load trial before dispatch." },
+  { n: "01", title: "Quality Tested", body: "Every machine is tested before delivery." },
+  { n: "02", title: "Strong Construction", body: "Built with high-quality materials for long life." },
+  { n: "03", title: "Ready to Work", body: "Easy installation with complete after-sales support." },
 ];
 
 function Home() {
@@ -226,9 +226,9 @@ function Home() {
           </Reveal>
           <div>
             <SectionHeading
-              eyebrow="Inside the plant"
+              eyebrow="WHY CHOOSE VIMASH"
               title="Every machine passes a full-load trial before it ships"
-              description="A 38,000 sq. ft. facility with in-house fabrication, machining, balancing and testing — so quality is never outsourced."
+              description="Every machine is checked and tested before delivery to ensure smooth performance and reliable operation."
             />
             <ul className="mt-7 space-y-5 sm:mt-10 sm:space-y-6">
               {processSteps.map((step, i) => (
@@ -248,7 +248,7 @@ function Home() {
                 to="/manufacturing"
                 className="mt-7 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-base sm:mt-10 sm:w-auto sm:text-sm font-semibold text-charcoal transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
               >
-                See the full process
+                Talk to Our Team
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Reveal>
@@ -280,14 +280,13 @@ function Home() {
             <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
               <div>
                 <h2 className="font-display text-[1.75rem] font-bold leading-tight text-charcoal sm:text-4xl">
-                  Tell us your product and target output.
+                  Tell Us Your Requirement
                 </h2>
                 <p className="mt-4 max-w-xl text-muted-foreground">
-                  Send your material, mesh requirement and daily tonnage — we'll recommend the HP
-                  rating and share a detailed quotation within one working day.
+                  Share your requirement, and our team will help you choose the right machine. We'll contact you with complete details and pricing.
                 </p>
                 <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                  {["Free capacity sizing", "Factory visit welcome", "Pan-India dispatch", "On-site commissioning"].map(
+                  {["Free Machine Recommendation", "Factory Visit Available", "PAN India Delivery", "Installation & Support"].map(
                     (item) => (
                       <li key={item} className="flex items-center gap-2 text-sm text-charcoal">
                         <CheckCircle2 className="h-4 w-4 text-accent" />

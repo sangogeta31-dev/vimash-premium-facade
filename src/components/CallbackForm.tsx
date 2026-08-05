@@ -122,8 +122,8 @@ export function CallbackForm({
       >
         {error ??
           (machineName
-            ? `Enquiry for ${machineName} — our engineer calls back within one working hour.`
-            : "Just your number — our engineer calls back within one working hour.")}
+            ? `Enquiry for ${machineName} — our team will call you as soon as possible.`
+            : "Our team will call you as soon as possible.")}
       </p>
     </form>
   );

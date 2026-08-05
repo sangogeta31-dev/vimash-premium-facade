@@ -41,8 +41,8 @@ export function SiteFooter() {
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Product Range</h3>
           <ul className="mt-5 space-y-3 text-sm text-primary-foreground/70">
-            <li>Atta Pulverizers · 5 – 30 HP</li>
-            <li>Masala Pulverizers · 5 – 30 HP</li>
+            <li>Atta Pulverizers · 5 – 20 HP</li>
+            <li>Masala Pulverizers · 5 – 20 HP</li>
             <li>Cyclone & blower assemblies</li>
             <li>Spare screens, hammers, rotors</li>
             <li>Turnkey plant integration</li>

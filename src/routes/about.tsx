@@ -1,7 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Compass, HeartHandshake, Target } from "lucide-react";
+import {
+  Factory,
+  Wrench,
+  ShieldCheck,
+  Truck,
+  Headphones,
+  BadgeCheck,
+  Cog,
+  Package,
+} from "lucide-react";
 import factoryImg from "@/assets/factory-floor.jpg";
 import rotorImg from "@/assets/rotor-detail.jpg";
+import qualityImg from "@/assets/quality-check.jpg";
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -10,34 +20,41 @@ import { PageHero } from "@/components/PageHero";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Vimash Manufacturing — Two Decades of Pulverizer Engineering" },
+      { title: "About Vimash Manufacturing — Atta & Masala Pulverizer Maker" },
       {
         name: "description",
         content:
-          "Founded in 2003 in Ahmedabad, Vimash Manufacturing designs and builds atta and masala pulverizers with in-house fabrication, machining and testing.",
+          "Vimash Manufacturing Pvt. Ltd. makes commercial atta and masala pulverizers in Ahmedabad. Own factory, tested machines, PAN India delivery and support.",
       },
       { property: "og:title", content: "About Vimash Manufacturing" },
       {
         property: "og:description",
-        content: "Two decades of pulverizer engineering, built entirely in-house in Ahmedabad, India.",
+        content: "We make commercial atta and masala pulverizers in our own factory in Ahmedabad, India.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: About,
 });
 
-const milestones = [
-  { year: "2003", title: "Workshop begins", body: "A four-man fabrication unit builds its first 5 HP atta pulverizer." },
-  { year: "2009", title: "Masala line launched", body: "Stainless contact zones and fine-mesh screens open the spice market." },
-  { year: "2014", title: "New facility", body: "38,000 sq. ft. plant with in-house machining and rotor balancing." },
-  { year: "2019", title: "30 HP frame", body: "Heavy-duty industrial frame crosses 400 kg/hr sustained output." },
-  { year: "2026", title: "4,200+ installed", body: "Machines running across 19 states with a dedicated service network." },
+const whatWeMake = [
+  { icon: Cog, title: "Atta Pulverizers", body: "For flour and grain grinding." },
+  { icon: Package, title: "Masala Pulverizers", body: "For spice grinding with cyclone." },
+  { icon: Wrench, title: "Spare Parts", body: "Screens, hammers and rotors." },
 ];
 
-const values = [
-  { icon: Target, title: "Precision first", body: "Tolerances are checked, not assumed. Every rotor is balanced and logged." },
-  { icon: HeartHandshake, title: "Honest sizing", body: "We recommend the HP you need — never the one with a bigger invoice." },
-  { icon: Compass, title: "Long horizon", body: "Spares stay available for a decade after a model leaves the catalogue." },
+const facility = [
+  { icon: Factory, title: "Own Factory", body: "All machines are made in our own unit." },
+  { icon: Wrench, title: "In-House Work", body: "Cutting, welding, machining and assembly." },
+  { icon: ShieldCheck, title: "Tested Machines", body: "Every machine is run before dispatch." },
+];
+
+const trust = [
+  { icon: BadgeCheck, title: "Direct Manufacturer", body: "You buy directly from us. No middleman." },
+  { icon: ShieldCheck, title: "Good Quality Parts", body: "Strong body and food-grade contact parts." },
+  { icon: Truck, title: "PAN India Delivery", body: "We deliver machines all over India." },
+  { icon: Headphones, title: "After-Sales Support", body: "Help with installation and spare parts." },
 ];
 
 function About() {
@@ -45,81 +62,133 @@ function About() {
     <>
       <PageHero
         eyebrow="About us"
-        title="Machines built by people who run them"
-        description="Vimash Manufacturing Pvt. Ltd. has been designing pulverizing systems in Ahmedabad since 2003 — every frame fabricated, machined and tested under one roof."
+        title="We make pulverizer machines"
+        description="Vimash Manufacturing Pvt. Ltd. is based in Ahmedabad, India. We make commercial atta and masala pulverizers for daily production."
       />
 
+      {/* What we make */}
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
-        <div className="grid items-center gap-14 lg:grid-cols-2">
-          <Reveal>
-            <div className="overflow-hidden rounded-3xl border border-border">
-              <img
-                src={factoryImg}
-                alt="Vimash Manufacturing factory floor"
-                loading="lazy"
-                width={1400}
-                height={900}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </Reveal>
-          <div>
-            <SectionHeading
-              eyebrow="Our story"
-              title="From a four-man workshop to 4,200 machines"
-              description="We started by repairing other people's pulverizers. That taught us exactly where they fail — bearings starved of grease, rotors out of balance, screens impossible to change. Every Vimash machine is an answer to one of those failures."
-            />
-            <Reveal delay={120}>
-              <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                Today the same principle holds. We keep fabrication, machining, balancing and
-                load-testing in-house so nothing critical is left to a vendor. Customers are welcome
-                on the floor before they place an order — most of them come.
-              </p>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-tint blueprint section-seam border-y border-border">
-        <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
-          <SectionHeading eyebrow="Milestones" title="Two decades, one direction" align="center" />
-          <ol className="mt-16 grid gap-6 md:grid-cols-5">
-            {milestones.map((m, i) => (
-              <Reveal as="li" key={m.year} delay={i * 90} className="h-full">
-                <div className="hover-lift relative h-full rounded-2xl border border-border bg-card p-6">
-                  <span className="font-display text-2xl font-bold text-accent">{m.year}</span>
-                  <h3 className="mt-3 font-display text-base font-bold text-charcoal">{m.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{m.body}</p>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
-        <SectionHeading eyebrow="What we hold to" title="Three commitments that do not flex" />
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {values.map((v, i) => (
-            <Reveal key={v.title} delay={i * 100} className="h-full">
-              <div className="hover-lift h-full rounded-2xl border border-border bg-card p-8">
-                <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent/12 text-accent">
-                  <v.icon className="h-6 w-6" />
+        <SectionHeading eyebrow="What we make" title="Machines for flour and spices" align="center" />
+        <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:mt-12 lg:gap-6">
+          {whatWeMake.map((item, i) => (
+            <Reveal key={item.title} delay={i * 90} className="h-full">
+              <div className="hover-lift h-full rounded-2xl border border-border bg-card p-6 text-center">
+                <span className="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-accent/12 text-accent">
+                  <item.icon className="h-6 w-6" />
                 </span>
-                <h3 className="mt-5 font-display text-lg font-bold text-charcoal">{v.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{v.body}</p>
+                <h3 className="mt-4 font-display text-base font-bold text-charcoal">{item.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{item.body}</p>
               </div>
             </Reveal>
           ))}
         </div>
       </section>
 
+      {/* Facility */}
+      <section className="section-tint blueprint section-seam border-y border-border">
+        <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+            <Reveal>
+              <div className="overflow-hidden rounded-3xl border border-border bg-card">
+                <img
+                  src={factoryImg}
+                  alt="Vimash Manufacturing factory in Ahmedabad"
+                  loading="lazy"
+                  width={1400}
+                  height={900}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </Reveal>
+            <div>
+              <SectionHeading
+                eyebrow="Our factory"
+                title="Made in our own unit"
+                description="We build each machine step by step in our factory — body, rotor, fitting and testing."
+              />
+              <div className="mt-6 space-y-3">
+                {facility.map((f, i) => (
+                  <Reveal key={f.title} delay={i * 90}>
+                    <div className="flex items-start gap-4 rounded-2xl border border-border bg-card p-4">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent/12 text-accent">
+                        <f.icon className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <h3 className="font-display text-base font-bold text-charcoal">{f.title}</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">{f.body}</p>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quality */}
+      <section className="mx-auto max-w-6xl px-5 py-9 lg:px-8 lg:py-20">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+          <Reveal className="order-2 lg:order-1">
+            <SectionHeading
+              eyebrow="Quality"
+              title="Checked before delivery"
+              description="Every machine is checked and run on full load before it leaves our factory, so it works well from day one."
+            />
+            <ul className="mt-6 space-y-3">
+              {[
+                "Balanced rotor for less vibration",
+                "Strong body for long life",
+                "Food-grade contact parts",
+                "Full-load trial before dispatch",
+              ].map((point) => (
+                <li key={point} className="flex items-center gap-3 text-sm text-charcoal">
+                  <BadgeCheck className="h-5 w-5 shrink-0 text-accent" />
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal delay={120} className="order-1 lg:order-2">
+            <img
+              src={qualityImg}
+              alt="Quality check on a Vimash pulverizer machine"
+              loading="lazy"
+              width={1408}
+              height={1056}
+              className="mx-auto w-full max-w-lg object-contain drop-shadow-[0_44px_54px_oklch(0.22_0.062_258/0.2)]"
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Why customers trust us */}
+      <section className="section-tint blueprint section-seam border-y border-border">
+        <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
+          <SectionHeading eyebrow="Why choose us" title="Why customers trust Vimash" align="center" />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-6">
+            {trust.map((t, i) => (
+              <Reveal key={t.title} delay={i * 80} className="h-full">
+                <div className="hover-lift h-full rounded-2xl border border-border bg-card p-6">
+                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent/12 text-accent">
+                    <t.icon className="h-6 w-6" />
+                  </span>
+                  <h3 className="mt-4 font-display text-base font-bold text-charcoal">{t.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{t.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Rotor visual */}
       <section className="bg-background">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-9 lg:grid-cols-2 lg:px-8 lg:py-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-9 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-20">
           <Reveal>
             <img
               src={rotorImg}
-              alt="Precision rotor assembly detail"
+              alt="Pulverizer rotor and grinding chamber detail"
               loading="lazy"
               width={1408}
               height={1056}
@@ -127,17 +196,16 @@ function About() {
             />
           </Reveal>
           <Reveal delay={120}>
-            <h2 className="font-display text-3xl font-bold text-charcoal sm:text-4xl">
-              The rotor is the machine.
+            <h2 className="font-display text-2xl font-bold text-charcoal sm:text-4xl">
+              Strong rotor. Smooth grinding.
             </h2>
-            <p className="mt-5 text-muted-foreground">
-              Everything else is housing. We machine, harden and dynamically balance every rotor
-              in-house, then log the readings against the serial number before dispatch.
+            <p className="mt-4 text-muted-foreground">
+              The rotor is the heart of the machine. We make and balance it in our own factory for
+              steady output and long machine life.
             </p>
           </Reveal>
         </div>
       </section>
-
 
       <QuoteBand source="About page" />
     </>

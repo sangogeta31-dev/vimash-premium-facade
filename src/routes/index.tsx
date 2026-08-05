@@ -245,7 +245,7 @@ function Home() {
             </ul>
             <Reveal delay={280}>
               <Link
-                to="/manufacturing"
+                to="/contact"
                 className="mt-7 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-base sm:mt-10 sm:w-auto sm:text-sm font-semibold text-charcoal transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
               >
                 Talk to Our Team

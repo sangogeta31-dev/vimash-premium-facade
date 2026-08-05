@@ -2,9 +2,9 @@ export const site = {
   name: "Vimash Manufacturing India Pvt. Ltd.",
   shortName: "Vimash",
   tagline: "Vimash Manufacturing Pvt. Ltd. builds reliable atta and masala pulverizers for commercial use. Trusted by businesses across India.",
-  phone: "+91 92655 77886",
-  phoneHref: "tel:+919265577886",
-  whatsappHref: "https://wa.me/919265577886",
+  phone: "+91 95749 54050",
+  phoneHref: "tel:+919574954050",
+  whatsappHref: "https://wa.me/919574954050",
   email: "vimashmachinery@gmail.com",
   address:
     "Plot No. 01, Panchamrut Industrial Park-04, Vanch Dhamatvan Road, Dhamatvan, Ahmedabad, Gujarat 382435, India",

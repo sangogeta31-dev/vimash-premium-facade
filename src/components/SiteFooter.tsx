@@ -75,7 +75,7 @@ export function SiteFooter() {
       <div className="relative border-t border-primary-foreground/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-xs text-primary-foreground/50 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-          <p>ISO-aligned manufacturing · GST registered · Made in India</p>
+          <p></p>
         </div>
       </div>
     </footer>

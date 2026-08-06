@@ -22,6 +22,7 @@ export type Database = {
           customer_name: string | null
           id: string
           lead_source: string
+          machine_hp: string | null
           machine_name: string | null
           machine_slug: string | null
           mobile: string
@@ -29,6 +30,7 @@ export type Database = {
           odoo_last_attempt_at: string | null
           odoo_sync_status: Database["public"]["Enums"]["odoo_sync_status"]
           odoo_synced_at: string | null
+          pincode: string | null
           state: string | null
           updated_at: string
         }
@@ -39,6 +41,7 @@ export type Database = {
           customer_name?: string | null
           id?: string
           lead_source?: string
+          machine_hp?: string | null
           machine_name?: string | null
           machine_slug?: string | null
           mobile: string
@@ -46,6 +49,7 @@ export type Database = {
           odoo_last_attempt_at?: string | null
           odoo_sync_status?: Database["public"]["Enums"]["odoo_sync_status"]
           odoo_synced_at?: string | null
+          pincode?: string | null
           state?: string | null
           updated_at?: string
         }
@@ -56,6 +60,7 @@ export type Database = {
           customer_name?: string | null
           id?: string
           lead_source?: string
+          machine_hp?: string | null
           machine_name?: string | null
           machine_slug?: string | null
           mobile?: string
@@ -63,6 +68,7 @@ export type Database = {
           odoo_last_attempt_at?: string | null
           odoo_sync_status?: Database["public"]["Enums"]["odoo_sync_status"]
           odoo_synced_at?: string | null
+          pincode?: string | null
           state?: string | null
           updated_at?: string
         }

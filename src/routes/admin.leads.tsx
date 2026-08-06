@@ -44,7 +44,9 @@ type Lead = {
   mobile: string;
   city: string | null;
   state: string | null;
+  pincode: string | null;
   machine_name: string | null;
+  machine_hp: string | null;
   lead_source: string;
   odoo_sync_status: "pending" | "synced" | "failed";
   odoo_error: string | null;
@@ -101,7 +103,7 @@ function LeadInboxPage() {
       const { data, error } = await supabase
         .from("leads")
         .select(
-          "id, customer_name, mobile, city, state, machine_name, lead_source, odoo_sync_status, odoo_error, archived, created_at",
+          "id, customer_name, mobile, city, state, pincode, machine_name, machine_hp, lead_source, odoo_sync_status, odoo_error, archived, created_at",
         )
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -130,7 +132,7 @@ function LeadInboxPage() {
       if (filter === "synced" && lead.odoo_sync_status !== "synced") return false;
       if (filter === "unsynced" && lead.odoo_sync_status === "synced") return false;
       if (!q) return true;
-      return [lead.customer_name, lead.mobile, lead.machine_name]
+      return [lead.customer_name, lead.mobile, lead.machine_name, lead.pincode, lead.city, lead.machine_hp]
         .filter(Boolean)
         .some((field) => field!.toLowerCase().includes(q));
     });
@@ -211,7 +213,7 @@ function LeadInboxPage() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search name, mobile or machine"
+            placeholder="Search name, mobile, pincode or machine"
             aria-label="Search leads"
             className="w-full rounded-full border border-border bg-card py-3 pl-11 pr-4 text-sm text-charcoal outline-none transition-colors focus:border-accent"
           />
@@ -266,8 +268,10 @@ function LeadInboxPage() {
                   <th className="px-5 py-4 font-semibold">Customer</th>
                   <th className="px-5 py-4 font-semibold">Mobile</th>
                   <th className="px-5 py-4 font-semibold">City</th>
+                  <th className="px-5 py-4 font-semibold">Pincode</th>
                   <th className="px-5 py-4 font-semibold">State</th>
                   <th className="px-5 py-4 font-semibold">Machine</th>
+                  <th className="px-5 py-4 font-semibold">HP</th>
                   <th className="px-5 py-4 font-semibold">Date &amp; time</th>
                   <th className="px-5 py-4 font-semibold">Source</th>
                   <th className="px-5 py-4 font-semibold">Odoo sync</th>
@@ -289,8 +293,12 @@ function LeadInboxPage() {
                       </a>
                     </td>
                     <td className="px-5 py-4 text-muted-foreground">{lead.city ?? "—"}</td>
+                    <td className="px-5 py-4 text-muted-foreground">{lead.pincode ?? "—"}</td>
                     <td className="px-5 py-4 text-muted-foreground">{lead.state ?? "—"}</td>
                     <td className="px-5 py-4 text-charcoal">{lead.machine_name ?? "General enquiry"}</td>
+                    <td className="px-5 py-4 text-muted-foreground">
+                      {lead.machine_hp ? `${lead.machine_hp} HP` : "—"}
+                    </td>
                     <td className="px-5 py-4 text-muted-foreground">
                       {new Date(lead.created_at).toLocaleString("en-IN", {
                         dateStyle: "medium",

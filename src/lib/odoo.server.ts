@@ -8,7 +8,9 @@ async function pushToOdoo(lead: {
   mobile: string;
   city: string | null;
   state: string | null;
+  pincode: string | null;
   machine_name: string | null;
+  machine_hp: string | null;
   lead_source: string;
 }): Promise<SyncResult> {
   const url = process.env["ODOO_WEBHOOK_URL"];
@@ -46,7 +48,7 @@ async function pushToOdoo(lead: {
 export async function syncLeadById(leadId: string): Promise<SyncResult> {
   const { data: lead, error } = await supabaseAdmin
     .from("leads")
-    .select("customer_name, mobile, city, state, machine_name, lead_source")
+    .select("customer_name, mobile, city, state, pincode, machine_name, machine_hp, lead_source")
     .eq("id", leadId)
     .maybeSingle();
 

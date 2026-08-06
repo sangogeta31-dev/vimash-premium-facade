@@ -293,8 +293,12 @@ function LeadInboxPage() {
                       </a>
                     </td>
                     <td className="px-5 py-4 text-muted-foreground">{lead.city ?? "—"}</td>
+                    <td className="px-5 py-4 text-muted-foreground">{lead.pincode ?? "—"}</td>
                     <td className="px-5 py-4 text-muted-foreground">{lead.state ?? "—"}</td>
                     <td className="px-5 py-4 text-charcoal">{lead.machine_name ?? "General enquiry"}</td>
+                    <td className="px-5 py-4 text-muted-foreground">
+                      {lead.machine_hp ? `${lead.machine_hp} HP` : "—"}
+                    </td>
                     <td className="px-5 py-4 text-muted-foreground">
                       {new Date(lead.created_at).toLocaleString("en-IN", {
                         dateStyle: "medium",

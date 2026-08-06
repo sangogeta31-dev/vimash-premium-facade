@@ -1,34 +1,32 @@
-## Vimash Manufacturing — premium industrial website (frontend only)
+# Fuller enquiry form with pincode auto-state
 
-Six routes, one shared shell, no backend. Deep blue / white / charcoal with orange accents, bold display typography, glass surfaces, scroll-reveal motion.
+## What changes for the visitor
 
-### Design system (src/styles.css)
-- Tokens in oklch: `--background` white, `--foreground` charcoal, `--primary` deep blue, `--accent` orange, plus `--surface-glass`, `--gradient-hero`, `--gradient-steel`, `--shadow-elevated`, `--shadow-glow`.
-- Fonts loaded via `<link>` in `__root.tsx`: Space Grotesk (display/headings) + DM Sans (body). Tight tracking on large headings.
-- Utilities: `.glass-card`, `.reveal` (fade+rise on intersect), `.hover-lift`, `.grain` overlay.
-- Dark values defined for completeness; site ships light.
+The callback box becomes a short 4-field form:
 
-### Shared chrome (`src/routes/__root.tsx`)
-- Sticky nav: transparent over hero, turns to blurred glass with border on scroll. Logo mark, 6 links with animated underline, orange "Get a Quote" CTA. Mobile: full-screen slide-in sheet.
-- Footer: 4 columns (brand blurb, quick links, product range, contact details).
-- Floating action stack, bottom right on every page: WhatsApp (green) and Call (orange) pill buttons with tooltip on hover, stacked on mobile.
+1. Name
+2. Mobile number
+3. Pincode
+4. City
 
-### Pages
-1. **Home** (`index.tsx`) — full-bleed hero with generated machine image, gradient wash, headline + dual CTA, stat strip (years, machines delivered, states served, HP range); category split section (Atta vs Masala) as two large hover-tilt cards; "Why Vimash" 4-item feature grid; process teaser; testimonial band; CTA banner.
-2. **About** (`about.tsx`) — story split layout, timeline of milestones, values grid, leadership/mission block.
-3. **Products** (`products.tsx`) — segmented toggle (All / Atta / Masala), then two labeled sections each with 6 cards: 5, 7.5, 10, 15, 20, 30 HP. Each card: image, HP badge, capacity/output spec rows, feature chips, "Enquire" CTA, orange glow on hover. Data lives in a local `src/data/products.ts` array.
-4. **Manufacturing** (`manufacturing.tsx`) — numbered vertical process steps (design → fabrication → machining → assembly → QC → dispatch) with sticky sidebar, infrastructure cards, QC checklist.
-5. **Gallery** (`gallery.tsx`) — filterable masonry grid of generated facility/machine images with lightbox-style hover zoom overlay.
-6. **Contact** (`contact.tsx`) — split layout: styled (non-functional) enquiry form on glass card, plus contact info cards, hours, and a static map-styled panel.
+When 6 digits are typed into Pincode, the state (and a suggested city) fill in automatically from India Post data. The state shows as a read-only line, e.g. "State: Gujarat". If the pincode isn't recognised, the visitor can still submit and can type the city themselves.
 
-### Interaction
-- Scroll reveals via a small `useReveal` IntersectionObserver hook (no new deps).
-- Hover: card lift + border-glow + image scale; buttons with sliding orange fill.
-- Counter animation on the stat strip.
+When the form is opened from a generic place (home page, contact page, quote band with no machine attached), one extra field appears:
 
-### Technical notes
-- TanStack Router file routes; each page defines its own `head()` with unique title/description/og tags.
-- Reusable components under `src/components/`: `SiteNav`, `SiteFooter`, `FloatingActions`, `SectionHeading`, `ProductCard`, `StatStrip`, `Reveal`.
-- Images generated into `src/assets/` (hero machine, atta pulverizer, masala pulverizer, factory floor, gallery set) and imported as ES modules.
-- Fully responsive: grid → single column, nav → sheet, floating buttons repositioned.
-- Placeholder phone/WhatsApp numbers and address, easy to swap.
+- **Machine HP required** — a dropdown listing the HP ratings we make (3, 5, 7.5, 10, 15, 20 HP) plus "Not sure — please advise".
+
+On a product page, or any form already tied to a machine, the HP field is hidden because the machine is already known.
+
+Button stays "Get a Callback"; the layout becomes a compact stacked card instead of a single pill row, still full-width and thumb-friendly on mobile.
+
+## Admin side
+
+The Lead Inbox table gains a **Pincode** column and shows the requested HP inside the Machine column when no specific machine was selected (e.g. "Enquiry — 10 HP"). State keeps populating automatically from pincode, so the existing State column stays meaningful. Odoo sync payload includes the new fields.
+
+## Technical notes
+
+- Migration: add `pincode text` and `machine_hp text` to `public.leads` (both nullable). No new table, so existing grants/RLS stay as-is.
+- Pincode lookup: `https://api.postalpincode.in/pincode/<code>` called from a public server function (`lookupPincode`) so the browser never depends on a third-party CORS policy; returns `{ state, district }`. Debounced on 6 digits, non-blocking — failure never prevents submit.
+- `CallbackForm.tsx`: zod schema extended (name 2–80 chars, mobile as today, pincode `^\d{6}$`, city ≤ 80). New `showHpField` derived from absence of `machineName`; HP options read from `src/data/products.ts` so they stay in sync.
+- Insert now writes `customer_name`, `city`, `state`, `pincode`, `machine_hp` alongside existing fields; `syncLead` unchanged in shape, `odoo.server.ts` select widened to include the two new columns.
+- `admin.leads.tsx`: add Pincode column, include pincode/HP in the search filter.

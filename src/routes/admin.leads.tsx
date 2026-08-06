@@ -268,8 +268,10 @@ function LeadInboxPage() {
                   <th className="px-5 py-4 font-semibold">Customer</th>
                   <th className="px-5 py-4 font-semibold">Mobile</th>
                   <th className="px-5 py-4 font-semibold">City</th>
+                  <th className="px-5 py-4 font-semibold">Pincode</th>
                   <th className="px-5 py-4 font-semibold">State</th>
                   <th className="px-5 py-4 font-semibold">Machine</th>
+                  <th className="px-5 py-4 font-semibold">HP</th>
                   <th className="px-5 py-4 font-semibold">Date &amp; time</th>
                   <th className="px-5 py-4 font-semibold">Source</th>
                   <th className="px-5 py-4 font-semibold">Odoo sync</th>

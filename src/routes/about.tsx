@@ -62,8 +62,8 @@ function About() {
     <>
       <PageHero
         eyebrow="About us"
-        title="We make pulverizer machines"
-        description="Vimash Manufacturing Pvt. Ltd. is based in Ahmedabad, India. We make commercial atta and masala pulverizers for daily production."
+        title="We make Atta Chakki machines"
+        description="Vimash Manufacturing Pvt. Ltd. is based in Ahmedabad, India. We make commercial atta and masala Chakki for daily production."
       />
 
       {/* What we make */}

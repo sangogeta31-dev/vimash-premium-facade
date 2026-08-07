@@ -11,16 +11,16 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/products/")({
   head: () => ({
     meta: [
-      { title: "Atta & Masala Pulverizer Models 3–20 HP | Vimash Manufacturing" },
+      { title: "Atta & Masala Pulverizer Models 5–20 HP | Vimash Manufacturing" },
       {
         name: "description",
         content:
-          "Browse Vimash double chamber atta pulverizers and cyclone masala pulverizers in 3, 5, 7.5, 10, 15 and 20 HP with full capacity, motor and dimension specifications.",
+          "Browse Vimash double chamber atta pulverizers and cyclone masala pulverizers in 5, 7.5, 10, 15 and 20 HP with full capacity, motor and dimension specifications.",
       },
       { property: "og:title", content: "Pulverizer Product Range — Vimash Manufacturing" },
       {
         property: "og:description",
-        content: "Twelve models across two lines: double chamber atta pulverizers and masala pulverizers with cyclone, 3 HP to 20 HP.",
+        content: "Ten models across two lines: double chamber atta pulverizers and masala pulverizers with cyclone, 5 HP to 20 HP.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -51,8 +51,8 @@ function Products() {
     <>
       <PageHero
         eyebrow="Product range"
-        title="Twelve models. Two grinding lines."
-        description="Double chamber atta pulverizers and cyclone masala pulverizers, each available in 3, 5, 7.5, 10, 15 and 20 HP. Every model has its own specification page."
+        title="Ten models. Two grinding lines."
+        description="Double chamber atta pulverizers and cyclone masala pulverizers, each available in 5, 7.5, 10, 15 and 20 HP. Every model has its own specification page."
       />
 
 

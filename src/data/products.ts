@@ -42,7 +42,6 @@ type Raw = {
 };
 
 const attaRaw: Raw[] = [
-  { hp: "3", capacity: "25 – 35 kg/hr", current: "5 A", power: "3.00 KWH", chamber: "Double Chamber", dimension: "L 1370 × W 510 × H 1155 mm", mainMotor: "3 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
   { hp: "5", capacity: "40 – 60 kg/hr", current: "7.5 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1440 × W 600 × H 1200 mm", mainMotor: "5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
   { hp: "7.5", capacity: "60 – 100 kg/hr", current: "11 A", power: "7.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1570 × W 700 × H 1320 mm", mainMotor: "7.5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
   { hp: "10", capacity: "70 – 120 kg/hr", current: "15 A", power: "9.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1650 × W 800 × H 1365 mm", mainMotor: "10 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
@@ -51,7 +50,6 @@ const attaRaw: Raw[] = [
 ];
 
 const masalaRaw: Raw[] = [
-  { hp: "3", capacity: "30 – 35 kg/hr", current: "5 A", power: "3.50 KWH", chamber: "Double Chamber", dimension: "L 1270 × W 510 × H 1088 mm", mainMotor: "3 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
   { hp: "5", capacity: "50 – 60 kg/hr", current: "7.5 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1306 × W 600 × H 1170 mm", mainMotor: "5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
   { hp: "7.5", capacity: "60 – 80 kg/hr", current: "11 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1448 × W 700 × H 1290 mm", mainMotor: "7.5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
   { hp: "10", capacity: "80 – 100 kg/hr", current: "15 A", power: "7.50 KWH", chamber: "Double Chamber", dimension: "L 1530 × W 800 × H 1355 mm", mainMotor: "10 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },

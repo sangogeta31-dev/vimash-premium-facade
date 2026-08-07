@@ -39,8 +39,8 @@ export const Route = createFileRoute("/about")({
 });
 
 const whatWeMake = [
-  { icon: Cog, title: "Atta Pulverizers", body: "For flour and grain grinding." },
-  { icon: Package, title: "Masala Pulverizers", body: "For spice grinding with cyclone." },
+  { icon: Cog, title: "Atta Chakki Pulverizer", body: "For flour and grain grinding." },
+  { icon: Package, title: "Masala Chakki Pulverizers", body: "For spice grinding with cyclone." },
   { icon: Wrench, title: "Spare Parts", body: "Screens, hammers and rotors." },
 ];
 

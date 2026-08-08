@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
@@ -43,6 +44,11 @@ const GalleryRoute = GalleryRouteImport.update({
   path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLeadsRoute = AdminLeadsRouteImport.update({
   id: '/admin/leads',
   path: '/admin/leads',
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/products': typeof ProductsIndexRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/admin/leads'
     | '/products/$slug'
+    | '/admin/'
     | '/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/admin/leads'
     | '/products/$slug'
+    | '/admin'
     | '/products'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/admin/leads'
     | '/products/$slug'
+    | '/admin/'
     | '/products/'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
 }
 
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/leads': {
       id: '/admin/leads'
       path: '/admin/leads'
@@ -203,18 +223,9 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   AdminLeadsRoute: AdminLeadsRoute,
   ProductsSlugRoute: ProductsSlugRoute,
+  AdminIndexRoute: AdminIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

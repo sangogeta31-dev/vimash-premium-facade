@@ -127,7 +127,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isAdmin = pathname.startsWith("/admin");
+  const isAdmin = pathname.startsWith("/admin") || pathname.startsWith("/auth");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -138,19 +138,20 @@ function RootComponent() {
             : "flex min-h-screen flex-col bg-background pb-[4.75rem] lg:pb-0"
         }
       >
-        <SiteNav />
+        {isAdmin ? <AdminHeader /> : <SiteNav />}
         <main className="flex-1">
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
-        <SiteFooter />
         {!isAdmin && (
           <>
+            <SiteFooter />
             <FloatingActions />
             <MobileActionBar />
           </>
         )}
       </div>
+
 
     </QueryClientProvider>
   );

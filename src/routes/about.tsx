@@ -10,6 +10,8 @@ import {
   Package,
 } from "lucide-react";
 import factoryImg from "@/assets/factory-floor.jpg";
+import bandImg from "@/assets/industrial-band.jpg";
+
 import rotorImg from "@/assets/rotor-detail.jpg";
 import qualityImg from "@/assets/quality-check.jpg";
 import { QuoteBand } from "@/components/QuoteBand";

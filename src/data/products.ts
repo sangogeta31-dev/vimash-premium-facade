@@ -19,6 +19,11 @@ export type Product = {
   mainMotor: string;
   cycloneMotor: string;
   chamber: string;
+  voltage: string;
+  bigChamberDiameter: string;
+  smallChamberDiameter: string;
+  machineWeight: string;
+  airLockWeight: string;
   beaterRpm?: string;
   features: string[];
   applications: string[];
@@ -26,7 +31,7 @@ export type Product = {
 
 const attaBase = {
   automation: "Automatic",
-  material: "SS / MS Body",
+  material: "SS -MS",
   chamberDefault: "Double Chamber",
 };
 
@@ -39,10 +44,15 @@ type Raw = {
   dimension: string;
   mainMotor: string;
   cycloneMotor: string;
+  voltage?: string;
+  bigChamber?: string;
+  smallChamber?: string;
+  weight?: string;
+  airLock?: string;
 };
 
 const attaRaw: Raw[] = [
-  { hp: "5", capacity: "40 – 60 kg/hr", current: "7.5 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1440 × W 600 × H 1200 mm", mainMotor: "5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP" },
+  { hp: "5", capacity: "40-60", current: "7.5", power: "4KW", chamber: "Double Chamber", dimension: "H-46\", W-20\", L-56\"", mainMotor: "5 HP", cycloneMotor: "0.5 & 0.5 HP", voltage: "440", bigChamber: "10\"x5\"", smallChamber: "8\"x4'", weight: "185 KG APPROX", airLock: "110KG APPROX" },
   { hp: "7.5", capacity: "60 – 100 kg/hr", current: "11 A", power: "7.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1570 × W 700 × H 1320 mm", mainMotor: "7.5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
   { hp: "10", capacity: "70 – 120 kg/hr", current: "15 A", power: "9.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1650 × W 800 × H 1365 mm", mainMotor: "10 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP" },
   { hp: "15", capacity: "120 – 160 kg/hr", current: "22 A", power: "14.00 KWH", chamber: "Double Chamber with Partition", dimension: "L 1730 × W 860 × H 1460 mm", mainMotor: "15 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP" },
@@ -115,6 +125,11 @@ function build(raw: Raw, category: Category): Product {
     mainMotor: raw.mainMotor,
     cycloneMotor: raw.cycloneMotor,
     chamber: raw.chamber,
+    voltage: raw.voltage ?? "415",
+    bigChamberDiameter: raw.bigChamber ?? "—",
+    smallChamberDiameter: raw.smallChamber ?? "—",
+    machineWeight: raw.weight ?? "—",
+    airLockWeight: raw.airLock ?? "—",
     beaterRpm: isAtta ? undefined : "3840 RPM",
     features: isAtta ? attaFeatures : masalaFeatures,
     applications: isAtta ? attaApplications : masalaApplications,
@@ -132,22 +147,24 @@ export function getProduct(slug: string) {
 
 export function specTable(p: Product): SpecRowData[] {
   return [
-    { label: "Grinding Capacity", value: `${p.capacity}` },
+    { label: "Grinding Capacity Per-Hrs", value: p.capacity },
     { label: "Automation Grade", value: p.automation },
     { label: "Material", value: p.material },
     { label: "Power Source", value: "Electric" },
-    { label: "Voltage", value: "415 V" },
-    { label: "Current", value: p.current },
-    { label: "Frequency", value: "50 Hz" },
-    { label: "Motor Type", value: "Three Phase" },
-    { label: "Motor Speed", value: "1440 RPM" },
-    ...(p.beaterRpm ? [{ label: "Beater (Cutter) RPM", value: p.beaterRpm }] : []),
-    { label: "Power Consumption", value: p.powerConsumption },
+    { label: "Voltage-V", value: p.voltage },
+    { label: "Current A", value: p.current },
     { label: "Corrosion Resistance", value: "Yes" },
+    { label: "Power Consumption", value: p.powerConsumption },
+    { label: "Motor Speed", value: "1440 RPM" },
+    { label: "Frequency Hz", value: "50Hz" },
+    { label: "Motor Type", value: "Three Phase" },
     { label: "Coating", value: "Powder Coating" },
-    { label: "Chamber", value: p.chamber },
+    { label: "Big Chamber Diameter", value: p.bigChamberDiameter },
+    { label: "Small Chamber Diameter", value: p.smallChamberDiameter },
+    { label: "Machine Dimension", value: p.dimension },
     { label: "Main Motor", value: p.mainMotor },
     { label: "Cyclone Motor", value: p.cycloneMotor },
-    { label: "Machine Dimension", value: p.dimension },
+    { label: "Machine Weight", value: p.machineWeight },
+    { label: "Air Lock Weight", value: p.airLockWeight },
   ];
 }

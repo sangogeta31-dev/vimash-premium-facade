@@ -17,6 +17,9 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Testimonials } from "@/components/Testimonials";
 import { TrustCards } from "@/components/TrustCards";
+import { IndustrialBanner } from "@/components/home/IndustrialBanner";
+import { GrainsSpicesSection } from "@/components/home/GrainsSpicesSection";
+import { FeaturedMachineImage } from "@/components/home/FeaturedMachineImage";
 import { site } from "@/data/site";
 
 

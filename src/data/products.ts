@@ -52,7 +52,7 @@ type Raw = {
 };
 
 const attaRaw: Raw[] = [
-  { hp: "5", capacity: "40-60KG", current: "7.5 A", power: "4KW", chamber: "Double Chamber", dimension: "H-46\", W-20\", L-56\"", mainMotor: "5 HP", cycloneMotor: "0.5 & 0.5 HP", voltage: "440-V", bigChamber: "10\"x5\"", smallChamber: "8\"x4'", weight: "185 KG APPROX", airLock: "110KG APPROX" },
+  { hp: "5", capacity: "40-60KG", current: "7.5 A", power: "4KWH", chamber: "Double Chamber", dimension: "H-46\", W-20\", L-56\"", mainMotor: "5 HP", cycloneMotor: "0.5 & 0.5 HP", voltage: "440-V", bigChamber: "10\"x5\"", smallChamber: "8\"x4'", weight: "185 KG APPROX", airLock: "110KG APPROX" },
   { hp: "7.5", capacity: "60 – 80 kg/hr", current: "11 A", power: "5 KWH", chamber: "Double", dimension: "L 1570 × W 700 × H 1320 mm", mainMotor: "7.5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP", voltage: "440 V · 3 Phase" },
   { hp: "10", capacity: "80 – 100 kg/hr", current: "15 A", power: "7.5 KWH", chamber: "Double", dimension: "L 1650 × W 800 × H 1365 mm", mainMotor: "10 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP", voltage: "440 V · 3 Phase" },
   { hp: "15", capacity: "100 – 150 kg/hr", current: "22 A", power: "10 KWH", chamber: "Double", dimension: "L 1730 × W 860 × H 1460 mm", mainMotor: "15 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP", voltage: "440 V · 3 Phase" },
@@ -60,11 +60,11 @@ const attaRaw: Raw[] = [
 ];
 
 const masalaRaw: Raw[] = [
-  { hp: "5", capacity: "50 – 60 kg/hr", current: "7.5 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1306 × W 600 × H 1170 mm", mainMotor: "5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP", voltage: "440 V · 3 Phase" },
-  { hp: "7.5", capacity: "60 – 80 kg/hr", current: "11 A", power: "5.00 KWH", chamber: "Double Chamber", dimension: "L 1448 × W 700 × H 1290 mm", mainMotor: "7.5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP", voltage: "440 V · 3 Phase" },
-  { hp: "10", capacity: "80 – 100 kg/hr", current: "15 A", power: "7.50 KWH", chamber: "Double Chamber", dimension: "L 1530 × W 800 × H 1355 mm", mainMotor: "10 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP", voltage: "440 V · 3 Phase" },
-  { hp: "15", capacity: "80 – 100 kg/hr", current: "22 A", power: "10.00 KWH", chamber: "Double Chamber", dimension: "L 1600 × W 860 × H 1430 mm", mainMotor: "15 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP", voltage: "440 V · 3 Phase" },
-  { hp: "20", capacity: "150 – 190 kg/hr", current: "28 A", power: "17.00 KWH", chamber: "Double Chamber", dimension: "L 1670 × W 960 × H 1520 mm", mainMotor: "20 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP", voltage: "440 V · 3 Phase" },
+  { hp: "5", capacity: "40 – 60 kg/hr", current: "7.5 A", power: "4 KWH", chamber: "Double Chamber", dimension: "L 1306 × W 600 × H 1170 mm", mainMotor: "5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 0.5 HP", voltage: "440 V · 3 Phase" },
+  { hp: "7.5", capacity: "60 – 80 kg/hr", current: "11 A", power: "5 KWH", chamber: "Double Chamber", dimension: "L 1448 × W 700 × H 1290 mm", mainMotor: "7.5 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP", voltage: "440 V · 3 Phase" },
+  { hp: "10", capacity: "100 – 150 kg/hr", current: "15 A", power: "10 KWH", chamber: "Double Chamber", dimension: "L 1530 × W 800 × H 1355 mm", mainMotor: "10 HP, 1440 RPM", cycloneMotor: "0.5 HP & 1 HP", voltage: "440 V · 3 Phase" },
+  { hp: "15", capacity: "150 – 200 kg/hr", current: "22 A", power: "15 KWH", chamber: "Double Chamber", dimension: "L 1600 × W 860 × H 1430 mm", mainMotor: "15 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP", voltage: "440 V · 3 Phase" },
+  { hp: "20", capacity: "150 – 200 kg/hr", current: "28 A", power: "15 KWH", chamber: "Double Chamber", dimension: "L 1670 × W 960 × H 1520 mm", mainMotor: "20 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP", voltage: "440 V · 3 Phase" },
 ];
 
 const attaFeatures = [

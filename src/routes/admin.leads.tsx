@@ -181,7 +181,7 @@ function LeadInboxPage() {
     { key: "all", label: `All leads (${counts.all})` },
     { key: "synced", label: `Synced (${counts.synced})` },
     { key: "unsynced", label: `Pending / failed (${counts.unsynced})` },
-    { key: "archived", label: `Archived (${counts.archived})` },
+    { key: "archived", label: `Bin (${counts.archived})` },
   ];
 
   return (

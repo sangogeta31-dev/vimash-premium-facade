@@ -156,6 +156,15 @@ function LeadInboxPage() {
     setBusyId(null);
   }
 
+  async function onDelete(lead: Lead) {
+    const label = lead.customer_name ? `${lead.customer_name} (${lead.mobile})` : lead.mobile;
+    if (!window.confirm(`Delete this lead permanently?\n\n${label}\n\nThis cannot be undone.`)) return;
+    setBusyId(lead.id);
+    await supabase.from("leads").delete().eq("id", lead.id);
+    await queryClient.invalidateQueries({ queryKey: ["leads"] });
+    setBusyId(null);
+  }
+
   if (authState !== "in") {
     return (
       <div className="grid min-h-[60vh] place-items-center">

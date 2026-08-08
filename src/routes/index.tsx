@@ -21,6 +21,7 @@ import { IndustrialBanner } from "@/components/home/IndustrialBanner";
 import { GrainsSpicesSection } from "@/components/home/GrainsSpicesSection";
 import { FeaturedMachineImage } from "@/components/home/FeaturedMachineImage";
 import { site } from "@/data/site";
+import { lightHeroBg } from "@/components/section-backgrounds";
 
 
 export const Route = createFileRoute("/")({
@@ -77,6 +78,22 @@ function Home() {
     <>
       {/* Hero */}
       <section className="relative isolate overflow-hidden bg-background">
+        <img
+          src={lightHeroBg}
+          alt=""
+          aria-hidden="true"
+          width={1920}
+          height={1200}
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-background/70" />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, var(--background) 100%)",
+          }}
+        />
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-[70vh] opacity-60"
           style={{

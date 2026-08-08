@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { darkSectionBg } from "./section-backgrounds";
 
 export function PageHero({
   eyebrow,
@@ -11,6 +12,22 @@ export function PageHero({
 }) {
   return (
     <section className="relative isolate overflow-hidden section-navy blueprint-dark">
+      <img
+        src={darkSectionBg}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        width={1920}
+        height={912}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+      />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(90deg, color-mix(in oklab, var(--primary) 92%, transparent) 0%, color-mix(in oklab, var(--primary) 80%, transparent) 55%, color-mix(in oklab, var(--primary) 68%, transparent) 100%)",
+        }}
+      />
       <div className="grid-lines pointer-events-none absolute inset-0 opacity-[0.07]" />
       <div
         className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-40 blur-3xl"

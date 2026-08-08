@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { darkSectionBg } from "./section-backgrounds";
 
 export function PageHero({
   eyebrow,

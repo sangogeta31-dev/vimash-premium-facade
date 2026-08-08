@@ -84,9 +84,10 @@ function Home() {
           aria-hidden="true"
           width={1920}
           height={1200}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
         />
-        <div className="pointer-events-none absolute inset-0 bg-background/70" />
+        <div className="pointer-events-none absolute inset-0 bg-background/45 sm:bg-background/40" />
+
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
           style={{

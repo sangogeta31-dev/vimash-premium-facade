@@ -82,7 +82,9 @@ function LeadInboxPage() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
   const [busyId, setBusyId] = useState<string | null>(null);
-  const [confirmLead, setConfirmLead] = useState<Lead | null>(null);
+  const [confirmLead, setConfirmLead] = useState<{ lead: Lead; mode: "bin" | "permanent" } | null>(
+    null,
+  );
 
 
   useEffect(() => {

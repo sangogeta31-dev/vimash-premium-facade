@@ -1,5 +1,5 @@
-import { PhoneCall, Check, Loader2, MapPin } from "lucide-react";
-import { useEffect, useState } from "react";
+import { PhoneCall, Check, Loader2, MapPin, ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -52,6 +52,8 @@ export function CallbackForm({
   const [state, setState] = useState<string | null>(null);
   const [lookingUp, setLookingUp] = useState(false);
   const [hp, setHp] = useState("");
+  const [hpOpen, setHpOpen] = useState(false);
+  const hpRef = useRef<HTMLDivElement | null>(null);
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);

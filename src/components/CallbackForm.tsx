@@ -88,6 +88,22 @@ export function CallbackForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pincode]);
 
+  useEffect(() => {
+    if (!hpOpen) return;
+    function onDown(e: MouseEvent) {
+      if (hpRef.current && !hpRef.current.contains(e.target as Node)) setHpOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setHpOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [hpOpen]);
+
   const fieldClass = cn(
     "w-full rounded-xl border px-4 py-3.5 text-base outline-none transition-colors sm:py-3 sm:text-sm",
     dark

@@ -21,6 +21,7 @@ import { IndustrialBanner } from "@/components/home/IndustrialBanner";
 import { GrainsSpicesSection } from "@/components/home/GrainsSpicesSection";
 import { FeaturedMachineImage } from "@/components/home/FeaturedMachineImage";
 import { site } from "@/data/site";
+import { lightHeroBg } from "@/components/section-backgrounds";
 
 
 export const Route = createFileRoute("/")({

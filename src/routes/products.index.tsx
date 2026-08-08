@@ -43,7 +43,7 @@ function Products() {
   const sections = (
     [
       { id: "atta" as const, title: "Commercial Atta Pulverizers", copy: "Double chamber flour mill pulverizers with twin cyclone discharge, automatic operation and powder coated SS / MS bodies." },
-      { id: "masala" as const, title: "Commercial Masala Pulverizers", copy: "Cyclone masala pulverizers running 3840 RPM beaters that keep spice aroma and volatile oils in the powder." },
+      { id: "masala" as const, title: "MASALA PULVERIZERS MACHINE", copy: "Strong machines for grinding different types of dry spices into fine powder. Available from 5 HP to 30 HP for commercial use." },
     ]
   ).filter((s) => filter === "all" || filter === s.id);
 
@@ -81,7 +81,7 @@ function Products() {
 
         {sections.map((section) => (
           <div key={section.id} className="mt-16 first:mt-12">
-            <SectionHeading eyebrow={`${section.id === "atta" ? "Grain" : "Spice"} line`} title={section.title} description={section.copy} />
+            <SectionHeading eyebrow={section.id === "atta" ? "Grain line" : "SPICE LINE"} title={section.title} description={section.copy} />
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {products
                 .filter((p) => p.category === section.id)

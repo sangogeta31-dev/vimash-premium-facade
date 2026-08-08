@@ -253,27 +253,73 @@ export function CallbackForm({
         )}
 
         {showHp && (
-          <select
-            required
-            value={hp}
-            onChange={(e) => {
-              setHp(e.target.value);
-              resetError();
-            }}
-            aria-label="Machine HP required"
-            className={cn(fieldClass, hp ? "" : dark ? "text-primary-foreground/50" : "text-muted-foreground/70")}
-          >
-            <option value="">Machine HP required</option>
-            {HP_OPTIONS.map((h) => (
-              <option key={h} value={h} className="text-charcoal">
-                {h} HP
-              </option>
-            ))}
-            <option value="Not sure" className="text-charcoal">
-              Not sure — please advise
-            </option>
-          </select>
+          <div className="relative" ref={hpRef}>
+            <button
+              type="button"
+              onClick={() => setHpOpen((o) => !o)}
+              aria-haspopup="listbox"
+              aria-expanded={hpOpen}
+              aria-label="Machine HP required"
+              className={cn(
+                fieldClass,
+                "flex items-center justify-between gap-2 text-left",
+                hpOpen && "border-accent",
+                !hp && (dark ? "text-primary-foreground/50" : "text-muted-foreground/70"),
+              )}
+            >
+              <span>
+                {hp ? (hp === "Not sure" ? "Not sure — please advise" : `${hp} HP`) : "Machine HP required"}
+              </span>
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 shrink-0 text-accent transition-transform duration-200",
+                  hpOpen && "rotate-180",
+                )}
+              />
+            </button>
+
+            {hpOpen && (
+              <ul
+                role="listbox"
+                className={cn(
+                  "absolute z-50 mt-2 max-h-64 w-full overflow-auto rounded-xl border p-1.5 shadow-[var(--shadow-elevated)]",
+                  dark
+                    ? "border-primary-foreground/20 bg-primary text-primary-foreground backdrop-blur-xl"
+                    : "border-border bg-card text-charcoal",
+                )}
+              >
+                {[...HP_OPTIONS.map((h) => ({ value: h, label: `${h} HP` })), { value: "Not sure", label: "Not sure — please advise" }].map(
+                  (opt) => (
+                    <li key={opt.value}>
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={hp === opt.value}
+                        onClick={() => {
+                          setHp(opt.value);
+                          setHpOpen(false);
+                          resetError();
+                        }}
+                        className={cn(
+                          "flex w-full items-center justify-between rounded-lg px-3.5 py-3 text-left text-base transition-colors sm:py-2.5 sm:text-sm",
+                          hp === opt.value
+                            ? "bg-accent text-accent-foreground"
+                            : dark
+                              ? "hover:bg-primary-foreground/10"
+                              : "hover:bg-secondary",
+                        )}
+                      >
+                        {opt.label}
+                        {hp === opt.value && <Check className="h-4 w-4" />}
+                      </button>
+                    </li>
+                  ),
+                )}
+              </ul>
+            )}
+          </div>
         )}
+
 
         <button
           type="submit"

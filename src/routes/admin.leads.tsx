@@ -152,12 +152,6 @@ function LeadInboxPage() {
     setBusyId(null);
   }
 
-  async function setArchived(lead: Lead, archived: boolean) {
-    setBusyId(lead.id);
-    await supabase.from("leads").update({ archived }).eq("id", lead.id);
-    await queryClient.invalidateQueries({ queryKey: ["leads"] });
-    setBusyId(null);
-  }
 
   async function onConfirm() {
     if (!confirmLead) return;

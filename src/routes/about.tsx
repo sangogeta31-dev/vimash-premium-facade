@@ -10,6 +10,7 @@ import {
   Package,
 } from "lucide-react";
 import factoryImg from "@/assets/factory-floor.jpg";
+import grainsBg from "@/assets/home-grains-spices.jpg";
 import bandImg from "@/assets/industrial-band.jpg";
 
 import rotorImg from "@/assets/rotor-detail.jpg";
@@ -63,6 +64,7 @@ function About() {
   return (
     <>
       <PageHero
+        image={grainsBg}
         eyebrow="About us"
         title="We make Atta Chakki machines"
         description="Vimash Manufacturing Pvt. Ltd. is based in Ahmedabad, India. We make commercial atta and masala Chakki for daily production."

@@ -16,6 +16,8 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingActions } from "@/components/FloatingActions";
 import { MobileActionBar } from "@/components/MobileActionBar";
+import { AdminHeader } from "@/components/AdminHeader";
+
 
 
 function NotFoundComponent() {

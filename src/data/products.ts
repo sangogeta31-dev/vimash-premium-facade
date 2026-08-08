@@ -56,7 +56,7 @@ const attaRaw: Raw[] = [
   { hp: "7.5", capacity: "60 – 80 kg/hr", current: "10 A", power: "5 KWH", chamber: "Double", dimension: "H-47\", W-24\", L-59\"", mainMotor: "7.5 HP", cycloneMotor: "0.5 HP & 1 HP", voltage: "440 V\u00a0", bigChamber: "12\"x6\"", smallChamber: "8\"x4\"", weight: "198 KG APPROX", airLock: "110 KG APPROX" },
   { hp: "10", capacity: "80 – 100 kg/hr", current: "15 A", power: "7.5 KWH", chamber: "Double", dimension: "H-52\", W-28\", L-64\"", mainMotor: "10 HP", cycloneMotor: "0.5 HP & 1 HP", voltage: "440 V\u00a0", bigChamber: "14\"x7\"", smallChamber: "9\"x4\"", weight: "212 KG APPROX", airLock: "110 KG APPROX" },
   { hp: "15", capacity: "100 – 150 kg/hr", current: "22 A", power: "10 KWH", chamber: "Double", dimension: "H-54\", W-31\", L-69\"", mainMotor: "15 HP", cycloneMotor: "0.5 HP & 2 HP", voltage: "440 V\u00a0", bigChamber: "16\"x8\"", smallChamber: "10\"x4\"", weight: "240 KG APPROX", airLock: "110 KG APPROX" },
-  { hp: "20", capacity: "150 – 200 kg/hr", current: "28 A", power: "15 KWH", chamber: "Double", dimension: "L 1800 × W 960 × H 1520 mm", mainMotor: "20 HP, 1440 RPM", cycloneMotor: "0.5 HP & 2 HP", voltage: "440 V · 3 Phase" },
+  { hp: "20", capacity: "150 – 200 kg/hr", current: "28 A", power: "15 KWH", chamber: "Double", dimension: "H-58\", W-34\", L-72\"", mainMotor: "20 HP", cycloneMotor: "0.5 HP & 2 HP", voltage: "440 V · 3 Phase", bigChamber: "18\"x9\"", smallChamber: "11\"x5\"", weight: "270 KG APPROX", airLock: "110 KG APPROX" },
 ];
 
 const masalaRaw: Raw[] = [

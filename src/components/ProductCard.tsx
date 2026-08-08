@@ -49,7 +49,7 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
           </dl>
 
           <div className="mt-5 flex flex-wrap gap-2">
-            {[product.automation, "415 V · 3 Phase", product.powerConsumption].map((f) => (
+            {[product.automation, product.voltage, product.powerConsumption].map((f) => (
               <span
                 key={f}
                 className="rounded-full bg-secondary px-3 py-1 text-[0.7rem] font-medium text-secondary-foreground"

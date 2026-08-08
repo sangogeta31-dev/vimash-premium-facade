@@ -195,6 +195,11 @@ function Home() {
         </div>
       </section>
 
+      {/* Grains / spices image section (placeholder image) */}
+      <GrainsSpicesSection />
+
+
+
       {/* Why */}
       <section className="section-tint blueprint section-seam border-y border-border">
         <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">

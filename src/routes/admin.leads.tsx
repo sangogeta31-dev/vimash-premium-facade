@@ -8,7 +8,7 @@ import {
   Clock,
   Inbox,
   Loader2,
-  LogOut,
+  Trash2,
   RefreshCw,
   Search,
   ShieldAlert,

@@ -125,7 +125,7 @@ function build(raw: Raw, category: Category): Product {
     mainMotor: raw.mainMotor,
     cycloneMotor: raw.cycloneMotor,
     chamber: raw.chamber,
-    voltage: raw.voltage ?? "415",
+    voltage: raw.voltage ?? "440 V · 3 Phase",
     bigChamberDiameter: raw.bigChamber ?? "—",
     smallChamberDiameter: raw.smallChamber ?? "—",
     machineWeight: raw.weight ?? "—",

@@ -159,12 +159,16 @@ function LeadInboxPage() {
     setBusyId(null);
   }
 
-  async function onConfirmPermanentDelete() {
+  async function onConfirm() {
     if (!confirmLead) return;
-    const lead = confirmLead;
+    const { lead, mode } = confirmLead;
     setConfirmLead(null);
     setBusyId(lead.id);
-    await supabase.from("leads").delete().eq("id", lead.id);
+    if (mode === "permanent") {
+      await supabase.from("leads").delete().eq("id", lead.id);
+    } else {
+      await supabase.from("leads").update({ archived: true }).eq("id", lead.id);
+    }
     await queryClient.invalidateQueries({ queryKey: ["leads"] });
     setBusyId(null);
   }

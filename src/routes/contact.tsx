@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Clock, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import contactBg from "@/assets/bg-dark-grains.jpg";
 import { CallbackForm } from "@/components/CallbackForm";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
@@ -35,6 +36,7 @@ function Contact() {
   return (
     <>
       <PageHero
+        image={contactBg}
         eyebrow="Contact"
         title="Tell us what you need to grind"
         description="Leave your mobile number and our application engineer calls you back — we'll size the machine and share a quotation on the call."

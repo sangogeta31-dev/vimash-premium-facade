@@ -17,6 +17,9 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Testimonials } from "@/components/Testimonials";
 import { TrustCards } from "@/components/TrustCards";
+import { IndustrialBanner } from "@/components/home/IndustrialBanner";
+import { GrainsSpicesSection } from "@/components/home/GrainsSpicesSection";
+import { FeaturedMachineImage } from "@/components/home/FeaturedMachineImage";
 import { site } from "@/data/site";
 
 
@@ -130,6 +133,11 @@ function Home() {
         <TrustCards />
       </section>
 
+      {/* Wide industrial banner (placeholder image) */}
+      <div className="mt-9 lg:mt-14">
+        <IndustrialBanner />
+      </div>
+
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
         <SectionHeading
@@ -186,6 +194,11 @@ function Home() {
           ))}
         </div>
       </section>
+
+      {/* Grains / spices image section (placeholder image) */}
+      <GrainsSpicesSection />
+
+
 
       {/* Why */}
       <section className="section-tint blueprint section-seam border-y border-border">
@@ -257,6 +270,11 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* Large featured machine image (placeholder image) */}
+      <FeaturedMachineImage />
+
+
 
       {/* Testimonials */}
       <Testimonials />

@@ -337,25 +337,16 @@ function LeadInboxPage() {
                           </button>
                         )}
                         {lead.archived ? (
-                          <>
-                            <button
-                              onClick={() => setArchived(lead, false)}
-                              disabled={busyId === lead.id}
-                              className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:text-charcoal disabled:opacity-60"
-                            >
-                              <ArchiveRestore className="h-3.5 w-3.5" /> Restore
-                            </button>
-                            <button
-                              onClick={() => setConfirmLead(lead)}
-                              disabled={busyId === lead.id}
-                              className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" /> Delete permanently
-                            </button>
-                          </>
+                          <button
+                            onClick={() => setConfirmLead({ lead, mode: "permanent" })}
+                            disabled={busyId === lead.id}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" /> Delete permanently
+                          </button>
                         ) : (
                           <button
-                            onClick={() => setArchived(lead, true)}
+                            onClick={() => setConfirmLead({ lead, mode: "bin" })}
                             disabled={busyId === lead.id}
                             className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
                           >

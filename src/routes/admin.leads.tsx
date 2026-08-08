@@ -372,8 +372,57 @@ function LeadInboxPage() {
       </div>
 
       <p className="mt-4 text-xs text-muted-foreground">
-        Leads can never be deleted — archiving only hides them from the default view.
+        Deleting a lead moves it to Bin. Leads are only removed for good when you delete them
+        permanently from Bin.
       </p>
+
+      {confirmLead && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="confirm-delete-title"
+          className="fixed inset-0 z-50 grid place-items-center bg-charcoal/50 p-5 backdrop-blur-sm"
+          onClick={() => setConfirmLead(null)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-[var(--shadow-elevated)]"
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-destructive/10">
+              <TriangleAlert className="h-5 w-5 text-destructive" />
+            </div>
+            <h2
+              id="confirm-delete-title"
+              className="mt-4 font-display text-xl font-bold text-charcoal"
+            >
+              Delete this lead permanently?
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {confirmLead.customer_name
+                ? `${confirmLead.customer_name} · ${confirmLead.mobile}`
+                : confirmLead.mobile}
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              This removes the lead from the database. It cannot be undone.
+            </p>
+            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
+              <button
+                onClick={() => setConfirmLead(null)}
+                className="rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-charcoal transition-colors hover:bg-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={onConfirmPermanentDelete}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-destructive px-5 py-2.5 text-sm font-semibold text-destructive-foreground transition-transform hover:-translate-y-0.5"
+              >
+                <Trash2 className="h-4 w-4" /> Delete permanently
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

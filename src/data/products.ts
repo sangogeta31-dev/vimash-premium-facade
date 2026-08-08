@@ -102,7 +102,7 @@ const masalaApplications = [
 function build(raw: Raw, category: Category): Product {
   const isAtta = category === "atta";
   const name = isAtta
-    ? `Double Chamber Pulverizer ${raw.hp} HP`
+    ? `${raw.hp}HP Double Chamber Atta Chakki Pulverizer Machine`
     : `Masala Pulverizer with Cyclone ${raw.hp} HP`;
   return {
     slug: `${category}-${raw.hp.replace(".", "-")}-hp`,

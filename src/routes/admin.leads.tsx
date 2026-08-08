@@ -259,9 +259,6 @@ function LeadInboxPage() {
                 ? "No leads visible yet. New website enquiries will appear here."
                 : "No leads match this view."}
             </p>
-            <Link to="/products" className="text-sm font-semibold text-primary">
-              View products
-            </Link>
           </div>
         ) : (
           <div className="overflow-x-auto">

@@ -5,34 +5,38 @@ export function PageHero({
   eyebrow,
   title,
   description,
+  image,
 }: {
   eyebrow: string;
   title: string;
   description: string;
+  image?: string;
 }) {
   return (
     <section className="relative isolate overflow-hidden section-navy blueprint-dark">
       <img
-        src={darkSectionBg}
+        src={image ?? darkSectionBg}
         alt=""
         aria-hidden="true"
-        loading="lazy"
+        loading="eager"
         width={1920}
         height={912}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, color-mix(in oklab, var(--primary) 92%, transparent) 0%, color-mix(in oklab, var(--primary) 80%, transparent) 55%, color-mix(in oklab, var(--primary) 68%, transparent) 100%)",
+            "linear-gradient(90deg, color-mix(in oklab, var(--primary) 78%, transparent) 0%, color-mix(in oklab, var(--primary) 58%, transparent) 55%, color-mix(in oklab, var(--primary) 42%, transparent) 100%)",
         }}
       />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,20,45,0.55)_0%,rgba(8,20,45,0.25)_45%,rgba(8,20,45,0.6)_100%)] sm:bg-none" />
       <div className="grid-lines pointer-events-none absolute inset-0 opacity-[0.07]" />
       <div
-        className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-40 blur-3xl"
+        className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full opacity-30 blur-3xl"
         style={{ background: "var(--gradient-accent)" }}
       />
+
       <div className="relative mx-auto max-w-7xl px-5 pb-10 pt-24 lg:px-8 lg:pb-14 lg:pt-32">
         <Reveal className="max-w-3xl">
           <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent">

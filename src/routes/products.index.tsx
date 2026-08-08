@@ -81,7 +81,7 @@ function Products() {
 
         {sections.map((section) => (
           <div key={section.id} className="mt-16 first:mt-12">
-            <SectionHeading eyebrow={`${section.id === "atta" ? "Grain" : "Spice"} line`} title={section.title} description={section.copy} />
+            <SectionHeading eyebrow={section.id === "atta" ? "Grain line" : "SPICE LINE"} title={section.title} description={section.copy} />
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {products
                 .filter((p) => p.category === section.id)

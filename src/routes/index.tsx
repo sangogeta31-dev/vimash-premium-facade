@@ -133,6 +133,11 @@ function Home() {
         <TrustCards />
       </section>
 
+      {/* Wide industrial banner (placeholder image) */}
+      <div className="mt-9 lg:mt-14">
+        <IndustrialBanner />
+      </div>
+
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
         <SectionHeading

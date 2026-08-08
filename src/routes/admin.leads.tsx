@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  ArchiveRestore,
+  
   CheckCircle2,
   Clock,
   Inbox,
@@ -82,7 +82,9 @@ function LeadInboxPage() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
   const [busyId, setBusyId] = useState<string | null>(null);
-  const [confirmLead, setConfirmLead] = useState<Lead | null>(null);
+  const [confirmLead, setConfirmLead] = useState<{ lead: Lead; mode: "bin" | "permanent" } | null>(
+    null,
+  );
 
 
   useEffect(() => {
@@ -150,19 +152,17 @@ function LeadInboxPage() {
     setBusyId(null);
   }
 
-  async function setArchived(lead: Lead, archived: boolean) {
-    setBusyId(lead.id);
-    await supabase.from("leads").update({ archived }).eq("id", lead.id);
-    await queryClient.invalidateQueries({ queryKey: ["leads"] });
-    setBusyId(null);
-  }
 
-  async function onConfirmPermanentDelete() {
+  async function onConfirm() {
     if (!confirmLead) return;
-    const lead = confirmLead;
+    const { lead, mode } = confirmLead;
     setConfirmLead(null);
     setBusyId(lead.id);
-    await supabase.from("leads").delete().eq("id", lead.id);
+    if (mode === "permanent") {
+      await supabase.from("leads").delete().eq("id", lead.id);
+    } else {
+      await supabase.from("leads").update({ archived: true }).eq("id", lead.id);
+    }
     await queryClient.invalidateQueries({ queryKey: ["leads"] });
     setBusyId(null);
   }
@@ -331,25 +331,16 @@ function LeadInboxPage() {
                           </button>
                         )}
                         {lead.archived ? (
-                          <>
-                            <button
-                              onClick={() => setArchived(lead, false)}
-                              disabled={busyId === lead.id}
-                              className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:text-charcoal disabled:opacity-60"
-                            >
-                              <ArchiveRestore className="h-3.5 w-3.5" /> Restore
-                            </button>
-                            <button
-                              onClick={() => setConfirmLead(lead)}
-                              disabled={busyId === lead.id}
-                              className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" /> Delete permanently
-                            </button>
-                          </>
+                          <button
+                            onClick={() => setConfirmLead({ lead, mode: "permanent" })}
+                            disabled={busyId === lead.id}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" /> Delete permanently
+                          </button>
                         ) : (
                           <button
-                            onClick={() => setArchived(lead, true)}
+                            onClick={() => setConfirmLead({ lead, mode: "bin" })}
                             disabled={busyId === lead.id}
                             className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
                           >
@@ -391,15 +382,19 @@ function LeadInboxPage() {
               id="confirm-delete-title"
               className="mt-4 font-display text-xl font-bold text-charcoal"
             >
-              Delete this lead permanently?
+              {confirmLead.mode === "permanent"
+                ? "Delete this lead permanently?"
+                : "Move this lead to Bin?"}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              {confirmLead.customer_name
-                ? `${confirmLead.customer_name} · ${confirmLead.mobile}`
-                : confirmLead.mobile}
+              {confirmLead.lead.customer_name
+                ? `${confirmLead.lead.customer_name} · ${confirmLead.lead.mobile}`
+                : confirmLead.lead.mobile}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              This removes the lead from the database. It cannot be undone.
+              {confirmLead.mode === "permanent"
+                ? "This removes the lead from the database. It cannot be undone."
+                : "The lead will be moved to Bin and hidden from the main list."}
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
               <button
@@ -409,10 +404,11 @@ function LeadInboxPage() {
                 Cancel
               </button>
               <button
-                onClick={onConfirmPermanentDelete}
+                onClick={onConfirm}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-destructive px-5 py-2.5 text-sm font-semibold text-destructive-foreground transition-transform hover:-translate-y-0.5"
               >
-                <Trash2 className="h-4 w-4" /> Delete permanently
+                <Trash2 className="h-4 w-4" />
+                {confirmLead.mode === "permanent" ? "Delete permanently" : "Move to Bin"}
               </button>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -259,9 +259,6 @@ function LeadInboxPage() {
                 ? "No leads visible yet. New website enquiries will appear here."
                 : "No leads match this view."}
             </p>
-            <Link to="/products" className="text-sm font-semibold text-primary">
-              View products
-            </Link>
           </div>
         ) : (
           <div className="overflow-x-auto">

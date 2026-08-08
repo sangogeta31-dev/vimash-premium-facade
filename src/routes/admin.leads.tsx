@@ -388,15 +388,19 @@ function LeadInboxPage() {
               id="confirm-delete-title"
               className="mt-4 font-display text-xl font-bold text-charcoal"
             >
-              Delete this lead permanently?
+              {confirmLead.mode === "permanent"
+                ? "Delete this lead permanently?"
+                : "Move this lead to Bin?"}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              {confirmLead.customer_name
-                ? `${confirmLead.customer_name} · ${confirmLead.mobile}`
-                : confirmLead.mobile}
+              {confirmLead.lead.customer_name
+                ? `${confirmLead.lead.customer_name} · ${confirmLead.lead.mobile}`
+                : confirmLead.lead.mobile}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              This removes the lead from the database. It cannot be undone.
+              {confirmLead.mode === "permanent"
+                ? "This removes the lead from the database. It cannot be undone."
+                : "The lead will be moved to Bin and hidden from the main list."}
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
               <button
@@ -406,10 +410,11 @@ function LeadInboxPage() {
                 Cancel
               </button>
               <button
-                onClick={onConfirmPermanentDelete}
+                onClick={onConfirm}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-destructive px-5 py-2.5 text-sm font-semibold text-destructive-foreground transition-transform hover:-translate-y-0.5"
               >
-                <Trash2 className="h-4 w-4" /> Delete permanently
+                <Trash2 className="h-4 w-4" />
+                {confirmLead.mode === "permanent" ? "Delete permanently" : "Move to Bin"}
               </button>
             </div>
           </div>

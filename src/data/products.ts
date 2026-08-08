@@ -31,7 +31,7 @@ export type Product = {
 
 const attaBase = {
   automation: "Automatic",
-  material: "SS / MS Body",
+  material: "SS -MS",
   chamberDefault: "Double Chamber",
 };
 

@@ -4,11 +4,11 @@ import {
   ArrowRight,
   CheckCircle2,
   Cog,
-  Factory,
   Headphones,
   ShieldCheck,
   Wrench,
 } from "lucide-react";
+
 import heroImg from "@/assets/hero-machine.jpg";
 import attaImg from "@/assets/atta-pulverizer.jpg";
 import masalaImg from "@/assets/masala-pulverizer.jpg";

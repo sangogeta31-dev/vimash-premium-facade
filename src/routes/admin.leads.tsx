@@ -194,17 +194,8 @@ function LeadInboxPage() {
             <RefreshCw className={cn("h-4 w-4", leadsQuery.isFetching && "animate-spin")} />
             Refresh
           </button>
-          <button
-            onClick={async () => {
-              await supabase.auth.signOut();
-              navigate({ to: "/auth" });
-            }}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm font-medium text-charcoal transition-colors hover:bg-secondary"
-          >
-            <LogOut className="h-4 w-4" />
-            Sign out
-          </button>
         </div>
+
       </div>
 
       <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

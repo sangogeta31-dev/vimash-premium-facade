@@ -266,6 +266,11 @@ function Home() {
         </div>
       </section>
 
+      {/* Large featured machine image (placeholder image) */}
+      <FeaturedMachineImage />
+
+
+
       {/* Testimonials */}
       <Testimonials />
 

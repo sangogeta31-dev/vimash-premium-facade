@@ -149,21 +149,23 @@ function LeadInboxPage() {
     setBusyId(null);
   }
 
-  async function onArchiveToggle(lead: Lead) {
+  async function setArchived(lead: Lead, archived: boolean) {
     setBusyId(lead.id);
-    await supabase.from("leads").update({ archived: !lead.archived }).eq("id", lead.id);
+    await supabase.from("leads").update({ archived }).eq("id", lead.id);
     await queryClient.invalidateQueries({ queryKey: ["leads"] });
     setBusyId(null);
   }
 
-  async function onDelete(lead: Lead) {
-    const label = lead.customer_name ? `${lead.customer_name} (${lead.mobile})` : lead.mobile;
-    if (!window.confirm(`Delete this lead permanently?\n\n${label}\n\nThis cannot be undone.`)) return;
+  async function onConfirmPermanentDelete() {
+    if (!confirmLead) return;
+    const lead = confirmLead;
+    setConfirmLead(null);
     setBusyId(lead.id);
     await supabase.from("leads").delete().eq("id", lead.id);
     await queryClient.invalidateQueries({ queryKey: ["leads"] });
     setBusyId(null);
   }
+
 
   if (authState !== "in") {
     return (

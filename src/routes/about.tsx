@@ -10,6 +10,8 @@ import {
   Package,
 } from "lucide-react";
 import factoryImg from "@/assets/factory-floor.jpg";
+import bandImg from "@/assets/industrial-band.jpg";
+
 import rotorImg from "@/assets/rotor-detail.jpg";
 import qualityImg from "@/assets/quality-check.jpg";
 import { QuoteBand } from "@/components/QuoteBand";
@@ -182,7 +184,39 @@ function About() {
         </div>
       </section>
 
+      {/* Wide facility band */}
+      <section className="relative isolate overflow-hidden">
+        <img
+          src={bandImg}
+          alt="Vimash manufacturing facility in Ahmedabad"
+          loading="lazy"
+          width={1920}
+          height={1088}
+          className="h-[260px] w-full object-cover sm:h-[380px] lg:h-[440px]"
+        />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, color-mix(in oklab, var(--primary) 88%, transparent) 0%, color-mix(in oklab, var(--primary) 55%, transparent) 55%, transparent 100%)",
+          }}
+        />
+        <div className="absolute inset-0 flex items-center">
+          <div className="mx-auto w-full max-w-7xl px-5 lg:px-8">
+            <Reveal className="max-w-md">
+              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+                Inside our unit
+              </span>
+              <h2 className="mt-3 font-display text-2xl font-bold text-primary-foreground sm:text-4xl">
+                Built, fitted and tested under one roof
+              </h2>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* Rotor visual */}
+
       <section className="bg-background">
         <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-9 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-20">
           <Reveal>

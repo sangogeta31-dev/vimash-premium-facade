@@ -4,19 +4,21 @@ import {
   ArrowRight,
   CheckCircle2,
   Cog,
-  Factory,
   Headphones,
   ShieldCheck,
   Wrench,
 } from "lucide-react";
+
 import heroImg from "@/assets/hero-machine.jpg";
 import attaImg from "@/assets/atta-pulverizer.jpg";
 import masalaImg from "@/assets/masala-pulverizer.jpg";
 import factoryImg from "@/assets/factory-floor.jpg";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
+import { Testimonials } from "@/components/Testimonials";
 import { TrustCards } from "@/components/TrustCards";
 import { site } from "@/data/site";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -256,21 +258,9 @@ function Home() {
         </div>
       </section>
 
-      {/* Testimonial */}
-      <section className="section-navy blueprint-dark relative overflow-hidden">
-        <div className="relative mx-auto max-w-4xl px-5 py-9 text-center lg:px-8">
-          <Reveal>
-            <Factory className="mx-auto h-8 w-8 text-accent" />
-            <blockquote className="mt-8 font-display text-2xl font-semibold leading-snug text-primary-foreground sm:text-3xl">
-              “Three 20 HP masala lines running two shifts a day for four years. Screens and
-              hammers get changed, nothing else has.”
-            </blockquote>
-            <p className="mt-6 text-sm text-primary-foreground/60">
-              Production Head · Spice processing unit, Rajkot
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      {/* Testimonials */}
+      <Testimonials />
+
 
       {/* CTA */}
       <section className="section-tint blueprint section-seam border-t border-border">

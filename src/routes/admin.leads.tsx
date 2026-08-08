@@ -83,6 +83,8 @@ function LeadInboxPage() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [confirmLead, setConfirmLead] = useState<Lead | null>(null);
+
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {

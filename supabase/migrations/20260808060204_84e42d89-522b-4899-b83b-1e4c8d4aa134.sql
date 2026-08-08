@@ -1,0 +1,2 @@
+GRANT DELETE ON public.leads TO authenticated;
+CREATE POLICY "Admins can delete leads" ON public.leads FOR DELETE TO authenticated USING (has_role(auth.uid(), 'admin'::app_role));

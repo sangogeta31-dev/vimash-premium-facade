@@ -8,7 +8,7 @@ import {
   Clock,
   Inbox,
   Loader2,
-  LogOut,
+  Trash2,
   RefreshCw,
   Search,
   ShieldAlert,
@@ -156,6 +156,15 @@ function LeadInboxPage() {
     setBusyId(null);
   }
 
+  async function onDelete(lead: Lead) {
+    const label = lead.customer_name ? `${lead.customer_name} (${lead.mobile})` : lead.mobile;
+    if (!window.confirm(`Delete this lead permanently?\n\n${label}\n\nThis cannot be undone.`)) return;
+    setBusyId(lead.id);
+    await supabase.from("leads").delete().eq("id", lead.id);
+    await queryClient.invalidateQueries({ queryKey: ["leads"] });
+    setBusyId(null);
+  }
+
   if (authState !== "in") {
     return (
       <div className="grid min-h-[60vh] place-items-center">
@@ -194,17 +203,8 @@ function LeadInboxPage() {
             <RefreshCw className={cn("h-4 w-4", leadsQuery.isFetching && "animate-spin")} />
             Refresh
           </button>
-          <button
-            onClick={async () => {
-              await supabase.auth.signOut();
-              navigate({ to: "/auth" });
-            }}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm font-medium text-charcoal transition-colors hover:bg-secondary"
-          >
-            <LogOut className="h-4 w-4" />
-            Sign out
-          </button>
         </div>
+
       </div>
 
       <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -344,6 +344,13 @@ function LeadInboxPage() {
                               <Archive className="h-3.5 w-3.5" /> Archive
                             </>
                           )}
+                        </button>
+                        <button
+                          onClick={() => onDelete(lead)}
+                          disabled={busyId === lead.id}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" /> Delete
                         </button>
                       </div>
                     </td>

@@ -299,7 +299,11 @@ function LeadInboxPage() {
                     <td className="px-5 py-4 text-muted-foreground">{lead.state ?? "—"}</td>
                     <td className="px-5 py-4 text-charcoal">{lead.machine_name ?? "General enquiry"}</td>
                     <td className="px-5 py-4 text-muted-foreground">
-                      {lead.machine_hp ? `${lead.machine_hp} HP` : "—"}
+                      {lead.machine_hp
+                        ? /hp|not sure/i.test(lead.machine_hp)
+                          ? lead.machine_hp
+                          : `${lead.machine_hp} HP`
+                        : "—"}
                     </td>
                     <td className="px-5 py-4 text-muted-foreground">
                       {new Date(lead.created_at).toLocaleString("en-IN", {
@@ -307,7 +311,15 @@ function LeadInboxPage() {
                         timeStyle: "short",
                       })}
                     </td>
-                    <td className="px-5 py-4 text-muted-foreground">{lead.lead_source}</td>
+                    <td className="px-5 py-4 text-muted-foreground">
+                      {lead.lead_source}
+                      {lead.source_page && (
+                        <span className="mt-0.5 block text-xs text-muted-foreground/70">
+                          {lead.source_page}
+                        </span>
+                      )}
+                    </td>
+
                     <td className="px-5 py-4">
                       <StatusBadge status={lead.odoo_sync_status} />
                       {lead.odoo_error && lead.odoo_sync_status === "failed" && (

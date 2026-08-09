@@ -108,7 +108,7 @@ function LeadInboxPage() {
       const { data, error } = await supabase
         .from("leads")
         .select(
-          "id, customer_name, mobile, city, state, pincode, machine_name, machine_hp, lead_source, odoo_sync_status, odoo_error, archived, created_at",
+          "id, customer_name, mobile, city, state, pincode, machine_name, machine_hp, lead_source, source_page, odoo_sync_status, odoo_error, archived, created_at",
         )
         .order("created_at", { ascending: false });
       if (error) throw error;

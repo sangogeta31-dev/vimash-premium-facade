@@ -36,12 +36,15 @@ export function CallbackForm({
   className,
   machineName,
   machineSlug,
+  machineHp,
   source = "Website",
 }: {
   variant?: "light" | "dark";
   className?: string;
   machineName?: string;
   machineSlug?: string;
+  machineHp?: string;
+  /** The page the enquiry was submitted from — stored as source_page. */
   source?: string;
 }) {
   const [name, setName] = useState("");
@@ -58,7 +61,9 @@ export function CallbackForm({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dark = variant === "dark";
+  // A known machine already carries its HP, so only ask when the enquiry is generic.
   const showHp = !machineName;
+
 
   useEffect(() => {
     if (!/^\d{6}$/.test(pincode)) {

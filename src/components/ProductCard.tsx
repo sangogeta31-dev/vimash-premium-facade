@@ -3,6 +3,7 @@ import { ArrowUpRight, Gauge, Ruler, Zap } from "lucide-react";
 import attaImg from "@/assets/atta-pulverizer.jpg";
 import masalaImg from "@/assets/masala-pulverizer.jpg";
 import type { Product } from "@/data/products";
+import { productImageAlt } from "@/lib/seo";
 import { Reveal } from "./Reveal";
 
 export function ProductCard({ product, delay = 0 }: { product: Product; delay?: number }) {

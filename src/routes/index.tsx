@@ -9,7 +9,7 @@ import {
   Wrench,
 } from "lucide-react";
 
-import heroImg from "@/assets/hero-machine.jpg";
+import heroAsset from "@/assets/hero-machine.png.asset.json";
 import attaImg from "@/assets/atta-pulverizer.jpg";
 import masalaImg from "@/assets/masala-pulverizer.jpg";
 import factoryImg from "@/assets/factory-floor.jpg";
@@ -143,11 +143,11 @@ function Home() {
 
           <Reveal delay={140}>
             <img
-              src={heroImg}
-              alt="Vimash commercial pulverizer machine"
-              width={1600}
-              height={1200}
-              className="mx-auto mt-8 w-[112%] max-w-none -translate-x-[6%] object-contain sm:mt-12 sm:w-full sm:max-w-5xl sm:translate-x-0 drop-shadow-[0_60px_70px_oklch(0.22_0.062_258/0.22)]"
+              src={heroAsset.url}
+              alt="Vimash commercial pulverizer machine with operator"
+              width={1536}
+              height={1024}
+              className="mx-auto mt-8 h-auto w-full max-w-5xl rounded-2xl object-contain sm:mt-12 drop-shadow-[0_60px_70px_oklch(0.22_0.062_258/0.22)]"
             />
           </Reveal>
         </div>

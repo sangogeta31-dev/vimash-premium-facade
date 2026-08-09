@@ -47,6 +47,8 @@ type Lead = {
   machine_name: string | null;
   machine_hp: string | null;
   lead_source: string;
+  source_page: string | null;
+
   odoo_sync_status: "pending" | "synced" | "failed";
   odoo_error: string | null;
   archived: boolean;

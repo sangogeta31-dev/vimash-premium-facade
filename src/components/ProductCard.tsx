@@ -18,7 +18,7 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
         >
           <img
             src={isAtta ? attaImg : masalaImg}
-            alt={`${product.name} by Vimash Manufacturing`}
+            alt={productImageAlt(product)}
             loading="lazy"
             width={1408}
             height={1056}

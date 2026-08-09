@@ -8,6 +8,16 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { getProduct, products, specTable, type Product } from "@/data/products";
 import { site } from "@/data/site";
+import {
+  breadcrumbJsonLd,
+  pageMeta,
+  productImageAlt,
+  productJsonLd,
+  productKeywords,
+  productSeoDescription,
+  productSeoTitle,
+} from "@/lib/seo";
+
 
 export const Route = createFileRoute("/products/$slug")({
   loader: ({ params }) => {
@@ -22,22 +32,37 @@ export const Route = createFileRoute("/products/$slug")({
       };
     }
     const p = loaderData.product;
-    const title = `${p.name} — Specifications & Price | Vimash`;
-    const description = `${p.name}: ${p.capacity} grinding capacity, ${p.mainMotor} main motor, ${p.chamber.toLowerCase()}, powder coated SS/MS body. Request a callback for pricing.`;
+    const base = pageMeta({
+      title: productSeoTitle(p),
+      description: productSeoDescription(p),
+      path: `/products/${p.slug}`,
+      type: "product",
+      keywords: productKeywords(p),
+    });
     return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "product" },
-        { name: "twitter:card", content: "summary_large_image" },
+      ...base,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(productJsonLd(p)),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "Products", path: "/products" },
+              { name: p.name, path: `/products/${p.slug}` },
+            ]),
+          ),
+        },
       ],
     };
   },
   notFoundComponent: MachineNotFound,
   component: ProductDetail,
 });
+
 
 function MachineNotFound() {
   return (
@@ -117,7 +142,7 @@ function ProductDetail() {
             <div className="relative rounded-[2rem] border border-border bg-card p-10">
               <img
                 src={isAtta ? attaImg : masalaImg}
-                alt={`${product.name} — Vimash Manufacturing`}
+                alt={productImageAlt(product)}
                 width={1408}
                 height={1056}
                 className="mx-auto w-full object-contain drop-shadow-[0_40px_60px_oklch(0.22_0.062_258/0.18)]"

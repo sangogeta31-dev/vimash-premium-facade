@@ -7,27 +7,54 @@ import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { products, type Category } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { breadcrumbJsonLd, canonicalUrl, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/products/")({
   head: () => ({
-    meta: [
-      { title: "Atta & Masala Pulverizer Models 5–20 HP | Vimash Manufacturing" },
+    ...pageMeta({
+      title: "Atta Chakki & Masala Pulverizer Models 5–20 HP | Vimash",
+      description:
+        "Browse Vimash commercial atta chakki pulverizers (flour mill machines) and masala grinding machines in 5, 7.5, 10, 15 and 20 HP with full capacity, motor and dimension specifications.",
+      path: "/products",
+      keywords: [
+        "atta chakki machine",
+        "commercial atta chakki",
+        "atta pulverizer",
+        "flour mill machine",
+        "masala pulverizer",
+        "masala grinding machine",
+        "spice grinding machine",
+        "commercial masala pulverizer",
+      ],
+    }),
+    scripts: [
       {
-        name: "description",
-        content:
-          "Browse Vimash double chamber atta pulverizers and cyclone masala pulverizers in 5, 7.5, 10, 15 and 20 HP with full capacity, motor and dimension specifications.",
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Products", path: "/products" },
+          ]),
+        ),
       },
-      { property: "og:title", content: "Pulverizer Product Range — Vimash Manufacturing" },
       {
-        property: "og:description",
-        content: "Ten models across two lines: double chamber atta pulverizers and masala pulverizers with cyclone, 5 HP to 20 HP.",
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: products.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: p.name,
+            url: canonicalUrl(`/products/${p.slug}`),
+          })),
+        }),
       },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Products,
 });
+
 
 type Filter = "all" | Category;
 

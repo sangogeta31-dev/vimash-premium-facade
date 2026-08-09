@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -44,6 +45,11 @@ const GalleryRoute = GalleryRouteImport.update({
   path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin': typeof AdminIndexRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/gallery'
+    | '/sitemap.xml'
     | '/admin/leads'
     | '/products/$slug'
     | '/admin/'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/gallery'
+    | '/sitemap.xml'
     | '/admin/leads'
     | '/products/$slug'
     | '/admin'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/gallery'
+    | '/sitemap.xml'
     | '/admin/leads'
     | '/products/$slug'
     | '/admin/'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/admin'
@@ -221,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminLeadsRoute: AdminLeadsRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   AdminIndexRoute: AdminIndexRoute,

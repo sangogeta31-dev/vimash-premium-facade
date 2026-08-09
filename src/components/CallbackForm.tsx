@@ -138,28 +138,29 @@ export function CallbackForm({
 
     const selectedHp = showHp ? (hp === "Not sure" ? "Not sure" : `${hp} HP`) : (machineHp ?? null);
 
-    const { data, error: insertError } = await supabase
-      .from("leads")
-      .insert({
-        customer_name: parsed.data.name,
-        mobile: parsed.data.mobile,
-        city: parsed.data.city,
-        state,
-        pincode: parsed.data.pincode,
-        machine_name: machineName ?? "General enquiry",
-        machine_slug: machineSlug ?? null,
-        machine_hp: selectedHp,
-        lead_source: "Website",
-        source_page: source,
-        odoo_sync_status: "pending",
-      })
-      .select("id")
-      .single();
+    // The id is generated client-side so the insert never has to read the row
+    // back: anonymous visitors have no read access to leads (admin-only by RLS),
+    // and asking PostgREST to return the row would be rejected by that policy.
+    const leadId = crypto.randomUUID();
 
+    const { error: insertError } = await supabase.from("leads").insert({
+      id: leadId,
+      customer_name: parsed.data.name,
+      mobile: parsed.data.mobile,
+      city: parsed.data.city,
+      state,
+      pincode: parsed.data.pincode,
+      machine_name: machineName ?? "General enquiry",
+      machine_slug: machineSlug ?? null,
+      machine_hp: selectedHp,
+      lead_source: "Website",
+      source_page: source,
+      odoo_sync_status: "pending",
+    });
 
     setBusy(false);
 
-    if (insertError || !data) {
+    if (insertError) {
       setError("Could not send your request. Please call us instead.");
       return;
     }
@@ -173,7 +174,8 @@ export function CallbackForm({
     setState(null);
     setHp("");
     // Stored first, then pushed to Odoo — a sync failure never loses the lead.
-    void syncLead({ data: { leadId: data.id } }).catch(() => undefined);
+    void syncLead({ data: { leadId } }).catch(() => undefined);
+
   }
 
   return (

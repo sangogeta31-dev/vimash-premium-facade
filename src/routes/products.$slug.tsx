@@ -142,7 +142,7 @@ function ProductDetail() {
             <div className="relative rounded-[2rem] border border-border bg-card p-10">
               <img
                 src={isAtta ? attaImg : masalaImg}
-                alt={`${product.name} — Vimash Manufacturing`}
+                alt={productImageAlt(product)}
                 width={1408}
                 height={1056}
                 className="mx-auto w-full object-contain drop-shadow-[0_40px_60px_oklch(0.22_0.062_258/0.18)]"

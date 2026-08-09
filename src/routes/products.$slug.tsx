@@ -197,7 +197,7 @@ function ProductDetail() {
       {related.length > 0 && (
         <section className="section-tint blueprint section-seam border-t border-border">
           <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8">
-            <SectionHeading eyebrow="Other capacities" title={`More ${isAtta ? "atta" : "masala"} pulverizers`} />
+            <SectionHeading eyebrow="Other capacities" title={`More ${isAtta ? "Atta Chakki" : "masala"} pulverizers`} />
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
               {related.map((p, i) => (
                 <Reveal key={p.slug} delay={i * 80} className="h-full">

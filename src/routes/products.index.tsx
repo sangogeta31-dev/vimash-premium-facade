@@ -33,8 +33,8 @@ type Filter = "all" | Category;
 
 const filters: { id: Filter; label: string; short: string }[] = [
   { id: "all", label: "All machines", short: "All" },
-  { id: "atta", label: "Commercial Atta Pulverizers", short: "Atta" },
-  { id: "masala", label: "Commercial Masala Pulverizers", short: "Masala" },
+  { id: "atta", label: "Atta Chakki Pulverizers", short: "Atta" },
+  { id: "masala", label: "Masala Grinder Pulverizers", short: "Masala" },
 ];
 
 function Products() {

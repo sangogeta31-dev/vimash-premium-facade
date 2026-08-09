@@ -1,8 +1,19 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { MessageCircle, Phone } from "lucide-react";
+import { getProduct } from "@/data/products";
 import { site } from "@/data/site";
 
 export function MobileActionBar() {
+  // Carry the machine the visitor is looking at into the Contact enquiry form.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const slug = pathname.match(/^\/products\/([^/]+)\/?$/)?.[1];
+  const product = slug ? getProduct(decodeURIComponent(slug)) : undefined;
+  const search = product
+    ? { machine: product.slug, from: "Product page" }
+    : pathname.startsWith("/products")
+      ? { from: "Products page" }
+      : {};
+
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 lg:hidden">
       <div className="glass-card border-t border-border px-3 pb-[max(0.6rem,env(safe-area-inset-bottom))] pt-2.5">

@@ -22,6 +22,7 @@ import { GrainsSpicesSection } from "@/components/home/GrainsSpicesSection";
 import { FeaturedMachineImage } from "@/components/home/FeaturedMachineImage";
 import { site } from "@/data/site";
 import { lightHeroBg } from "@/components/section-backgrounds";
+import { organizationJsonLd, pageMeta } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/")({

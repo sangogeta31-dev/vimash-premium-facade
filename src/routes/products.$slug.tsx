@@ -8,6 +8,16 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { getProduct, products, specTable, type Product } from "@/data/products";
 import { site } from "@/data/site";
+import {
+  breadcrumbJsonLd,
+  pageMeta,
+  productImageAlt,
+  productJsonLd,
+  productKeywords,
+  productSeoDescription,
+  productSeoTitle,
+} from "@/lib/seo";
+
 
 export const Route = createFileRoute("/products/$slug")({
   loader: ({ params }) => {

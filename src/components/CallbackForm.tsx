@@ -36,12 +36,15 @@ export function CallbackForm({
   className,
   machineName,
   machineSlug,
+  machineHp,
   source = "Website",
 }: {
   variant?: "light" | "dark";
   className?: string;
   machineName?: string;
   machineSlug?: string;
+  machineHp?: string;
+  /** The page the enquiry was submitted from — stored as source_page. */
   source?: string;
 }) {
   const [name, setName] = useState("");
@@ -58,7 +61,9 @@ export function CallbackForm({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dark = variant === "dark";
+  // A known machine already carries its HP, so only ask when the enquiry is generic.
   const showHp = !machineName;
+
 
   useEffect(() => {
     if (!/^\d{6}$/.test(pincode)) {
@@ -131,6 +136,8 @@ export function CallbackForm({
     setBusy(true);
     setError(null);
 
+    const selectedHp = showHp ? (hp === "Not sure" ? "Not sure" : `${hp} HP`) : (machineHp ?? null);
+
     const { data, error: insertError } = await supabase
       .from("leads")
       .insert({
@@ -139,13 +146,16 @@ export function CallbackForm({
         city: parsed.data.city,
         state,
         pincode: parsed.data.pincode,
-        machine_name: machineName ?? null,
+        machine_name: machineName ?? "General enquiry",
         machine_slug: machineSlug ?? null,
-        machine_hp: showHp ? hp : null,
-        lead_source: source,
+        machine_hp: selectedHp,
+        lead_source: "Website",
+        source_page: source,
+        odoo_sync_status: "pending",
       })
       .select("id")
       .single();
+
 
     setBusy(false);
 

@@ -211,8 +211,10 @@ function ProductDetail() {
                   className="mt-5"
                   machineName={product.name}
                   machineSlug={product.slug}
+                  machineHp={`${product.hp} HP`}
                   source="Product page"
                 />
+
               </div>
             </Reveal>
           </div>
@@ -247,7 +249,13 @@ function ProductDetail() {
         </section>
       )}
 
-      <QuoteBand machineName={product.name} machineSlug={product.slug} source="Product page" />
+      <QuoteBand
+        machineName={product.name}
+        machineSlug={product.slug}
+        machineHp={`${product.hp} HP`}
+        source="Product page"
+      />
+
     </>
   );
 }

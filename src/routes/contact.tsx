@@ -4,10 +4,25 @@ import contactBg from "@/assets/bg-dark-grains.jpg";
 import { CallbackForm } from "@/components/CallbackForm";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
+import { getProduct } from "@/data/products";
 import { site } from "@/data/site";
 import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
 
+/**
+ * Only a product slug travels in the URL. The machine name/HP are looked up from
+ * local product data, so nothing a visitor types in the URL is trusted or stored.
+ */
+function validateSearch(search: Record<string, unknown>): { machine?: string; from?: string } {
+  const raw = typeof search['machine'] === "string" ? search['machine'] : undefined;
+  const machine = raw && getProduct(raw) ? raw : undefined;
+  const rawFrom = typeof search['from'] === "string" ? search['from'] : undefined;
+  const from = rawFrom && /^[A-Za-z ]{1,40}$/.test(rawFrom) ? rawFrom : undefined;
+  return { ...(machine ? { machine } : {}), ...(from ? { from } : {}) };
+}
+
 export const Route = createFileRoute("/contact")({
+  validateSearch,
+
   head: () => ({
     ...pageMeta({
       title: "Contact Vimash — Atta Chakki & Masala Pulverizer Enquiry",
@@ -45,6 +60,9 @@ const details = [
 ];
 
 function Contact() {
+  const { machine, from } = Route.useSearch();
+  const product = machine ? getProduct(machine) : undefined;
+
   return (
     <>
       <PageHero
@@ -70,7 +88,18 @@ function Contact() {
                 call you to understand your material, mesh and tonnage, then send a sized quotation.
               </p>
 
-              <CallbackForm className="mt-8" source="Contact page" />
+              <CallbackForm
+                className="mt-8"
+                source={from ?? "Contact page"}
+                {...(product
+                  ? {
+                      machineName: product.name,
+                      machineSlug: product.slug,
+                      machineHp: `${product.hp} HP`,
+                    }
+                  : {})}
+              />
+
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a

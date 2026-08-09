@@ -7,6 +7,7 @@ import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { products, type Category } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { breadcrumbJsonLd, canonicalUrl, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/products/")({
   head: () => ({

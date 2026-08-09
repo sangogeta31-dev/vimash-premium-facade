@@ -11,25 +11,32 @@ import { PageHero } from "@/components/PageHero";
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
+import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
-    meta: [
-      { title: "Gallery — Machines, Plant & Components | Vimash Manufacturing" },
+    ...pageMeta({
+      title: "Gallery — Atta Chakki & Masala Pulverizer Machines | Vimash",
+      description:
+        "Photographs of Vimash commercial atta chakki pulverizers and masala grinding machines, the Ahmedabad manufacturing floor, rotor components and quality inspection.",
+      path: "/gallery",
+      keywords: ["atta chakki machine photos", "masala pulverizer machine", "flour mill machine"],
+    }),
+    scripts: [
       {
-        name: "description",
-        content:
-          "Photographs of Vimash pulverizer machines, the Ahmedabad manufacturing floor, rotor components and quality inspection.",
-      },
-      { property: "og:title", content: "Vimash Manufacturing Gallery" },
-      {
-        property: "og:description",
-        content: "A look at our machines, plant and precision components.",
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Gallery", path: "/gallery" },
+          ]),
+        ),
       },
     ],
   }),
   component: Gallery,
 });
+
 
 type Tag = "machines" | "plant" | "components";
 

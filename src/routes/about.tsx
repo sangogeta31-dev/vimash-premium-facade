@@ -19,25 +19,35 @@ import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { PageHero } from "@/components/PageHero";
+import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
-    meta: [
-      { title: "About Vimash Manufacturing — Atta & Masala Pulverizer Maker" },
+    ...pageMeta({
+      title: "About Vimash — Atta Chakki & Masala Pulverizer Manufacturer",
+      description:
+        "Vimash Manufacturing Pvt. Ltd. makes commercial atta chakki pulverizers and masala grinding machines in Ahmedabad. Own factory, tested machines, PAN India delivery and support.",
+      path: "/about",
+      keywords: [
+        "atta chakki machine manufacturer",
+        "commercial atta chakki",
+        "masala pulverizer manufacturer",
+        "spice grinding machine",
+      ],
+    }),
+    scripts: [
       {
-        name: "description",
-        content:
-          "Vimash Manufacturing Pvt. Ltd. makes commercial atta and masala pulverizers in Ahmedabad. Own factory, tested machines, PAN India delivery and support.",
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+          ]),
+        ),
       },
-      { property: "og:title", content: "About Vimash Manufacturing" },
-      {
-        property: "og:description",
-        content: "We make commercial atta and masala pulverizers in our own factory in Ahmedabad, India.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+
   component: About,
 });
 

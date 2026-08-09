@@ -5,25 +5,37 @@ import { CallbackForm } from "@/components/CallbackForm";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/data/site";
+import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
-    meta: [
-      { title: "Contact Vimash Manufacturing — Request a Pulverizer Quotation" },
+    ...pageMeta({
+      title: "Contact Vimash — Atta Chakki & Masala Pulverizer Enquiry",
+      description:
+        "Talk to Vimash Manufacturing about commercial atta chakki machines and masala pulverizers. Share your material and target output for a sized recommendation and quotation.",
+      path: "/contact",
+      keywords: [
+        "atta chakki machine price enquiry",
+        "commercial atta chakki",
+        "masala pulverizer enquiry",
+        "flour mill machine",
+      ],
+    }),
+    scripts: [
       {
-        name: "description",
-        content:
-          "Talk to Vimash Manufacturing about atta and masala pulverizers. Share your material and target output for a sized recommendation and quotation.",
-      },
-      { property: "og:title", content: "Contact Vimash Manufacturing" },
-      {
-        property: "og:description",
-        content: "Request a quotation, book a factory visit or reach our service team.",
+        type: "application/ld+json",
+        children: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+        ),
       },
     ],
   }),
   component: Contact,
 });
+
 
 const details = [
   { icon: Phone, label: "Sales", value: site.phone, href: site.phoneHref },

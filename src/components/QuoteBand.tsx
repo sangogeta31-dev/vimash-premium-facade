@@ -6,12 +6,14 @@ export function QuoteBand({
   description = "Leave your mobile number — our engineer calls back with the right HP rating and a clear quotation.",
   machineName,
   machineSlug,
+  machineHp,
   source = "Quote band",
 }: {
   title?: string;
   description?: string;
   machineName?: string;
   machineSlug?: string;
+  machineHp?: string;
   source?: string;
 }) {
   return (
@@ -29,8 +31,10 @@ export function QuoteBand({
             variant="dark"
             machineName={machineName}
             machineSlug={machineSlug}
+            machineHp={machineHp}
             source={source}
           />
+
         </Reveal>
 
       </div>

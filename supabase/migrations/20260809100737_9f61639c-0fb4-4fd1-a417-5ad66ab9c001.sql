@@ -1,0 +1,1 @@
+delete from public.leads where customer_name = 'QA Selftest' and mobile = '9812345670';

@@ -1,0 +1,2 @@
+create or replace function public.__whoami() returns text language sql stable as $$ select current_user || '|' || coalesce(current_setting('request.jwt.claim.role', true),'-') $$;
+grant execute on function public.__whoami() to anon, authenticated;

@@ -22,22 +22,37 @@ export const Route = createFileRoute("/products/$slug")({
       };
     }
     const p = loaderData.product;
-    const title = `${p.name} — Specifications & Price | Vimash`;
-    const description = `${p.name}: ${p.capacity} grinding capacity, ${p.mainMotor} main motor, ${p.chamber.toLowerCase()}, powder coated SS/MS body. Request a callback for pricing.`;
+    const base = pageMeta({
+      title: productSeoTitle(p),
+      description: productSeoDescription(p),
+      path: `/products/${p.slug}`,
+      type: "product",
+      keywords: productKeywords(p),
+    });
     return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "product" },
-        { name: "twitter:card", content: "summary_large_image" },
+      ...base,
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(productJsonLd(p)),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "Products", path: "/products" },
+              { name: p.name, path: `/products/${p.slug}` },
+            ]),
+          ),
+        },
       ],
     };
   },
   notFoundComponent: MachineNotFound,
   component: ProductDetail,
 });
+
 
 function MachineNotFound() {
   return (

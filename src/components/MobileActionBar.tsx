@@ -36,6 +36,8 @@ export function MobileActionBar() {
           </a>
           <Link
             to="/contact"
+            search={search}
+
             className="inline-flex min-h-[3.25rem] items-center justify-center rounded-2xl bg-primary text-base font-bold text-primary-foreground shadow-[var(--shadow-elevated)]"
           >
             Get Quote

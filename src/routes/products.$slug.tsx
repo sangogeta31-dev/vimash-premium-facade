@@ -211,8 +211,10 @@ function ProductDetail() {
                   className="mt-5"
                   machineName={product.name}
                   machineSlug={product.slug}
+                  machineHp={`${product.hp} HP`}
                   source="Product page"
                 />
+
               </div>
             </Reveal>
           </div>

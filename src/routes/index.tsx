@@ -26,23 +26,30 @@ import { lightHeroBg } from "@/components/section-backgrounds";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title: "Vimash Manufacturing — Atta & Masala Pulverizer Machines" },
-      {
-        name: "description",
-        content:
-          "Commercial atta and masala pulverizer machines from 5 HP to 30 HP, engineered for continuous duty by Vimash Manufacturing Pvt. Ltd.",
-      },
-      { property: "og:title", content: "Vimash Manufacturing — Atta & Masala Pulverizers" },
-      {
-        property: "og:description",
-        content:
-          "Precision pulverizing systems for flour mills and spice processors. 5 HP to 30 HP, built for continuous commercial duty.",
-      },
+    ...pageMeta({
+      title: "Atta Chakki Machine & Masala Pulverizer Manufacturer | Vimash",
+      description:
+        "Vimash Manufacturing builds commercial atta chakki pulverizers (flour mill machines) and masala pulverizers from 5 HP to 20 HP for grinding businesses across India.",
+      path: "/",
+      keywords: [
+        "atta chakki",
+        "atta chakki machine",
+        "commercial atta chakki",
+        "atta pulverizer",
+        "flour mill machine",
+        "masala pulverizer",
+        "masala grinding machine",
+        "spice grinding machine",
+        "commercial masala pulverizer",
+      ],
+    }),
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(organizationJsonLd()) },
     ],
   }),
   component: Home,
 });
+
 
 const whyItems = [
   {

@@ -60,6 +60,9 @@ const details = [
 ];
 
 function Contact() {
+  const { machine, from } = Route.useSearch();
+  const product = machine ? getProduct(machine) : undefined;
+
   return (
     <>
       <PageHero

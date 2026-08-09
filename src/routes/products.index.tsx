@@ -42,8 +42,8 @@ function Products() {
 
   const sections = (
     [
-      { id: "atta" as const, title: "Commercial Atta Pulverizers", copy: "Double chamber flour mill pulverizers with twin cyclone discharge, automatic operation and powder coated SS / MS bodies." },
-      { id: "masala" as const, title: "MASALA PULVERIZERS MACHINE", copy: "Strong machines for grinding different types of dry spices into fine powder. Available from 5 HP to 30 HP for commercial use." },
+      { id: "atta" as const, title: "Atta Chakki Pulverizers", copy: "Double chamber flour mill pulverizers with twin cyclone discharge, automatic operation and powder coated SS / MS bodies." },
+      { id: "masala" as const, title: "Masala Grinder Pulverizers", copy: "Strong machines for grinding different types of dry spices into fine powder. Available from 5 HP to 30 HP for commercial use." },
     ]
   ).filter((s) => filter === "all" || filter === s.id);
 

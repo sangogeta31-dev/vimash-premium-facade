@@ -123,7 +123,9 @@ function build(raw: Raw, category: Category): Product {
       ? "Commercial atta pulverizer built for continuous flour output"
       : "Cyclone masala pulverizer for fine, aromatic spice powder",
     description: isAtta
-      ? `The ${raw.hp} HP double chamber pulverizer grinds ${raw.capacity} of grain with a fully automatic, dust-controlled cyclone system. The powder coated SS / MS body and partitioned grinding chamber deliver uniform flour with minimum heat build-up, making it ideal for commercial flour mills running long shifts.`
+      ? raw.hp === "5"
+        ? "Vimash 5 HP Atta Pulverizer is a commercial atta chakki machine designed for businesses that need reliable flour grinding. This atta chakki machine uses stoneless grinding technology for consistent atta production and is built for regular commercial use. The heavy-duty atta pulverizer is suitable for grinding wheat and other dry grains. If you are looking for a commercial atta chakki or atta chakki machine for your flour grinding business, the Vimash 5 HP model is a reliable choice."
+        : `The ${raw.hp} HP double chamber pulverizer grinds ${raw.capacity} of grain with a fully automatic, dust-controlled cyclone system. The powder coated SS / MS body and partitioned grinding chamber deliver uniform flour with minimum heat build-up, making it ideal for commercial flour mills running long shifts.`
       : `The ${raw.hp} HP masala pulverizer with cyclone handles ${raw.capacity} of spices at a beater speed of 3840 RPM. Its double chamber and stainless contact zones keep volatile oils and aroma intact while the twin cyclone assembly discharges powder without dust in the workspace.`,
     capacity: raw.capacity,
     automation: isAtta ? attaBase.automation : "Semi-automatic",

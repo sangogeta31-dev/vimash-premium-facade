@@ -28,9 +28,11 @@ export type Database = {
           mobile: string
           odoo_error: string | null
           odoo_last_attempt_at: string | null
+          odoo_lead_id: string | null
           odoo_sync_status: Database["public"]["Enums"]["odoo_sync_status"]
           odoo_synced_at: string | null
           pincode: string | null
+          source_page: string | null
           state: string | null
           updated_at: string
         }
@@ -47,9 +49,11 @@ export type Database = {
           mobile: string
           odoo_error?: string | null
           odoo_last_attempt_at?: string | null
+          odoo_lead_id?: string | null
           odoo_sync_status?: Database["public"]["Enums"]["odoo_sync_status"]
           odoo_synced_at?: string | null
           pincode?: string | null
+          source_page?: string | null
           state?: string | null
           updated_at?: string
         }
@@ -66,9 +70,11 @@ export type Database = {
           mobile?: string
           odoo_error?: string | null
           odoo_last_attempt_at?: string | null
+          odoo_lead_id?: string | null
           odoo_sync_status?: Database["public"]["Enums"]["odoo_sync_status"]
           odoo_synced_at?: string | null
           pincode?: string | null
+          source_page?: string | null
           state?: string | null
           updated_at?: string
         }

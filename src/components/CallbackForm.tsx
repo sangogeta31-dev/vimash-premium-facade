@@ -136,6 +136,8 @@ export function CallbackForm({
     setBusy(true);
     setError(null);
 
+    const selectedHp = showHp ? (hp === "Not sure" ? "Not sure" : `${hp} HP`) : (machineHp ?? null);
+
     const { data, error: insertError } = await supabase
       .from("leads")
       .insert({
@@ -144,13 +146,16 @@ export function CallbackForm({
         city: parsed.data.city,
         state,
         pincode: parsed.data.pincode,
-        machine_name: machineName ?? null,
+        machine_name: machineName ?? "General enquiry",
         machine_slug: machineSlug ?? null,
-        machine_hp: showHp ? hp : null,
-        lead_source: source,
+        machine_hp: selectedHp,
+        lead_source: "Website",
+        source_page: source,
+        odoo_sync_status: "pending",
       })
       .select("id")
       .single();
+
 
     setBusy(false);
 

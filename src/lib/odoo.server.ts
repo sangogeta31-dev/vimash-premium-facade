@@ -1,10 +1,10 @@
-// Server-only Odoo CRM sync helper.
-// Secrets (ODOO_WEBHOOK_URL / ODOO_API_KEY) are read here and never leave the server.
+// Server-only Odoo CRM sync helper (Odoo JSON-2 API).
+// Secrets (ODOO_URL / ODOO_API_KEY) are read here and never leave the server.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 type SyncResult = { status: "synced" | "failed"; error?: string; odooLeadId?: string | null };
 
-type OdooPayload = {
+type LeadRecord = {
   customer_name: string | null;
   mobile: string;
   city: string | null;
@@ -16,56 +16,89 @@ type OdooPayload = {
   source_page: string | null;
 };
 
+/** Human-readable block for the Odoo lead description. */
+function buildDescription(lead: LeadRecord): string {
+  return [
+    ["Machine HP", lead.machine_hp],
+    ["State", lead.state],
+    ["Pincode", lead.pincode],
+    ["Lead Source", lead.lead_source],
+    ["Source Page", lead.source_page],
+  ]
+    .filter(([, value]) => value != null && String(value).trim() !== "")
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n");
+}
+
 /**
- * The Odoo webhook response format is not contractually defined, so we only pick up
- * an id when the body is JSON and carries an obvious identifier. Otherwise: null.
+ * JSON-2 `create` returns the new record id(s). The exact envelope is not
+ * contractually fixed, so accept a bare number, an array of ids, or an object.
  */
 function extractOdooLeadId(body: unknown): string | null {
-  if (typeof body === "number") return String(body);
+  if (typeof body === "number" && Number.isFinite(body)) return String(body);
+  if (typeof body === "string" && body.trim() !== "") return body.trim().slice(0, 128);
+  if (Array.isArray(body)) return body.length > 0 ? extractOdooLeadId(body[0]) : null;
   if (!body || typeof body !== "object") return null;
   const record = body as Record<string, unknown>;
-  const nested = record["result"] ?? record["data"] ?? record["lead"];
-  const candidateSource =
-    nested && typeof nested === "object" ? (nested as Record<string, unknown>) : record;
-  for (const key of ["id", "lead_id", "odoo_lead_id", "crm_lead_id"]) {
-    const value = candidateSource[key];
-    if (typeof value === "number" && Number.isFinite(value)) return String(value);
-    if (typeof value === "string" && value.trim() !== "") return value.trim().slice(0, 128);
+  const nested = record["result"] ?? record["data"] ?? record["ids"];
+  if (nested !== undefined && nested !== record) {
+    const fromNested = extractOdooLeadId(nested);
+    if (fromNested) return fromNested;
+  }
+  for (const key of ["id", "lead_id", "crm_lead_id"]) {
+    const value = record[key];
+    const extracted = extractOdooLeadId(value);
+    if (extracted) return extracted;
   }
   return null;
 }
 
-async function pushToOdoo(lead: OdooPayload): Promise<SyncResult> {
-  const url = process.env["ODOO_WEBHOOK_URL"];
-  if (!url) {
+async function pushToOdoo(lead: LeadRecord): Promise<SyncResult> {
+  const baseUrl = process.env["ODOO_URL"];
+  const apiKey = process.env["ODOO_API_KEY"];
+
+  if (!baseUrl || !apiKey) {
     return {
       status: "failed",
       error: "Odoo CRM is not connected yet — lead stored safely in the Lead Inbox.",
     };
   }
 
+  const endpoint = `${baseUrl.replace(/\/+$/, "")}/json/2/crm.lead/create`;
+
+  const values: Record<string, string> = {
+    name: lead.machine_name?.trim() || "Vimash Website Enquiry",
+    phone: lead.mobile,
+    description: buildDescription(lead),
+  };
+  if (lead.customer_name?.trim()) values["contact_name"] = lead.customer_name.trim();
+  if (lead.city?.trim()) values["city"] = lead.city.trim();
+
   try {
-    const response = await fetch(url, {
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        ...(process.env["ODOO_API_KEY"]
-          ? { authorization: `Bearer ${process.env["ODOO_API_KEY"]}` }
-          : {}),
+        authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify(lead),
+      body: JSON.stringify({ vals_list: [values] }),
     });
 
+    const text = await response.text();
+
     if (!response.ok) {
-      return { status: "failed", error: `Odoo responded with ${response.status}` };
+      // Trimmed so no upstream payload/credential detail floods the inbox column.
+      const detail = text.trim().slice(0, 300);
+      return {
+        status: "failed",
+        error: `Odoo responded with ${response.status}${detail ? `: ${detail}` : ""}`,
+      };
     }
 
     let odooLeadId: string | null = null;
     try {
-      const text = await response.text();
       if (text.trim() !== "") odooLeadId = extractOdooLeadId(JSON.parse(text));
     } catch {
-      // Non-JSON or empty body is a valid success response — just no lead id to store.
       odooLeadId = null;
     }
 

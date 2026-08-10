@@ -66,13 +66,16 @@ Server-only (present at **runtime**, never in the client bundle, never in git):
 SUPABASE_URL=https://<client-project>.supabase.co
 SUPABASE_PUBLISHABLE_KEY=<publishable/anon key>
 SUPABASE_SERVICE_ROLE_KEY=<service role key>
-ODOO_WEBHOOK_URL=<https endpoint that creates the Odoo lead>
-ODOO_WEBHOOK_SECRET=<optional shared secret sent as a header>
+ODOO_URL=https://attendease1.odoo.com
+ODOO_API_KEY=<Odoo API key used as a Bearer token>
 ```
 
-Without `ODOO_WEBHOOK_URL` the app still works: leads are stored and marked
-`failed` with the message "Odoo CRM is not connected yet", and can be retried
-from the Lead Inbox once the URL is set.
+Leads are pushed with the Odoo JSON-2 API
+(`POST ${ODOO_URL}/json/2/crm.lead/create`). Without `ODOO_URL` / `ODOO_API_KEY`
+the app still works: leads are stored and marked `failed` with the message
+"Odoo CRM is not connected yet", and can be retried from the Lead Inbox once
+the variables are set.
+
 
 ## 4. Moving to the client's own Supabase project
 
@@ -108,4 +111,4 @@ from the Lead Inbox once the URL is set.
 3. Sign in at `/auth` as an admin → lands on `/admin/leads`; Logout returns to `/auth`.
 4. Signed-out visit to `/admin/leads` redirects to `/auth`.
 5. `/sitemap.xml` and `/robots.txt` load.
-6. With `ODOO_WEBHOOK_URL` set, a new lead shows Odoo sync **Synced** and stores the CRM id.
+6. With `ODOO_URL` / `ODOO_API_KEY` set, a new lead shows Odoo sync **Synced** and stores the CRM id.

@@ -347,12 +347,12 @@ export function CallbackForm({
         >
           {busy ? (
             <Loader2 className="h-4 w-4 animate-spin" />
-          ) : sent ? (
+          ) : sent || duplicate ? (
             <Check className="h-4 w-4" />
           ) : (
             <PhoneCall className="h-4 w-4" />
           )}
-          {sent ? "Request received" : "Get a Callback"}
+          {sent ? "Request received" : duplicate ? "Already with our team" : "Get a Callback"}
         </button>
       </div>
       <p
@@ -366,10 +366,13 @@ export function CallbackForm({
         )}
       >
         {error ??
-          (machineName
-            ? `Enquiry for ${machineName} — our team will call you as soon as possible.`
-            : "Our team will call you as soon as possible.")}
+          (duplicate
+            ? "This enquiry has already been submitted. Our sales team already has your request."
+            : machineName
+              ? `Enquiry for ${machineName} — our team will call you as soon as possible.`
+              : "Our team will call you as soon as possible.")}
       </p>
+
     </form>
   );
 }

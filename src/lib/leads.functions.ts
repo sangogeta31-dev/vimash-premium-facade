@@ -55,10 +55,13 @@ export const submitLead = createServerFn({ method: "POST" })
 
     // Narrow by machine name case-insensitively in SQL, then compare the
     // normalised mobile in code (formatting varies too much for a SQL match).
+    // Only "synced" or "pending" leads count — a previously failed sync must
+    // never block the customer from enquiring again.
     const { data: existing, error: lookupError } = await supabaseAdmin
       .from("leads")
-      .select("id, mobile, machine_name")
+      .select("id, mobile, machine_name, odoo_sync_status")
       .eq("archived", false)
+      .in("odoo_sync_status", ["synced", "pending"])
       .ilike("machine_name", machineName);
 
     if (lookupError) return { status: "error" };
@@ -70,6 +73,7 @@ export const submitLead = createServerFn({ method: "POST" })
     );
 
     if (isDuplicate) return { status: "duplicate" };
+
 
     const leadId = crypto.randomUUID();
     const { error: insertError } = await supabaseAdmin.from("leads").insert({

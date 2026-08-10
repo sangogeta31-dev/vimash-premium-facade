@@ -2,10 +2,10 @@ import { PhoneCall, Check, Loader2, MapPin, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
-import { syncLead } from "@/lib/leads.functions";
+import { submitLead } from "@/lib/leads.functions";
 import { lookupPincode } from "@/lib/pincode.functions";
 import { products } from "@/data/products";
+
 
 const HP_OPTIONS = Array.from(new Set(products.map((p) => p.hp))).sort(
   (a, b) => Number(a) - Number(b),

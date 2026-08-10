@@ -111,4 +111,4 @@ the variables are set.
 3. Sign in at `/auth` as an admin → lands on `/admin/leads`; Logout returns to `/auth`.
 4. Signed-out visit to `/admin/leads` redirects to `/auth`.
 5. `/sitemap.xml` and `/robots.txt` load.
-6. With `ODOO_WEBHOOK_URL` set, a new lead shows Odoo sync **Synced** and stores the CRM id.
+6. With `ODOO_URL` / `ODOO_API_KEY` set, a new lead shows Odoo sync **Synced** and stores the CRM id.

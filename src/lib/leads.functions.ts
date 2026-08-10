@@ -45,7 +45,7 @@ function normaliseMachine(raw: string | null | undefined): string {
  * before anything is written to the database or pushed to Odoo.
  */
 export const submitLead = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => submitSchema.parse(data))
+  .validator((data: unknown) => submitSchema.parse(data))
   .handler(async ({ data }): Promise<SubmitLeadResult> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
@@ -102,7 +102,7 @@ export const submitLead = createServerFn({ method: "POST" })
 
 /** Called right after a website enquiry is stored. Public by design. */
 export const syncLead = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => idSchema.parse(data))
+  .validator((data: unknown) => idSchema.parse(data))
   .handler(async ({ data }) => {
     const { syncLeadById } = await import("@/lib/odoo.server");
     return syncLeadById(data.leadId);
@@ -111,7 +111,7 @@ export const syncLead = createServerFn({ method: "POST" })
 /** Admin-only manual retry from the Lead Inbox. */
 export const retryLeadSync = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) => idSchema.parse(data))
+  .validator((data: unknown) => idSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { data: isAdmin } = await context.supabase.rpc("has_role", {
       _user_id: context.userId,

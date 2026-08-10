@@ -58,6 +58,8 @@ export function CallbackForm({
   const [hpOpen, setHpOpen] = useState(false);
   const hpRef = useRef<HTMLDivElement | null>(null);
   const [sent, setSent] = useState(false);
+  const [duplicate, setDuplicate] = useState(false);
+
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dark = variant === "dark";

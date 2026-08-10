@@ -114,7 +114,7 @@ function Home() {
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Since 2003 · Ahmedabad, India
+              {"\u00a0"}AHMEDABAD, INDIA
             </span>
             <h1 className="mx-auto mt-6 max-w-4xl font-display text-[2.35rem] font-bold leading-[1.05] text-charcoal sm:text-6xl lg:text-7xl">
               Strong Machine,

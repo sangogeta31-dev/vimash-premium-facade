@@ -2,10 +2,10 @@ import { PhoneCall, Check, Loader2, MapPin, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
-import { syncLead } from "@/lib/leads.functions";
+import { submitLead } from "@/lib/leads.functions";
 import { lookupPincode } from "@/lib/pincode.functions";
 import { products } from "@/data/products";
+
 
 const HP_OPTIONS = Array.from(new Set(products.map((p) => p.hp))).sort(
   (a, b) => Number(a) - Number(b),
@@ -58,6 +58,8 @@ export function CallbackForm({
   const [hpOpen, setHpOpen] = useState(false);
   const hpRef = useRef<HTMLDivElement | null>(null);
   const [sent, setSent] = useState(false);
+  const [duplicate, setDuplicate] = useState(false);
+
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dark = variant === "dark";
@@ -118,6 +120,7 @@ export function CallbackForm({
 
   function resetError() {
     setSent(false);
+    setDuplicate(false);
     setError(null);
   }
 
@@ -135,33 +138,39 @@ export function CallbackForm({
 
     setBusy(true);
     setError(null);
+    setDuplicate(false);
 
     const selectedHp = showHp ? (hp === "Not sure" ? "Not sure" : `${hp} HP`) : (machineHp ?? null);
 
-    // The id is generated client-side so the insert never has to read the row
-    // back: anonymous visitors have no read access to leads (admin-only by RLS),
-    // and asking PostgREST to return the row would be rejected by that policy.
-    const leadId = crypto.randomUUID();
-
-    const { error: insertError } = await supabase.from("leads").insert({
-      id: leadId,
-      customer_name: parsed.data.name,
-      mobile: parsed.data.mobile,
-      city: parsed.data.city,
-      state,
-      pincode: parsed.data.pincode,
-      machine_name: machineName ?? "General enquiry",
-      machine_slug: machineSlug ?? null,
-      machine_hp: selectedHp,
-      lead_source: "Website",
-      source_page: source,
-      odoo_sync_status: "pending",
-    });
+    // Storing, duplicate detection and the Odoo push all happen server-side.
+    let result: { status: "created" | "duplicate" | "error" };
+    try {
+      result = await submitLead({
+        data: {
+          name: parsed.data.name,
+          mobile: parsed.data.mobile,
+          pincode: parsed.data.pincode,
+          city: parsed.data.city,
+          state,
+          machineName: machineName ?? null,
+          machineSlug: machineSlug ?? null,
+          machineHp: selectedHp,
+          sourcePage: source,
+        },
+      });
+    } catch {
+      result = { status: "error" };
+    }
 
     setBusy(false);
 
-    if (insertError) {
+    if (result.status === "error") {
       setError("Could not send your request. Please call us instead.");
+      return;
+    }
+
+    if (result.status === "duplicate") {
+      setDuplicate(true);
       return;
     }
 
@@ -173,10 +182,8 @@ export function CallbackForm({
     setCityTouched(false);
     setState(null);
     setHp("");
-    // Stored first, then pushed to Odoo — a sync failure never loses the lead.
-    void syncLead({ data: { leadId } }).catch(() => undefined);
-
   }
+
 
   return (
     <form onSubmit={handleSubmit} className={cn("w-full", className)}>
@@ -340,12 +347,12 @@ export function CallbackForm({
         >
           {busy ? (
             <Loader2 className="h-4 w-4 animate-spin" />
-          ) : sent ? (
+          ) : sent || duplicate ? (
             <Check className="h-4 w-4" />
           ) : (
             <PhoneCall className="h-4 w-4" />
           )}
-          {sent ? "Request received" : "Get a Callback"}
+          {sent ? "Request received" : duplicate ? "Already with our team" : "Get a Callback"}
         </button>
       </div>
       <p
@@ -359,10 +366,13 @@ export function CallbackForm({
         )}
       >
         {error ??
-          (machineName
-            ? `Enquiry for ${machineName} — our team will call you as soon as possible.`
-            : "Our team will call you as soon as possible.")}
+          (duplicate
+            ? "This enquiry has already been submitted. Our sales team already has your request."
+            : machineName
+              ? `Enquiry for ${machineName} — our team will call you as soon as possible.`
+              : "Our team will call you as soon as possible.")}
       </p>
+
     </form>
   );
 }

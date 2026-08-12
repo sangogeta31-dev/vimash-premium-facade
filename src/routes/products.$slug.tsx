@@ -139,19 +139,9 @@ function ProductDetail() {
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="relative rounded-[2rem] border border-border bg-card p-10">
-              <img
-                src={isAtta ? attaImg : masalaImg}
-                alt={productImageAlt(product)}
-                width={1408}
-                height={1056}
-                className="mx-auto w-full object-contain drop-shadow-[0_40px_60px_oklch(0.22_0.062_258/0.18)]"
-              />
-              <span className="absolute left-8 top-8 rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground">
-                {product.hp} HP
-              </span>
-            </div>
+            <ProductGallery images={getProductImages(product)} badge={`${product.hp} HP`} />
           </Reveal>
+
         </div>
       </section>
 

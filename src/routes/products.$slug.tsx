@@ -92,7 +92,7 @@ function ProductDetail() {
           style={{ background: "var(--gradient-accent)" }}
         />
         <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-10 pt-24 lg:grid-cols-2 lg:items-center lg:px-8 lg:pb-24 lg:pt-40">
-          <Reveal>
+          <Reveal className="order-2 lg:order-1">
             <Link
               to="/products"
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent"
@@ -141,7 +141,7 @@ function ProductDetail() {
             </div>
           </Reveal>
 
-          <Reveal delay={120}>
+          <Reveal className="order-1 lg:order-2" delay={120}>
             <ProductGallery images={getProductImages(product)} badge={`${product.hp} HP`} />
           </Reveal>
 

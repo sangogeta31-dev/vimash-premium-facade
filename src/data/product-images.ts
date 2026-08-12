@@ -1,6 +1,6 @@
 import attaImg from "@/assets/atta-pulverizer.jpg";
 import masalaImg from "@/assets/masala-pulverizer.jpg";
-import heroAsset from "@/assets/hero-machine.png.asset.json";
+import heroImg from "@/assets/hero-machine.png";
 import rotorImg from "@/assets/rotor-detail.jpg";
 import qcImg from "@/assets/quality-check.jpg";
 import type { Category, Product } from "./products";
@@ -21,13 +21,13 @@ export const productImagesBySlug: Record<string, ProductImage[]> = {
 const defaultsByCategory: Record<Category, ProductImage[]> = {
   atta: [
     { src: attaImg },
-    { src: heroAsset.url },
+    { src: heroImg },
     { src: rotorImg, alt: "Precision rotor and bearing detail" },
     { src: qcImg, alt: "Quality inspection before dispatch" },
   ],
   masala: [
     { src: masalaImg },
-    { src: heroAsset.url },
+    { src: heroImg },
     { src: rotorImg, alt: "Precision rotor and bearing detail" },
     { src: qcImg, alt: "Quality inspection before dispatch" },
   ],

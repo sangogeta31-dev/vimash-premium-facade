@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2, LogOut } from "lucide-react";
-import logoMark from "@/assets/vimash-mark.png.asset.json";
+import logoMark from "@/assets/vimash-mark.png";
 import { supabase } from "@/integrations/supabase/client";
 
 export function AdminHeader() {
@@ -51,7 +51,7 @@ export function AdminHeader() {
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-5 py-4 lg:px-8">
         <Link to="/admin/leads" className="flex items-center gap-3">
           <img
-            src={logoMark.url}
+            src={logoMark}
             alt="Vimash Manufacturing logo"
             width={512}
             height={512}

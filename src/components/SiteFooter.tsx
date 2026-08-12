@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { navLinks, site } from "@/data/site";
-import logoMark from "@/assets/vimash-mark.png.asset.json";
+import logoMark from "@/assets/vimash-mark.png";
 
 
 export function SiteFooter() {
@@ -12,7 +12,7 @@ export function SiteFooter() {
         <div className="lg:col-span-1">
           <div className="flex items-center gap-3">
             <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl bg-primary-foreground">
-              <img src={logoMark.url} alt="Vimash Manufacturing logo" className="h-9 w-9 object-contain" />
+              <img src={logoMark} alt="Vimash Manufacturing logo" className="h-9 w-9 object-contain" />
             </span>
             <span className="font-display text-lg font-bold">Vimash</span>
           </div>

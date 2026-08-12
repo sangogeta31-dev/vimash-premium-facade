@@ -3,6 +3,9 @@ import { ArrowLeft, ArrowUpRight, CheckCircle2, PhoneCall } from "lucide-react";
 import attaImg from "@/assets/atta-pulverizer.jpg";
 import masalaImg from "@/assets/masala-pulverizer.jpg";
 import { CallbackForm } from "@/components/CallbackForm";
+import { ProductGallery } from "@/components/ProductGallery";
+import { getProductImages } from "@/data/product-images";
+
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";

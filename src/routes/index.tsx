@@ -9,7 +9,7 @@ import {
   Wrench,
 } from "lucide-react";
 
-import heroAsset from "@/assets/hero-machine.png.asset.json";
+import heroImg from "@/assets/hero-machine.png";
 import attaImg from "@/assets/atta-pulverizer.jpg";
 import masalaImg from "@/assets/masala-pulverizer.jpg";
 import factoryImg from "@/assets/factory-floor.jpg";
@@ -143,7 +143,7 @@ function Home() {
 
           <Reveal delay={140}>
             <img
-              src={heroAsset.url}
+              src={heroImg}
               alt="Vimash commercial pulverizer machine with operator"
               width={1536}
               height={1024}

@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/data/site";
-import logoMark from "@/assets/vimash-mark.png.asset.json";
+import logoMark from "@/assets/vimash-mark.png";
 import { cn } from "@/lib/utils";
 
 
@@ -35,7 +35,7 @@ export function SiteNav() {
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 lg:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-3">
           <img
-            src={logoMark.url}
+            src={logoMark}
             alt="Vimash Manufacturing logo"
             width={512}
             height={512}

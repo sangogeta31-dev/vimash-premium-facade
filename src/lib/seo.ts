@@ -86,9 +86,10 @@ export function productSeoDescription(product: Product) {
   const line =
     product.category === "atta"
       ? "double chamber atta chakki pulverizer (commercial flour mill machine)"
-      : "masala pulverizer for spice grinding";
+      : "masala pulverizer for spice grinding, haldi grinding, mirchi grinding and dhania grinding";
   return `${product.hp} HP ${line} from ${site.shortName}. Grinding capacity ${product.capacity}, ${product.mainMotor} main motor, ${product.chamber.toLowerCase()}, ${product.material} body. See full specifications and request a callback.`;
 }
+
 
 /** Descriptive ALT text used for product photography. */
 export function productImageAlt(product: Product) {

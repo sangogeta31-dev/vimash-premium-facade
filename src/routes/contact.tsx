@@ -6,7 +6,7 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { getProduct } from "@/data/products";
 import { site } from "@/data/site";
-import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
+import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, mergeKeywords } from "@/lib/seo";
 
 /**
  * Only a product slug travels in the URL. The machine name/HP are looked up from
@@ -29,12 +29,12 @@ export const Route = createFileRoute("/contact")({
       description:
         "Talk to Vimash Manufacturing about commercial atta chakki machines and masala pulverizers. Share your material and target output for a sized recommendation and quotation.",
       path: "/contact",
-      keywords: [
+      keywords: mergeKeywords([
         "atta chakki machine price enquiry",
         "commercial atta chakki",
         "masala pulverizer enquiry",
         "flour mill machine",
-      ],
+      ], CORE_KEYWORDS),
     }),
     scripts: [
       {

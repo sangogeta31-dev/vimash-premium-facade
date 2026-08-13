@@ -38,11 +38,11 @@ const attaBase = {
 
 /** Default price placeholders — edit manually as needed. */
 const priceMap: Record<string, string> = {
-  "5": "₹1,25,000",
-  "7.5": "₹1,65,000",
-  "10": "₹2,10,000",
-  "15": "₹3,25,000",
-  "20": "₹4,50,000",
+  "5": "₹2,15,000",
+  "7.5": "₹3,35,000",
+  "10": "₹4,30,000",
+  "15": "₹5,15,000",
+  "20": "₹5,65,000",
 };
 
 type Raw = {

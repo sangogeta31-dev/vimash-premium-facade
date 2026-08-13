@@ -11,7 +11,7 @@ import { PageHero } from "@/components/PageHero";
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
-import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, mergeKeywords } from "@/lib/seo";
+import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS, mergeKeywords } from "@/lib/seo";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({

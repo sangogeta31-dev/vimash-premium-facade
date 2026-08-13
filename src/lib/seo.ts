@@ -22,6 +22,36 @@ export const CORE_KEYWORDS = [
   "atta flour mill",
 ];
 
+/** Brand keywords that identify every machine as Vimash made. */
+export const VIMASH_BRAND_KEYWORDS = [
+  "Vimash",
+  "Vimash atta chakki",
+  "Vimash atta chakki machine",
+  "Vimash flour mill",
+  "Vimash flour mill machine",
+  "Vimash commercial atta chakki",
+  "Vimash commercial atta chakki machine",
+  "Vimash commercial flour mill",
+  "Vimash commercial flour mill machine",
+  "Vimash double chamber pulverizer",
+  "Vimash double stage pulverizer",
+  "Vimash double chamber atta chakki pulverizer",
+  "Vimash atta pulverizer",
+  "Vimash atta flour mill",
+  "Vimash masala pulverizer",
+  "Vimash masala grinding machine",
+  "Vimash spice grinding machine",
+  "Vimash haldi grinding machine",
+  "Vimash mirchi grinding machine",
+  "Vimash dhania grinding machine",
+  "Vimash masala chakki",
+  "Vimash masala chakki machine",
+  "Vimash masala making machine",
+  "Vimash haldi grinder machine",
+  "Vimash mirchi grinder machine",
+  "Vimash masala grinding pulverizer",
+];
+
 /** Merge keyword lists, keeping order and removing duplicates. */
 export const mergeKeywords = (...lists: string[][]) =>
   Array.from(new Set(lists.flat().filter(Boolean)));

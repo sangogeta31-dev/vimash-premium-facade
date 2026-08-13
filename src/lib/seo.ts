@@ -86,6 +86,7 @@ export function productKeywords(product: Product): string[] {
           product.model,
         ],
         CORE_KEYWORDS,
+        VIMASH_BRAND_KEYWORDS,
       )
     : mergeKeywords(
         [
@@ -98,7 +99,7 @@ export function productKeywords(product: Product): string[] {
           product.model,
         ],
         masalaTerms,
-        CORE_KEYWORDS,
+        VIMASH_BRAND_KEYWORDS,
       );
 }
 

@@ -22,7 +22,7 @@ import { GrainsSpicesSection } from "@/components/home/GrainsSpicesSection";
 import { FeaturedMachineImage } from "@/components/home/FeaturedMachineImage";
 import { site } from "@/data/site";
 import { lightHeroBg } from "@/components/section-backgrounds";
-import { organizationJsonLd, pageMeta, CORE_KEYWORDS, mergeKeywords } from "@/lib/seo";
+import { organizationJsonLd, pageMeta, CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS, mergeKeywords } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/")({
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/")({
         "masala grinding machine",
         "spice grinding machine",
         "commercial masala pulverizer",
-      ], CORE_KEYWORDS),
+      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
     }),
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(organizationJsonLd()) },

@@ -6,7 +6,7 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { getProduct } from "@/data/products";
 import { site } from "@/data/site";
-import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, mergeKeywords } from "@/lib/seo";
+import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS, mergeKeywords } from "@/lib/seo";
 
 /**
  * Only a product slug travels in the URL. The machine name/HP are looked up from
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/contact")({
         "commercial atta chakki",
         "masala pulverizer enquiry",
         "flour mill machine",
-      ], CORE_KEYWORDS),
+      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
     }),
     scripts: [
       {

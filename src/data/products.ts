@@ -36,6 +36,15 @@ const attaBase = {
   chamberDefault: "Double Chamber",
 };
 
+/** Default price placeholders — edit manually as needed. */
+const priceMap: Record<string, string> = {
+  "5": "₹1,25,000",
+  "7.5": "₹1,65,000",
+  "10": "₹2,10,000",
+  "15": "₹3,25,000",
+  "20": "₹4,50,000",
+};
+
 type Raw = {
   hp: string;
   capacity: string;

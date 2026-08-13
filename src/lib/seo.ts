@@ -98,6 +98,13 @@ export function productJsonLd(product: Product) {
     brand: { "@type": "Brand", name: site.shortName },
     manufacturer: { "@type": "Organization", name: site.name },
     material: product.material,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "INR",
+      price: product.price.replace(/[^0-9]/g, "") || "0",
+      availability: "https://schema.org/InStock",
+      url: canonicalUrl(`/products/${product.slug}`),
+    },
     additionalProperty: [
       { name: "Grinding Capacity Per Hour", value: product.capacity },
       { name: "Main Motor", value: product.mainMotor },

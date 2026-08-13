@@ -37,7 +37,15 @@ const attaBase = {
 };
 
 /** Default price placeholders — edit manually as needed. */
-const priceMap: Record<string, string> = {
+const attaPriceMap: Record<string, string> = {
+  "5": "₹2,15,000",
+  "7.5": "₹3,35,000",
+  "10": "₹4,30,000",
+  "15": "₹5,15,000",
+  "20": "₹5,65,000",
+};
+
+const masalaPriceMap: Record<string, string> = {
   "5": "₹2,10,000",
   "7.5": "₹3,30,000",
   "10": "₹4,25,000",
@@ -160,7 +168,7 @@ function build(raw: Raw, category: Category): Product {
     machineWeight: raw.weight ?? "—",
     airLockWeight: raw.airLock ?? "—",
     beaterRpm: isAtta ? undefined : "3840 RPM",
-    price: priceMap[raw.hp] ?? "On request",
+    price: isAtta ? attaPriceMap[raw.hp] ?? "On request" : masalaPriceMap[raw.hp] ?? "On request",
     features: isAtta ? attaFeatures : masalaFeatures,
     applications: isAtta ? attaApplications : masalaApplications,
   };

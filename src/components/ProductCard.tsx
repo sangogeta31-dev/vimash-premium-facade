@@ -42,6 +42,9 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
           <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Model {product.model}
           </p>
+          <p className="mt-2 font-display text-lg font-bold text-accent">
+            {product.price}
+          </p>
 
           <dl className="mt-5 space-y-3 border-t border-border pt-5 text-sm">
             <SpecRow icon={<Gauge className="h-4 w-4" />} label="Capacity" value={product.capacity} />

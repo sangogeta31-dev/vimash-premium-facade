@@ -25,6 +25,7 @@ export type Product = {
   machineWeight: string;
   airLockWeight: string;
   beaterRpm?: string;
+  price: string;
   features: string[];
   applications: string[];
 };

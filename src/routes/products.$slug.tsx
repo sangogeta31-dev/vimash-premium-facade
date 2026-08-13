@@ -114,6 +114,9 @@ function ProductDetail() {
             <h1 className="mt-4 font-display text-4xl font-bold leading-[1.08] text-charcoal sm:text-5xl">
               {product.name}
             </h1>
+            <p className="mt-3 font-display text-2xl font-bold text-accent sm:text-3xl">
+              {product.price}
+            </p>
             <p className="mt-3 text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">
               Model {product.model}
             </p>

@@ -160,6 +160,7 @@ function build(raw: Raw, category: Category): Product {
     machineWeight: raw.weight ?? "—",
     airLockWeight: raw.airLock ?? "—",
     beaterRpm: isAtta ? undefined : "3840 RPM",
+    price: priceMap[raw.hp] ?? "On request",
     features: isAtta ? attaFeatures : masalaFeatures,
     applications: isAtta ? attaApplications : masalaApplications,
   };

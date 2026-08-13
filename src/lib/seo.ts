@@ -29,6 +29,23 @@ export const mergeKeywords = (...lists: string[][]) =>
 /** Search terms that match each product line. Kept short and natural. */
 export function productKeywords(product: Product): string[] {
   const hp = `${product.hp} HP`;
+  const masalaTerms = [
+    "masala grinding machine",
+    "haldi grinding machine",
+    "mirchi grinding machine",
+    "spice grinding machine",
+    "dhania grinding machine",
+    "haldi grinder machine",
+    "mirchi grinder machine",
+    "masala making machine",
+    "masala chakki machine",
+    "masala chakki",
+    "masala pulverizer",
+    "mirchi pulverizer machine",
+    "haldi grinding pulverizer",
+    "mirchi grinding pulverizer",
+    "masala grinding pulverizer",
+  ];
   return product.category === "atta"
     ? mergeKeywords(
         [
@@ -50,9 +67,11 @@ export function productKeywords(product: Product): string[] {
           "double stage pulverizer",
           product.model,
         ],
+        masalaTerms,
         CORE_KEYWORDS,
       );
 }
+
 
 
 export function productSeoTitle(product: Product) {

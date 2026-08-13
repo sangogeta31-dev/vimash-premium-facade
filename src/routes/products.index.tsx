@@ -7,7 +7,7 @@ import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { products, type Category } from "@/data/products";
 import { cn } from "@/lib/utils";
-import { breadcrumbJsonLd, canonicalUrl, pageMeta } from "@/lib/seo";
+import { breadcrumbJsonLd, canonicalUrl, pageMeta, CORE_KEYWORDS, mergeKeywords } from "@/lib/seo";
 
 export const Route = createFileRoute("/products/")({
   head: () => ({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/products/")({
       description:
         "Browse Vimash commercial atta chakki pulverizers (flour mill machines) and masala grinding machines in 5, 7.5, 10, 15 and 20 HP with full capacity, motor and dimension specifications.",
       path: "/products",
-      keywords: [
+      keywords: mergeKeywords([
         "atta chakki machine",
         "commercial atta chakki",
         "atta pulverizer",
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/products/")({
         "masala grinding machine",
         "spice grinding machine",
         "commercial masala pulverizer",
-      ],
+      ], CORE_KEYWORDS),
     }),
     scripts: [
       {

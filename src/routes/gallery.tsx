@@ -11,7 +11,7 @@ import { PageHero } from "@/components/PageHero";
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
-import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
+import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, mergeKeywords } from "@/lib/seo";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/gallery")({
       description:
         "Photographs of Vimash commercial atta chakki pulverizers and masala grinding machines, the Ahmedabad manufacturing floor, rotor components and quality inspection.",
       path: "/gallery",
-      keywords: ["atta chakki machine photos", "masala pulverizer machine", "flour mill machine"],
+      keywords: mergeKeywords(["atta chakki machine photos", "masala pulverizer machine", "flour mill machine"], CORE_KEYWORDS),
     }),
     scripts: [
       {

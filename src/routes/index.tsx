@@ -22,7 +22,7 @@ import { GrainsSpicesSection } from "@/components/home/GrainsSpicesSection";
 import { FeaturedMachineImage } from "@/components/home/FeaturedMachineImage";
 import { site } from "@/data/site";
 import { lightHeroBg } from "@/components/section-backgrounds";
-import { organizationJsonLd, pageMeta } from "@/lib/seo";
+import { organizationJsonLd, pageMeta, CORE_KEYWORDS, mergeKeywords } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/")({
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/")({
       description:
         "Vimash Manufacturing builds commercial atta chakki pulverizers (flour mill machines) and masala pulverizers from 5 HP to 20 HP for grinding businesses across India.",
       path: "/",
-      keywords: [
+      keywords: mergeKeywords([
         "atta chakki",
         "atta chakki machine",
         "commercial atta chakki",
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/")({
         "masala grinding machine",
         "spice grinding machine",
         "commercial masala pulverizer",
-      ],
+      ], CORE_KEYWORDS),
     }),
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(organizationJsonLd()) },

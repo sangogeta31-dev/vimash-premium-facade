@@ -19,7 +19,7 @@ import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { PageHero } from "@/components/PageHero";
-import { breadcrumbJsonLd, pageMeta } from "@/lib/seo";
+import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, mergeKeywords } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -28,12 +28,12 @@ export const Route = createFileRoute("/about")({
       description:
         "Vimash Manufacturing Pvt. Ltd. makes commercial atta chakki pulverizers and masala grinding machines in Ahmedabad. Own factory, tested machines, PAN India delivery and support.",
       path: "/about",
-      keywords: [
+      keywords: mergeKeywords([
         "atta chakki machine manufacturer",
         "commercial atta chakki",
         "masala pulverizer manufacturer",
         "spice grinding machine",
-      ],
+      ], CORE_KEYWORDS),
     }),
     scripts: [
       {

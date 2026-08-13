@@ -34,7 +34,7 @@ export const Route = createFileRoute("/contact")({
         "commercial atta chakki",
         "masala pulverizer enquiry",
         "flour mill machine",
-      ], CORE_KEYWORDS),
+      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
     }),
     scripts: [
       {

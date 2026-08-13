@@ -20,7 +20,7 @@ export const Route = createFileRoute("/gallery")({
       description:
         "Photographs of Vimash commercial atta chakki pulverizers and masala grinding machines, the Ahmedabad manufacturing floor, rotor components and quality inspection.",
       path: "/gallery",
-      keywords: mergeKeywords(["atta chakki machine photos", "masala pulverizer machine", "flour mill machine"], CORE_KEYWORDS),
+      keywords: mergeKeywords(["atta chakki machine photos", "masala pulverizer machine", "flour mill machine"], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
     }),
     scripts: [
       {

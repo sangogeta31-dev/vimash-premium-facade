@@ -25,7 +25,7 @@ export const Route = createFileRoute("/products/")({
         "masala grinding machine",
         "spice grinding machine",
         "commercial masala pulverizer",
-      ], CORE_KEYWORDS),
+      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
     }),
     scripts: [
       {

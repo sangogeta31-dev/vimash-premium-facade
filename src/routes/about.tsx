@@ -33,7 +33,7 @@ export const Route = createFileRoute("/about")({
         "commercial atta chakki",
         "masala pulverizer manufacturer",
         "spice grinding machine",
-      ], CORE_KEYWORDS),
+      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
     }),
     scripts: [
       {

@@ -6,26 +6,54 @@ export const BASE_URL = "https://vimash-premium-facade.lovable.app";
 export const canonicalUrl = (path: string) =>
   `${BASE_URL}${path === "/" ? "/" : path.replace(/\/$/, "")}`;
 
+/** Core search terms targeted across the whole site. */
+export const CORE_KEYWORDS = [
+  "flour mill",
+  "commercial flour mill",
+  "commercial atta chakki",
+  "atta chakki",
+  "double chamber pulverizer",
+  "double stage pulverizer",
+  "double chamber atta chakki pulverizer",
+  "commercial atta chakki machine",
+  "commercial flour mill machine",
+  "atta chakki machine",
+  "flour mill machine",
+  "atta flour mill",
+];
+
+/** Merge keyword lists, keeping order and removing duplicates. */
+export const mergeKeywords = (...lists: string[][]) =>
+  Array.from(new Set(lists.flat().filter(Boolean)));
+
 /** Search terms that match each product line. Kept short and natural. */
 export function productKeywords(product: Product): string[] {
   const hp = `${product.hp} HP`;
   return product.category === "atta"
-    ? [
-        `${hp} atta chakki machine`,
-        "atta chakki",
-        "commercial atta chakki",
-        "atta pulverizer",
-        "flour mill machine",
-        product.model,
-      ]
-    : [
-        `${hp} masala pulverizer`,
-        "masala grinding machine",
-        "spice grinding machine",
-        "commercial masala pulverizer",
-        product.model,
-      ];
+    ? mergeKeywords(
+        [
+          `${hp} atta chakki machine`,
+          `${hp} commercial flour mill machine`,
+          `${hp} double chamber atta chakki pulverizer`,
+          "atta pulverizer",
+          product.model,
+        ],
+        CORE_KEYWORDS,
+      )
+    : mergeKeywords(
+        [
+          `${hp} masala pulverizer`,
+          "masala grinding machine",
+          "spice grinding machine",
+          "commercial masala pulverizer",
+          "double chamber pulverizer",
+          "double stage pulverizer",
+          product.model,
+        ],
+        CORE_KEYWORDS,
+      );
 }
+
 
 export function productSeoTitle(product: Product) {
   const line =

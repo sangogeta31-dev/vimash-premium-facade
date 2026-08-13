@@ -92,14 +92,23 @@ function ProductDetail() {
           style={{ background: "var(--gradient-accent)" }}
         />
         <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-10 pt-24 lg:grid-cols-2 lg:items-center lg:px-8 lg:pb-24 lg:pt-40">
-          <Reveal className="order-2 lg:order-1">
+          <div className="order-1 lg:hidden">
             <Link
               to="/products"
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> All machines
             </Link>
-            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+          </div>
+
+          <Reveal className="order-3 lg:order-1">
+            <Link
+              to="/products"
+              className="mb-6 hidden lg:inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" /> All machines
+            </Link>
+            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.22em] text-accent lg:mt-0">
               {isAtta ? "Commercial Atta Pulverizer" : "Commercial Masala Pulverizer"}
             </p>
             <h1 className="mt-4 font-display text-4xl font-bold leading-[1.08] text-charcoal sm:text-5xl">
@@ -141,7 +150,7 @@ function ProductDetail() {
             </div>
           </Reveal>
 
-          <Reveal className="order-1 lg:order-2" delay={120}>
+          <Reveal className="order-2 lg:order-2" delay={120}>
             <ProductGallery images={getProductImages(product)} badge={`${product.hp} HP`} />
           </Reveal>
 

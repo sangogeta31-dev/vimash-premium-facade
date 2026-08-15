@@ -16,6 +16,8 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { retryLeadSync } from "@/lib/leads.functions";
 import { cn } from "@/lib/utils";
+import { LeadDateRange, defaultLeadRange, type LeadRange } from "@/components/admin/LeadDateRange";
+
 
 export const Route = createFileRoute("/admin/leads")({
   head: () => ({

@@ -57,6 +57,15 @@ type Lead = {
 
 type Filter = "all" | "synced" | "unsynced" | "archived";
 
+type RangeKey = "7" | "30" | "90" | "custom";
+
+const RANGE_OPTIONS: { key: RangeKey; label: string }[] = [
+  { key: "7", label: "Last 7 days" },
+  { key: "30", label: "Last 30 days" },
+  { key: "90", label: "Last 90 days" },
+  { key: "custom", label: "Custom range" },
+];
+
 function StatusBadge({ status }: { status: Lead["odoo_sync_status"] }) {
   const map = {
     synced: { label: "Synced", icon: CheckCircle2, cls: "bg-primary/10 text-primary" },
@@ -83,6 +92,9 @@ function LeadInboxPage() {
   const [authState, setAuthState] = useState<"loading" | "in" | "out">("loading");
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
+  const [range, setRange] = useState<RangeKey>("30");
+  const [customFrom, setCustomFrom] = useState("");
+  const [customTo, setCustomTo] = useState("");
   const [busyId, setBusyId] = useState<string | null>(null);
   const [confirmLead, setConfirmLead] = useState<{ lead: Lead; mode: "bin" | "permanent" } | null>(
     null,

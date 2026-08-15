@@ -67,7 +67,7 @@ export function SiteNav() {
                 </Link>
 
                 <div className="invisible absolute left-1/2 top-full z-50 w-[min(46rem,calc(100vw-3rem))] -translate-x-1/2 translate-y-2 pt-5 opacity-0 transition-all duration-300 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100">
-                  <div className="glass-card overflow-hidden rounded-2xl bg-background/95 p-6 shadow-[var(--shadow-deep)]">
+                  <div className="overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-deep)]">
                     <div className="grid gap-8 sm:grid-cols-2">
                       {(["atta", "masala"] as const).map((cat) => (
                         <div key={cat}>

@@ -241,7 +241,56 @@ function LeadInboxPage() {
 
       </div>
 
-      <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="mt-8 rounded-3xl border border-border bg-card p-4 sm:p-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap gap-2">
+            {RANGE_OPTIONS.map((r) => (
+              <button
+                key={r.key}
+                onClick={() => setRange(r.key)}
+                className={cn(
+                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                  range === r.key
+                    ? "bg-accent text-accent-foreground"
+                    : "border border-border text-muted-foreground hover:text-charcoal",
+                )}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+          <p className="text-sm font-semibold text-charcoal">
+            Showing <span className="text-primary">{visible.length}</span>{" "}
+            {visible.length === 1 ? "lead" : "leads"}
+          </p>
+        </div>
+        {range === "custom" && (
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              From
+              <input
+                type="date"
+                value={customFrom}
+                max={customTo || undefined}
+                onChange={(e) => setCustomFrom(e.target.value)}
+                className="rounded-full border border-border bg-card px-4 py-2.5 text-sm font-normal normal-case tracking-normal text-charcoal outline-none focus:border-accent"
+              />
+            </label>
+            <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              To
+              <input
+                type="date"
+                value={customTo}
+                min={customFrom || undefined}
+                onChange={(e) => setCustomTo(e.target.value)}
+                className="rounded-full border border-border bg-card px-4 py-2.5 text-sm font-normal normal-case tracking-normal text-charcoal outline-none focus:border-accent"
+              />
+            </label>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="relative w-full lg:max-w-sm">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input

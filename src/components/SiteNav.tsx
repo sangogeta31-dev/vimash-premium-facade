@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/data/site";
+import { products } from "@/data/products";
 import logoMark from "@/assets/vimash-mark.png";
 import { cn } from "@/lib/utils";
 
@@ -52,18 +53,71 @@ export function SiteNav() {
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className="group relative text-sm font-medium text-charcoal/75 transition-colors hover:text-primary"
-              activeProps={{ className: "text-primary" }}
-              activeOptions={{ exact: link.to === "/" }}
-            >
-              {link.label}
-              <span className="absolute -bottom-1.5 left-0 h-0.5 w-full origin-right scale-x-0 bg-accent transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100" />
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.to === "/products" ? (
+              <div key={link.to} className="group/mega relative">
+                <Link
+                  to={link.to}
+                  className="group relative inline-flex items-center gap-1.5 text-sm font-medium text-charcoal/75 transition-colors hover:text-primary"
+                  activeProps={{ className: "text-primary" }}
+                >
+                  {link.label}
+                  <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover/mega:rotate-180" />
+                  <span className="absolute -bottom-1.5 left-0 h-0.5 w-full origin-right scale-x-0 bg-accent transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100" />
+                </Link>
+
+                <div className="invisible absolute left-1/2 top-full z-50 w-[min(46rem,calc(100vw-3rem))] -translate-x-1/2 translate-y-2 pt-5 opacity-0 transition-all duration-300 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100">
+                  <div className="glass-card overflow-hidden rounded-2xl bg-background/95 p-6 shadow-[var(--shadow-deep)]">
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      {(["atta", "masala"] as const).map((cat) => (
+                        <div key={cat}>
+                          <h4 className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-accent">
+                            {cat === "atta" ? "Atta Chakki Pulverizers" : "Masala Grinder Machines"}
+                          </h4>
+                          <ul className="mt-4 space-y-1">
+                            {products
+                              .filter((p) => p.category === cat)
+                              .map((p) => (
+                                <li key={p.slug}>
+                                  <Link
+                                    to="/products/$slug"
+                                    params={{ slug: p.slug }}
+                                    className="block rounded-lg px-3 py-2 text-sm text-charcoal/80 transition-colors hover:bg-secondary hover:text-primary"
+                                  >
+                                    <span className="font-medium">{p.name}</span>
+                                    <span className="ml-2 text-xs text-muted-foreground">{p.hp} HP</span>
+                                  </Link>
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-5 border-t border-border pt-4">
+                      <Link
+                        to="/products"
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent"
+                      >
+                        View all machines
+                        <ChevronDown className="h-4 w-4 -rotate-90" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="group relative text-sm font-medium text-charcoal/75 transition-colors hover:text-primary"
+                activeProps={{ className: "text-primary" }}
+                activeOptions={{ exact: link.to === "/" }}
+              >
+                {link.label}
+                <span className="absolute -bottom-1.5 left-0 h-0.5 w-full origin-right scale-x-0 bg-accent transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100" />
+              </Link>
+            ),
+          )}
           <a
             href={site.phoneHref}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-0.5"

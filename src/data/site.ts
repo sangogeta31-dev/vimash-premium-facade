@@ -9,6 +9,12 @@ export const site = {
   address:
     "Plot No. 01, Panchamrut Industrial Park-04, Vanch Dhamatvan Road, Dhamatvan, Ahmedabad, Gujarat 382435, India",
   hours: "Mon – Sat · 9:30 AM to 7:00 PM IST",
+  /** Edit these social links as needed. */
+  social: {
+    facebook: "https://www.facebook.com/",
+    instagram: "https://www.instagram.com/",
+    youtube: "https://www.youtube.com/",
+  },
 };
 
 export const navLinks = [

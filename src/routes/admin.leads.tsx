@@ -84,9 +84,8 @@ function LeadInboxPage() {
   const [authState, setAuthState] = useState<"loading" | "in" | "out">("loading");
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
-  const [range, setRange] = useState<RangeKey>("30");
-  const [customFrom, setCustomFrom] = useState("");
-  const [customTo, setCustomTo] = useState("");
+  const [range, setRange] = useState<LeadRange>(() => defaultLeadRange());
+
   const [busyId, setBusyId] = useState<string | null>(null);
   const [confirmLead, setConfirmLead] = useState<{ lead: Lead; mode: "bin" | "permanent" } | null>(
     null,

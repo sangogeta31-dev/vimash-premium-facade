@@ -16,6 +16,8 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { retryLeadSync } from "@/lib/leads.functions";
 import { cn } from "@/lib/utils";
+import { LeadDateRange, defaultLeadRange, type LeadRange } from "@/components/admin/LeadDateRange";
+
 
 export const Route = createFileRoute("/admin/leads")({
   head: () => ({
@@ -57,15 +59,6 @@ type Lead = {
 
 type Filter = "all" | "synced" | "unsynced" | "archived";
 
-type RangeKey = "today" | "7" | "30" | "90" | "custom";
-
-const RANGE_OPTIONS: { key: RangeKey; label: string }[] = [
-  { key: "today", label: "Today" },
-  { key: "7", label: "Last 7 days" },
-  { key: "30", label: "Last 30 days" },
-  { key: "90", label: "Last 90 days" },
-  { key: "custom", label: "Custom range" },
-];
 
 function StatusBadge({ status }: { status: Lead["odoo_sync_status"] }) {
   const map = {
@@ -93,9 +86,8 @@ function LeadInboxPage() {
   const [authState, setAuthState] = useState<"loading" | "in" | "out">("loading");
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
-  const [range, setRange] = useState<RangeKey>("30");
-  const [customFrom, setCustomFrom] = useState("");
-  const [customTo, setCustomTo] = useState("");
+  const [range, setRange] = useState<LeadRange>(() => defaultLeadRange());
+
   const [busyId, setBusyId] = useState<string | null>(null);
   const [confirmLead, setConfirmLead] = useState<{ lead: Lead; mode: "bin" | "permanent" } | null>(
     null,
@@ -134,25 +126,15 @@ function LeadInboxPage() {
     authState === "in" && !leadsQuery.isLoading && !leadsQuery.error && leads.length === 0;
 
   const dated = useMemo(() => {
-    let from: number | null = null;
-    let to: number | null = null;
-    if (range === "custom") {
-      if (customFrom) from = new Date(`${customFrom}T00:00:00`).getTime();
-      if (customTo) to = new Date(`${customTo}T23:59:59.999`).getTime();
-    } else if (range === "today") {
-      const now = new Date();
-      from = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-      to = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime();
-    } else {
-      from = Date.now() - Number(range) * 24 * 60 * 60 * 1000;
-    }
+    const { from, to } = range;
     return leads.filter((lead) => {
       const t = new Date(lead.created_at).getTime();
       if (from !== null && t < from) return false;
       if (to !== null && t > to) return false;
       return true;
     });
-  }, [leads, range, customFrom, customTo]);
+  }, [leads, range]);
+
 
   const counts = useMemo(
     () => ({
@@ -234,66 +216,28 @@ function LeadInboxPage() {
             nothing is ever lost or deleted.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:w-auto">
+          <LeadDateRange value={range} onChange={setRange} />
           <button
             onClick={() => leadsQuery.refetch()}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm font-medium text-charcoal transition-colors hover:bg-secondary"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm font-medium text-charcoal transition-colors hover:bg-secondary"
           >
             <RefreshCw className={cn("h-4 w-4", leadsQuery.isFetching && "animate-spin")} />
             Refresh
           </button>
         </div>
 
+
       </div>
 
-      <div className="mt-8 rounded-3xl border border-border bg-card p-4 sm:p-5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap gap-2">
-            {RANGE_OPTIONS.map((r) => (
-              <button
-                key={r.key}
-                onClick={() => setRange(r.key)}
-                className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                  range === r.key
-                    ? "bg-accent text-accent-foreground"
-                    : "border border-border text-muted-foreground hover:text-charcoal",
-                )}
-              >
-                {r.label}
-              </button>
-            ))}
-          </div>
-          <p className="text-sm font-semibold text-charcoal">
-            Showing <span className="text-primary">{visible.length}</span>{" "}
-            {visible.length === 1 ? "lead" : "leads"}
-          </p>
-        </div>
-        {range === "custom" && (
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              From
-              <input
-                type="date"
-                value={customFrom}
-                max={customTo || undefined}
-                onChange={(e) => setCustomFrom(e.target.value)}
-                className="rounded-full border border-border bg-card px-4 py-2.5 text-sm font-normal normal-case tracking-normal text-charcoal outline-none focus:border-accent"
-              />
-            </label>
-            <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              To
-              <input
-                type="date"
-                value={customTo}
-                min={customFrom || undefined}
-                onChange={(e) => setCustomTo(e.target.value)}
-                className="rounded-full border border-border bg-card px-4 py-2.5 text-sm font-normal normal-case tracking-normal text-charcoal outline-none focus:border-accent"
-              />
-            </label>
-          </div>
-        )}
+      <div className="mt-6 rounded-3xl border border-border bg-card px-4 py-3 sm:px-5">
+        <p className="text-sm font-semibold text-charcoal">
+          Showing <span className="text-primary">{visible.length}</span>{" "}
+          {visible.length === 1 ? "lead" : "leads"}
+          <span className="ml-1 font-normal text-muted-foreground">· {range.label}</span>
+        </p>
       </div>
+
 
       <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="relative w-full lg:max-w-sm">

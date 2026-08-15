@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Facebook, Instagram, Youtube } from "lucide-react";
 import { navLinks, site } from "@/data/site";
 import logoMark from "@/assets/vimash-mark.png";
 
@@ -20,6 +20,25 @@ export function SiteFooter() {
           <p className="mt-5 text-sm leading-relaxed text-primary-foreground/65">
             {site.tagline}
           </p>
+
+          <div className="mt-6 flex items-center gap-3">
+            {[
+              { href: site.social.facebook, label: "Facebook", Icon: Facebook },
+              { href: site.social.instagram, label: "Instagram", Icon: Instagram },
+              { href: site.social.youtube, label: "YouTube", Icon: Youtube },
+            ].map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Vimash Manufacturing on ${label}`}
+                className="grid h-10 w-10 place-items-center rounded-xl border border-primary-foreground/15 bg-primary-foreground/5 text-primary-foreground/75 transition-colors hover:border-accent hover:text-accent"
+              >
+                <Icon className="h-4.5 w-4.5" />
+              </a>
+            ))}
+          </div>
         </div>
 
         <div>

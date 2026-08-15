@@ -57,6 +57,15 @@ type Lead = {
 
 type Filter = "all" | "synced" | "unsynced" | "archived";
 
+type RangeKey = "7" | "30" | "90" | "custom";
+
+const RANGE_OPTIONS: { key: RangeKey; label: string }[] = [
+  { key: "7", label: "Last 7 days" },
+  { key: "30", label: "Last 30 days" },
+  { key: "90", label: "Last 90 days" },
+  { key: "custom", label: "Custom range" },
+];
+
 function StatusBadge({ status }: { status: Lead["odoo_sync_status"] }) {
   const map = {
     synced: { label: "Synced", icon: CheckCircle2, cls: "bg-primary/10 text-primary" },
@@ -83,6 +92,9 @@ function LeadInboxPage() {
   const [authState, setAuthState] = useState<"loading" | "in" | "out">("loading");
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
+  const [range, setRange] = useState<RangeKey>("30");
+  const [customFrom, setCustomFrom] = useState("");
+  const [customTo, setCustomTo] = useState("");
   const [busyId, setBusyId] = useState<string | null>(null);
   const [confirmLead, setConfirmLead] = useState<{ lead: Lead; mode: "bin" | "permanent" } | null>(
     null,
@@ -120,19 +132,36 @@ function LeadInboxPage() {
   const isForbidden =
     authState === "in" && !leadsQuery.isLoading && !leadsQuery.error && leads.length === 0;
 
+  const dated = useMemo(() => {
+    let from: number | null = null;
+    let to: number | null = null;
+    if (range === "custom") {
+      if (customFrom) from = new Date(`${customFrom}T00:00:00`).getTime();
+      if (customTo) to = new Date(`${customTo}T23:59:59.999`).getTime();
+    } else {
+      from = Date.now() - Number(range) * 24 * 60 * 60 * 1000;
+    }
+    return leads.filter((lead) => {
+      const t = new Date(lead.created_at).getTime();
+      if (from !== null && t < from) return false;
+      if (to !== null && t > to) return false;
+      return true;
+    });
+  }, [leads, range, customFrom, customTo]);
+
   const counts = useMemo(
     () => ({
-      all: leads.filter((l) => !l.archived).length,
-      synced: leads.filter((l) => !l.archived && l.odoo_sync_status === "synced").length,
-      unsynced: leads.filter((l) => !l.archived && l.odoo_sync_status !== "synced").length,
-      archived: leads.filter((l) => l.archived).length,
+      all: dated.filter((l) => !l.archived).length,
+      synced: dated.filter((l) => !l.archived && l.odoo_sync_status === "synced").length,
+      unsynced: dated.filter((l) => !l.archived && l.odoo_sync_status !== "synced").length,
+      archived: dated.filter((l) => l.archived).length,
     }),
-    [leads],
+    [dated],
   );
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return leads.filter((lead) => {
+    return dated.filter((lead) => {
       if (filter === "archived" ? !lead.archived : lead.archived) return false;
       if (filter === "synced" && lead.odoo_sync_status !== "synced") return false;
       if (filter === "unsynced" && lead.odoo_sync_status === "synced") return false;
@@ -141,7 +170,7 @@ function LeadInboxPage() {
         .filter(Boolean)
         .some((field) => field!.toLowerCase().includes(q));
     });
-  }, [leads, query, filter]);
+  }, [dated, query, filter]);
 
   async function onRetry(id: string) {
     setBusyId(id);
@@ -212,7 +241,56 @@ function LeadInboxPage() {
 
       </div>
 
-      <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="mt-8 rounded-3xl border border-border bg-card p-4 sm:p-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap gap-2">
+            {RANGE_OPTIONS.map((r) => (
+              <button
+                key={r.key}
+                onClick={() => setRange(r.key)}
+                className={cn(
+                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                  range === r.key
+                    ? "bg-accent text-accent-foreground"
+                    : "border border-border text-muted-foreground hover:text-charcoal",
+                )}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+          <p className="text-sm font-semibold text-charcoal">
+            Showing <span className="text-primary">{visible.length}</span>{" "}
+            {visible.length === 1 ? "lead" : "leads"}
+          </p>
+        </div>
+        {range === "custom" && (
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              From
+              <input
+                type="date"
+                value={customFrom}
+                max={customTo || undefined}
+                onChange={(e) => setCustomFrom(e.target.value)}
+                className="rounded-full border border-border bg-card px-4 py-2.5 text-sm font-normal normal-case tracking-normal text-charcoal outline-none focus:border-accent"
+              />
+            </label>
+            <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              To
+              <input
+                type="date"
+                value={customTo}
+                min={customFrom || undefined}
+                onChange={(e) => setCustomTo(e.target.value)}
+                className="rounded-full border border-border bg-card px-4 py-2.5 text-sm font-normal normal-case tracking-normal text-charcoal outline-none focus:border-accent"
+              />
+            </label>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="relative w-full lg:max-w-sm">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input

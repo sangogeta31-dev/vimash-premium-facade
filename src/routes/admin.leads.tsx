@@ -132,19 +132,36 @@ function LeadInboxPage() {
   const isForbidden =
     authState === "in" && !leadsQuery.isLoading && !leadsQuery.error && leads.length === 0;
 
+  const dated = useMemo(() => {
+    let from: number | null = null;
+    let to: number | null = null;
+    if (range === "custom") {
+      if (customFrom) from = new Date(`${customFrom}T00:00:00`).getTime();
+      if (customTo) to = new Date(`${customTo}T23:59:59.999`).getTime();
+    } else {
+      from = Date.now() - Number(range) * 24 * 60 * 60 * 1000;
+    }
+    return leads.filter((lead) => {
+      const t = new Date(lead.created_at).getTime();
+      if (from !== null && t < from) return false;
+      if (to !== null && t > to) return false;
+      return true;
+    });
+  }, [leads, range, customFrom, customTo]);
+
   const counts = useMemo(
     () => ({
-      all: leads.filter((l) => !l.archived).length,
-      synced: leads.filter((l) => !l.archived && l.odoo_sync_status === "synced").length,
-      unsynced: leads.filter((l) => !l.archived && l.odoo_sync_status !== "synced").length,
-      archived: leads.filter((l) => l.archived).length,
+      all: dated.filter((l) => !l.archived).length,
+      synced: dated.filter((l) => !l.archived && l.odoo_sync_status === "synced").length,
+      unsynced: dated.filter((l) => !l.archived && l.odoo_sync_status !== "synced").length,
+      archived: dated.filter((l) => l.archived).length,
     }),
-    [leads],
+    [dated],
   );
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return leads.filter((lead) => {
+    return dated.filter((lead) => {
       if (filter === "archived" ? !lead.archived : lead.archived) return false;
       if (filter === "synced" && lead.odoo_sync_status !== "synced") return false;
       if (filter === "unsynced" && lead.odoo_sync_status === "synced") return false;

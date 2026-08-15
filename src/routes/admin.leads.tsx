@@ -124,25 +124,15 @@ function LeadInboxPage() {
     authState === "in" && !leadsQuery.isLoading && !leadsQuery.error && leads.length === 0;
 
   const dated = useMemo(() => {
-    let from: number | null = null;
-    let to: number | null = null;
-    if (range === "custom") {
-      if (customFrom) from = new Date(`${customFrom}T00:00:00`).getTime();
-      if (customTo) to = new Date(`${customTo}T23:59:59.999`).getTime();
-    } else if (range === "today") {
-      const now = new Date();
-      from = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-      to = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime();
-    } else {
-      from = Date.now() - Number(range) * 24 * 60 * 60 * 1000;
-    }
+    const { from, to } = range;
     return leads.filter((lead) => {
       const t = new Date(lead.created_at).getTime();
       if (from !== null && t < from) return false;
       if (to !== null && t > to) return false;
       return true;
     });
-  }, [leads, range, customFrom, customTo]);
+  }, [leads, range]);
+
 
   const counts = useMemo(
     () => ({

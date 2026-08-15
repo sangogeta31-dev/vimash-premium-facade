@@ -57,9 +57,10 @@ type Lead = {
 
 type Filter = "all" | "synced" | "unsynced" | "archived";
 
-type RangeKey = "7" | "30" | "90" | "custom";
+type RangeKey = "today" | "7" | "30" | "90" | "custom";
 
 const RANGE_OPTIONS: { key: RangeKey; label: string }[] = [
+  { key: "today", label: "Today" },
   { key: "7", label: "Last 7 days" },
   { key: "30", label: "Last 30 days" },
   { key: "90", label: "Last 90 days" },
@@ -138,6 +139,10 @@ function LeadInboxPage() {
     if (range === "custom") {
       if (customFrom) from = new Date(`${customFrom}T00:00:00`).getTime();
       if (customTo) to = new Date(`${customTo}T23:59:59.999`).getTime();
+    } else if (range === "today") {
+      const now = new Date();
+      from = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      to = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime();
     } else {
       from = Date.now() - Number(range) * 24 * 60 * 60 * 1000;
     }

@@ -170,7 +170,7 @@ function LeadInboxPage() {
         .filter(Boolean)
         .some((field) => field!.toLowerCase().includes(q));
     });
-  }, [leads, query, filter]);
+  }, [dated, query, filter]);
 
   async function onRetry(id: string) {
     setBusyId(id);

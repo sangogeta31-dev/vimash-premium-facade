@@ -32,6 +32,6 @@ dist-ssr
 *.sw?
 
 # Environment variables
-.env
+# NOTE: .env holds only public VITE_ keys and must stay tracked so builds work.
 .env.local
 .env.*.local

@@ -17,6 +17,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingActions } from "@/components/FloatingActions";
 import { MobileActionBar } from "@/components/MobileActionBar";
 import { AdminHeader } from "@/components/AdminHeader";
+import { I18nProvider } from "@/lib/i18n";
 
 function NotFoundComponent() {
   return (
@@ -131,6 +132,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <I18nProvider>
       <div
         className={
           isAdmin
@@ -151,6 +153,7 @@ function RootComponent() {
           </>
         )}
       </div>
+      </I18nProvider>
     </QueryClientProvider>
   );
 }

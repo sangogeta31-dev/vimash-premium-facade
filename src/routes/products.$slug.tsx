@@ -75,6 +75,7 @@ function MachineNotFound() {
       <p className="mt-3 text-muted-foreground">This model is not in our catalogue.</p>
       <Link
         to="/products"
+        search={{}}
         className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
       >
         Back to all machines
@@ -101,6 +102,7 @@ function ProductDetail() {
           <div className="order-1 lg:hidden">
             <Link
               to="/products"
+              search={{}}
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> All machines
@@ -110,6 +112,7 @@ function ProductDetail() {
           <Reveal className="order-3 lg:order-1">
             <Link
               to="/products"
+              search={{}}
               className="mb-6 hidden lg:inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> All machines

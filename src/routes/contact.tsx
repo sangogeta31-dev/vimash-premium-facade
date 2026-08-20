@@ -67,7 +67,7 @@ const details = [
   {
     icon: MessageCircle,
     label: "WhatsApp",
-    value: "Chat with an engineer",
+    value: "Talk to us",
     href: site.whatsappHref,
   },
   { icon: Clock, label: "Working hours", value: site.hours },

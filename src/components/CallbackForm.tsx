@@ -376,26 +376,6 @@ export function CallbackForm({
               ? `Enquiry for ${machineName} — our team will call you as soon as possible.`
               : "Our team will call you as soon as possible.")}
       </p>
-      <p
-        className={cn(
-          "mt-2 px-2 text-xs",
-          dark ? "text-primary-foreground/55" : "text-muted-foreground",
-        )}
-      >
-        By submitting this form, you agree to our{" "}
-        <a
-          href="/privacy-policy"
-          className={cn(
-            "underline transition-colors",
-            dark
-              ? "text-primary-foreground/70 hover:text-primary-foreground"
-              : "text-muted-foreground hover:text-charcoal",
-          )}
-        >
-          Privacy Policy
-        </a>
-        .
-      </p>
     </form>
   );
 }

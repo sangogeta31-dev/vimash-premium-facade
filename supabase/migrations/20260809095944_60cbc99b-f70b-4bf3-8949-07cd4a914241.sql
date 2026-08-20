@@ -4,7 +4,8 @@
 
 DO $$
 DECLARE
-  designated_admins text[] := ARRAY['sangogeta31@gmail.com', 'jameshpanchal@gmail.com'];
+  -- UPDATE THESE EMAILS with your client's admin emails
+  designated_admins text[] := ARRAY['client-admin@example.com'];
 BEGIN
   -- 1. Remove the admin role from anyone who is not a designated admin.
   DELETE FROM public.user_roles ur

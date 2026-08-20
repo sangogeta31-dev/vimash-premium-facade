@@ -39,6 +39,7 @@ export function AdminHeader() {
         return;
       }
       queryClient.clear();
+      setBusy(false); // reset before navigating so re-login doesn't show stale spinner
       navigate({ to: "/auth", replace: true });
     } catch {
       setError("Couldn't sign you out. Please try again.");

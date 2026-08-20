@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -15,7 +15,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { retryLeadSync } from "@/lib/leads.functions";
 import { cn } from "@/lib/utils";
-import { checkAuthSession } from "@/lib/auth.functions";
+import { LeadDateRange, defaultLeadRange, type LeadRange } from "@/components/admin/LeadDateRange";
 
 export const Route = createFileRoute("/admin/leads")({
   head: () => ({
@@ -34,16 +34,6 @@ export const Route = createFileRoute("/admin/leads")({
       { name: "robots", content: "noindex" },
     ],
   }),
-  beforeLoad: async () => {
-    try {
-      const { authenticated } = await checkAuthSession();
-      if (!authenticated) throw redirect({ to: "/auth" });
-    } catch (e) {
-      // Re-throw redirect, catch everything else
-      if (e instanceof Response || (e && typeof e === "object" && "to" in e)) throw e;
-      throw redirect({ to: "/auth" });
-    }
-  },
   component: LeadInboxPage,
 });
 
@@ -93,6 +83,8 @@ function LeadInboxPage() {
   const [authState, setAuthState] = useState<"loading" | "in" | "out">("loading");
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
+  const [range, setRange] = useState<LeadRange>(() => defaultLeadRange());
+
   const [busyId, setBusyId] = useState<string | null>(null);
   const [confirmLead, setConfirmLead] = useState<{ lead: Lead; mode: "bin" | "permanent" } | null>(
     null,
@@ -129,19 +121,29 @@ function LeadInboxPage() {
   const isForbidden =
     authState === "in" && !leadsQuery.isLoading && !leadsQuery.error && leads.length === 0;
 
+  const dated = useMemo(() => {
+    const { from, to } = range;
+    return leads.filter((lead) => {
+      const t = new Date(lead.created_at).getTime();
+      if (from !== null && t < from) return false;
+      if (to !== null && t > to) return false;
+      return true;
+    });
+  }, [leads, range]);
+
   const counts = useMemo(
     () => ({
-      all: leads.filter((l) => !l.archived).length,
-      synced: leads.filter((l) => !l.archived && l.odoo_sync_status === "synced").length,
-      unsynced: leads.filter((l) => !l.archived && l.odoo_sync_status !== "synced").length,
-      archived: leads.filter((l) => l.archived).length,
+      all: dated.filter((l) => !l.archived).length,
+      synced: dated.filter((l) => !l.archived && l.odoo_sync_status === "synced").length,
+      unsynced: dated.filter((l) => !l.archived && l.odoo_sync_status !== "synced").length,
+      archived: dated.filter((l) => l.archived).length,
     }),
-    [leads],
+    [dated],
   );
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return leads.filter((lead) => {
+    return dated.filter((lead) => {
       if (filter === "archived" ? !lead.archived : lead.archived) return false;
       if (filter === "synced" && lead.odoo_sync_status !== "synced") return false;
       if (filter === "unsynced" && lead.odoo_sync_status === "synced") return false;
@@ -157,7 +159,7 @@ function LeadInboxPage() {
         .filter(Boolean)
         .some((field) => field!.toLowerCase().includes(q));
     });
-  }, [leads, query, filter]);
+  }, [dated, query, filter]);
 
   async function onRetry(id: string) {
     setBusyId(id);
@@ -214,10 +216,11 @@ function LeadInboxPage() {
             nothing is ever lost or deleted.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:w-auto">
+          <LeadDateRange value={range} onChange={setRange} />
           <button
             onClick={() => leadsQuery.refetch()}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm font-medium text-charcoal transition-colors hover:bg-secondary"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm font-medium text-charcoal transition-colors hover:bg-secondary"
           >
             <RefreshCw className={cn("h-4 w-4", leadsQuery.isFetching && "animate-spin")} />
             Refresh
@@ -225,7 +228,15 @@ function LeadInboxPage() {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="mt-6 rounded-3xl border border-border bg-card px-4 py-3 sm:px-5">
+        <p className="text-sm font-semibold text-charcoal">
+          Showing <span className="text-primary">{visible.length}</span>{" "}
+          {visible.length === 1 ? "lead" : "leads"}
+          <span className="ml-1 font-normal text-muted-foreground">· {range.label}</span>
+        </p>
+      </div>
+
+      <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="relative w-full lg:max-w-sm">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input

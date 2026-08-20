@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Facebook, Instagram, Youtube } from "lucide-react";
 import { navLinks, site } from "@/data/site";
 import logoMark from "@/assets/vimash-mark.png";
 
@@ -21,6 +21,25 @@ export function SiteFooter() {
           </div>
 
           <p className="mt-5 text-sm leading-relaxed text-primary-foreground/65">{site.tagline}</p>
+
+          <div className="mt-6 flex items-center gap-3">
+            {[
+              { href: site.social.facebook, label: "Facebook", Icon: Facebook },
+              { href: site.social.instagram, label: "Instagram", Icon: Instagram },
+              { href: site.social.youtube, label: "YouTube", Icon: Youtube },
+            ].map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Vimash Manufacturing on ${label}`}
+                className="grid h-10 w-10 place-items-center rounded-xl border border-primary-foreground/15 bg-primary-foreground/5 text-primary-foreground/75 transition-colors hover:border-accent hover:text-accent"
+              >
+                <Icon className="h-4.5 w-4.5" />
+              </a>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -45,12 +64,25 @@ export function SiteFooter() {
           <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
             Product Range
           </h3>
-          <ul className="mt-5 space-y-3 text-sm text-primary-foreground/70">
-            <li>Atta Pulverizers · 5 – 20 HP</li>
-            <li>Masala Pulverizers · 5 – 20 HP</li>
-            <li>Cyclone & blower assemblies</li>
-            <li>Spare screens, hammers, rotors</li>
-            <li>Turnkey plant integration</li>
+          <ul className="mt-5 space-y-3 text-sm">
+            <li>
+              <Link
+                to="/products"
+                search={{ filter: "atta" }}
+                className="text-primary-foreground/70 transition-colors hover:text-primary-foreground"
+              >
+                Atta Pulverizers · 5 – 20 HP
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/products"
+                search={{ filter: "masala" }}
+                className="text-primary-foreground/70 transition-colors hover:text-primary-foreground"
+              >
+                Masala Pulverizers · 5 – 20 HP
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -84,14 +116,7 @@ export function SiteFooter() {
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <div className="flex flex-wrap gap-4">
-            <Link
-              to="/privacy-policy"
-              className="transition-colors hover:text-primary-foreground/80"
-            >
-              Privacy Policy
-            </Link>
-          </div>
+          <p></p>
         </div>
       </div>
     </footer>

@@ -128,6 +128,7 @@ function Home() {
             <div className="mt-7 grid gap-3 sm:mt-9 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
               <Link
                 to="/products"
+                search={{}}
                 className="group inline-flex min-h-[3.5rem] items-center justify-center gap-3 rounded-full bg-primary px-7 py-4 text-base sm:text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-1"
               >
                 Explore Machine
@@ -176,16 +177,16 @@ function Home() {
             {
               img: mainImg,
               tag: "Atta Pulverizers",
-              title: "High-Performance Atta Pulverizers",
-              body: "Designed for fast grinding with low heat. Get fine flour, better quality, and high production from 5 HP to 20 HP.",
-              cta: "View Atta Pulverizer",
+              title: "High-Performance Atta Chakki Pulverizers",
+              body: "Commercial atta chakki machines designed for fast grinding with low heat. Get fine flour and reliable production with Vimash atta chakki pulverizers from 5 HP to 20 HP.",
+              cta: "View Atta Chakki Machines",
             },
             {
               img: mainImg,
               tag: "Masala Pulverizers",
-              title: "High-Performance Masala Pulverizers",
-              body: "Made for fine spice grinding with strong performance. Helps keep natural aroma and delivers high production from 5 HP to 20 HP.",
-              cta: "View Masala Pulverizer",
+              title: "High-Performance Masala Grinder Machines",
+              body: "Commercial masala grinder machines designed for fine spice grinding and reliable production. Vimash masala pulverizers are available from 5 HP to 20 HP for commercial use.",
+              cta: "View Masala Grinder Machines",
             },
           ].map((cat, i) => (
             <Reveal key={cat.tag} delay={i * 120}>
@@ -211,6 +212,7 @@ function Home() {
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{cat.body}</p>
                   <Link
                     to="/products"
+                    search={{}}
                     className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors group-hover:text-accent"
                   >
                     {cat.cta}

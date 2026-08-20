@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Maximize2 } from "lucide-react";
-import heroImg from "@/assets/hero-machine.jpg";
-import attaImg from "@/assets/atta-pulverizer.jpg";
-import masalaImg from "@/assets/masala-pulverizer.jpg";
-import factoryImg from "@/assets/factory-floor.jpg";
-import rotorImg from "@/assets/rotor-detail.jpg";
-import qcImg from "@/assets/quality-check.jpg";
+import heroImg from "@/assets/atta-chakki-pulverizer-1.png";
+import attaImg from "@/assets/atta-chakki-pulverizer-2.png";
+import masalaImg from "@/assets/atta-chakki-pulverizer-3.png";
+import factoryImg from "@/assets/factory-floor.png";
+import rotorImg from "@/assets/atta-masala-front.png";
+import qcImg from "@/assets/atta-masala-side.png";
 import { PageHero } from "@/components/PageHero";
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
@@ -47,23 +47,19 @@ export const Route = createFileRoute("/gallery")({
   component: Gallery,
 });
 
-type Tag = "machines" | "plant" | "components";
-
-const items: { src: string; alt: string; tag: Tag; span: string; w: number; h: number }[] = [
+const items: { src: string; alt: string; span: string; w: number; h: number }[] = [
   {
     src: heroImg,
     alt: "Commercial pulverizer machine on the shop floor",
-    tag: "machines",
     span: "lg:col-span-2 lg:row-span-2",
     w: 1600,
     h: 1104,
   },
-  { src: attaImg, alt: "Atta pulverizer unit", tag: "machines", span: "", w: 1024, h: 768 },
-  { src: masalaImg, alt: "Masala pulverizer unit", tag: "machines", span: "", w: 1024, h: 768 },
+  { src: attaImg, alt: "Atta pulverizer unit", span: "", w: 1024, h: 768 },
+  { src: masalaImg, alt: "Masala pulverizer unit", span: "", w: 1024, h: 768 },
   {
     src: factoryImg,
     alt: "Manufacturing floor with machines under assembly",
-    tag: "plant",
     span: "lg:col-span-2",
     w: 1400,
     h: 900,
@@ -71,7 +67,6 @@ const items: { src: string; alt: string; tag: Tag; span: string; w: number; h: n
   {
     src: rotorImg,
     alt: "Precision rotor and bearing detail",
-    tag: "components",
     span: "",
     w: 1200,
     h: 900,
@@ -79,24 +74,14 @@ const items: { src: string; alt: string; tag: Tag; span: string; w: number; h: n
   {
     src: qcImg,
     alt: "Engineer performing quality inspection",
-    tag: "plant",
     span: "",
     w: 1200,
     h: 900,
   },
 ];
 
-const tabs: { id: "all" | Tag; label: string }[] = [
-  { id: "all", label: "Everything" },
-  { id: "machines", label: "Machines" },
-  { id: "plant", label: "Plant" },
-  { id: "components", label: "Components" },
-];
-
 function Gallery() {
-  const [active, setActive] = useState<"all" | Tag>("all");
   const [lightbox, setLightbox] = useState<null | (typeof items)[number]>(null);
-  const visible = items.filter((i) => active === "all" || i.tag === active);
 
   return (
     <>
@@ -107,28 +92,8 @@ function Gallery() {
       />
 
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
-        <Reveal>
-          <div className="inline-flex flex-wrap gap-1 rounded-full border border-border bg-secondary p-1.5">
-            {tabs.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setActive(t.id)}
-                className={cn(
-                  "rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300",
-                  active === t.id
-                    ? "bg-primary text-primary-foreground shadow-[var(--shadow-elevated)]"
-                    : "text-muted-foreground hover:text-charcoal",
-                )}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </Reveal>
-
-        <div className="mt-10 grid auto-rows-[220px] gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {visible.map((item, i) => (
+        <div className="grid auto-rows-[220px] gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((item, i) => (
             <Reveal key={item.alt} delay={i * 70} className={cn("h-full", item.span)}>
               <button
                 type="button"

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Gauge, Ruler, Zap } from "lucide-react";
-import attaImg from "@/assets/atta-pulverizer.jpg";
-import masalaImg from "@/assets/masala-pulverizer.jpg";
+import attaImg from "@/assets/atta-masala-front.png";
+import masalaImg from "@/assets/atta-masala-front.png";
 import type { Product } from "@/data/products";
 import { productImageAlt } from "@/lib/seo";
 import { Reveal } from "./Reveal";

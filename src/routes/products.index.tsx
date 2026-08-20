@@ -17,6 +17,11 @@ import {
 } from "@/lib/seo";
 
 export const Route = createFileRoute("/products/")({
+  validateSearch: (search: Record<string, unknown>): { filter?: Filter } => {
+    return {
+      filter: (search.filter as Filter | undefined) || undefined,
+    };
+  },
   head: () => ({
     ...pageMeta({
       title: "Atta Chakki & Masala Pulverizer Models 5–20 HP | Vimash",
@@ -75,7 +80,8 @@ const filters: { id: Filter; label: string; short: string }[] = [
 ];
 
 function Products() {
-  const [filter, setFilter] = useState<Filter>("all");
+  const { filter: urlFilter } = Route.useSearch();
+  const [filter, setFilter] = useState<Filter>((urlFilter as Filter) || "all");
 
   const sections = [
     {

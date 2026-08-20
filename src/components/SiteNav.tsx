@@ -5,11 +5,22 @@ import { navLinks, site } from "@/data/site";
 import { products } from "@/data/products";
 import logoMark from "@/assets/vimash-mark.png";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
+import { LanguageSelector } from "@/components/LanguageSelector";
+
+const NAV_KEYS: Record<string, string> = {
+  "/": "nav.home",
+  "/about": "nav.about",
+  "/products": "nav.products",
+  "/gallery": "nav.gallery",
+  "/contact": "nav.contact",
+};
 
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { t } = useI18n();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -60,7 +71,7 @@ export function SiteNav() {
                   className="group relative inline-flex items-center gap-1.5 text-sm font-medium text-charcoal/75 transition-colors hover:text-primary"
                   activeProps={{ className: "text-primary" }}
                 >
-                  {link.label}
+                  {t(NAV_KEYS[link.to] ?? "") || link.label}
                   <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover/mega:rotate-180" />
                   <span className="absolute -bottom-1.5 left-0 h-0.5 w-full origin-right scale-x-0 bg-accent transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100" />
                 </Link>
@@ -71,7 +82,7 @@ export function SiteNav() {
                       {(["atta", "masala"] as const).map((cat) => (
                         <div key={cat}>
                           <h4 className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-accent">
-                            {cat === "atta" ? "Atta Chakki Pulverizers" : "Masala Grinder Machines"}
+                            {cat === "atta" ? t("nav.atta") : t("nav.masala")}
                           </h4>
                           <ul className="mt-4 space-y-1">
                             {products
@@ -100,7 +111,7 @@ export function SiteNav() {
                         search={{}}
                         className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent"
                       >
-                        View all machines
+                        {t("nav.viewAll")}
                         <ChevronDown className="h-4 w-4 -rotate-90" />
                       </Link>
                     </div>
@@ -115,20 +126,23 @@ export function SiteNav() {
                 activeProps={{ className: "text-primary" }}
                 activeOptions={{ exact: link.to === "/" }}
               >
-                {link.label}
+                {t(NAV_KEYS[link.to] ?? "") || link.label}
                 <span className="absolute -bottom-1.5 left-0 h-0.5 w-full origin-right scale-x-0 bg-accent transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100" />
               </Link>
             ),
           )}
+          <LanguageSelector />
           <a
             href={site.phoneHref}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-0.5"
           >
             <Phone className="h-4 w-4" />
-            Get a Quote
+            {t("nav.quote")}
           </a>
         </nav>
 
+        <div className="flex items-center gap-2 lg:hidden">
+          <LanguageSelector />
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -137,6 +151,7 @@ export function SiteNav() {
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
+        </div>
       </div>
 
       <div
@@ -154,7 +169,7 @@ export function SiteNav() {
               activeProps={{ className: "text-primary bg-secondary" }}
               activeOptions={{ exact: link.to === "/" }}
             >
-              {link.label}
+              {t(NAV_KEYS[link.to] ?? "") || link.label}
             </Link>
           ))}
           <a
@@ -162,7 +177,7 @@ export function SiteNav() {
             className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground"
           >
             <Phone className="h-4 w-4" />
-            Get a Quote
+            {t("nav.quote")}
           </a>
         </nav>
       </div>

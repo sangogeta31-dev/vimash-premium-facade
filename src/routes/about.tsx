@@ -9,17 +9,23 @@ import {
   Cog,
   Package,
 } from "lucide-react";
-import factoryImg from "@/assets/factory-floor.jpg";
+import machineImg from "@/assets/About_Image_1.png";
 import grainsBg from "@/assets/home-grains-spices.jpg";
 import bandImg from "@/assets/industrial-band.jpg";
 
-import rotorImg from "@/assets/rotor-detail.jpg";
-import qualityImg from "@/assets/quality-check.jpg";
+import rotorImg from "@/assets/About_Image_3.png";
+import factoryImg from "@/assets/About_Image_2.jpeg";
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { PageHero } from "@/components/PageHero";
-import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS, mergeKeywords } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  pageMeta,
+  CORE_KEYWORDS,
+  VIMASH_BRAND_KEYWORDS,
+  mergeKeywords,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -28,12 +34,16 @@ export const Route = createFileRoute("/about")({
       description:
         "Vimash Manufacturing Pvt. Ltd. makes commercial atta chakki pulverizers and masala grinding machines in Ahmedabad. Own factory, tested machines, PAN India delivery and support.",
       path: "/about",
-      keywords: mergeKeywords([
-        "atta chakki machine manufacturer",
-        "commercial atta chakki",
-        "masala pulverizer manufacturer",
-        "spice grinding machine",
-      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
+      keywords: mergeKeywords(
+        [
+          "atta chakki machine manufacturer",
+          "commercial atta chakki",
+          "masala pulverizer manufacturer",
+          "spice grinding machine",
+        ],
+        CORE_KEYWORDS,
+        VIMASH_BRAND_KEYWORDS,
+      ),
     }),
     scripts: [
       {
@@ -64,10 +74,22 @@ const facility = [
 ];
 
 const trust = [
-  { icon: BadgeCheck, title: "Direct Manufacturer", body: "You buy directly from us. No middleman." },
-  { icon: ShieldCheck, title: "Good Quality Parts", body: "Strong body and food-grade contact parts." },
+  {
+    icon: BadgeCheck,
+    title: "Direct Manufacturer",
+    body: "You buy directly from us. No middleman.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Good Quality Parts",
+    body: "Strong body and food-grade contact parts.",
+  },
   { icon: Truck, title: "PAN India Delivery", body: "We deliver machines all over India." },
-  { icon: Headphones, title: "After-Sales Support", body: "Help with installation and spare parts." },
+  {
+    icon: Headphones,
+    title: "After-Sales Support",
+    body: "Help with installation and spare parts.",
+  },
 ];
 
 function About() {
@@ -82,7 +104,11 @@ function About() {
 
       {/* What we make */}
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
-        <SectionHeading eyebrow="What we make" title="Machines for flour and spices" align="center" />
+        <SectionHeading
+          eyebrow="What we make"
+          title="Machines for flour and spices"
+          align="center"
+        />
         <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:mt-12 lg:gap-6">
           {whatWeMake.map((item, i) => (
             <Reveal key={item.title} delay={i * 90} className="h-full">
@@ -90,7 +116,9 @@ function About() {
                 <span className="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-accent/12 text-accent">
                   <item.icon className="h-6 w-6" />
                 </span>
-                <h3 className="mt-4 font-display text-base font-bold text-charcoal">{item.title}</h3>
+                <h3 className="mt-4 font-display text-base font-bold text-charcoal">
+                  {item.title}
+                </h3>
                 <p className="mt-2 text-sm text-muted-foreground">{item.body}</p>
               </div>
             </Reveal>
@@ -105,7 +133,7 @@ function About() {
             <Reveal>
               <div className="overflow-hidden rounded-3xl border border-border bg-card">
                 <img
-                  src={factoryImg}
+                  src={machineImg}
                   alt="Vimash Manufacturing factory in Ahmedabad"
                   loading="lazy"
                   width={1400}
@@ -128,7 +156,9 @@ function About() {
                         <f.icon className="h-5 w-5" />
                       </span>
                       <div>
-                        <h3 className="font-display text-base font-bold text-charcoal">{f.title}</h3>
+                        <h3 className="font-display text-base font-bold text-charcoal">
+                          {f.title}
+                        </h3>
                         <p className="mt-1 text-sm text-muted-foreground">{f.body}</p>
                       </div>
                     </div>
@@ -165,7 +195,7 @@ function About() {
           </Reveal>
           <Reveal delay={120} className="order-1 lg:order-2">
             <img
-              src={qualityImg}
+              src={factoryImg}
               alt="Quality check on a Vimash pulverizer machine"
               loading="lazy"
               width={1408}
@@ -179,7 +209,11 @@ function About() {
       {/* Why customers trust us */}
       <section className="section-tint blueprint section-seam border-y border-border">
         <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
-          <SectionHeading eyebrow="Why choose us" title="Why customers trust Vimash" align="center" />
+          <SectionHeading
+            eyebrow="Why choose us"
+            title="Why customers trust Vimash"
+            align="center"
+          />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-6">
             {trust.map((t, i) => (
               <Reveal key={t.title} delay={i * 80} className="h-full">

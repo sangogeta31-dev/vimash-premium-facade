@@ -17,13 +17,7 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <Reveal
-      className={cn(
-        "max-w-2xl",
-        align === "center" && "mx-auto text-center",
-        className,
-      )}
-    >
+    <Reveal className={cn("max-w-2xl", align === "center" && "mx-auto text-center", className)}>
       {eyebrow ? (
         <span
           className={cn(

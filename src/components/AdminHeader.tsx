@@ -81,18 +81,17 @@ export function AdminHeader() {
               aria-label="Log out"
               className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm font-medium text-charcoal transition-colors hover:bg-secondary disabled:opacity-60"
             >
-              {busy ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <LogOut className="h-4 w-4" />
-              )}
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
               {busy ? "Logging out…" : "Logout"}
             </button>
           )}
         </div>
       </div>
       {error && (
-        <p role="alert" className="px-5 pb-3 text-xs font-medium text-destructive sm:hidden lg:px-8">
+        <p
+          role="alert"
+          className="px-5 pb-3 text-xs font-medium text-destructive sm:hidden lg:px-8"
+        >
           {error}
         </p>
       )}

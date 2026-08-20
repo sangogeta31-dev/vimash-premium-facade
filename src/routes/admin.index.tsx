@@ -1,7 +1,8 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { checkAuthSession } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/admin/")({
   ssr: false,
@@ -14,6 +15,16 @@ export const Route = createFileRoute("/admin/")({
       { name: "robots", content: "noindex" },
     ],
   }),
+  beforeLoad: async () => {
+    try {
+      const { authenticated } = await checkAuthSession();
+      if (!authenticated) throw redirect({ to: "/auth" });
+    } catch (e) {
+      // Re-throw redirect, catch everything else
+      if (e instanceof Response || (e && typeof e === "object" && "to" in e)) throw e;
+      throw redirect({ to: "/auth" });
+    }
+  },
   component: AdminEntry,
 });
 

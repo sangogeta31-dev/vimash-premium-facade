@@ -24,7 +24,9 @@ export function QuoteBand({
           <h2 className="font-display text-[1.7rem] font-bold leading-tight text-primary-foreground sm:text-4xl">
             {title}
           </h2>
-          <p className="mt-3 max-w-lg text-[0.975rem] text-primary-foreground/70 sm:mt-4 sm:text-base">{description}</p>
+          <p className="mt-3 max-w-lg text-[0.975rem] text-primary-foreground/70 sm:mt-4 sm:text-base">
+            {description}
+          </p>
         </Reveal>
         <Reveal delay={120}>
           <CallbackForm
@@ -34,9 +36,7 @@ export function QuoteBand({
             machineHp={machineHp}
             source={source}
           />
-
         </Reveal>
-
       </div>
     </section>
   );

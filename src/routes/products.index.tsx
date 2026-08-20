@@ -7,7 +7,14 @@ import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { products, type Category } from "@/data/products";
 import { cn } from "@/lib/utils";
-import { breadcrumbJsonLd, canonicalUrl, pageMeta, CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS, mergeKeywords } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  canonicalUrl,
+  pageMeta,
+  CORE_KEYWORDS,
+  VIMASH_BRAND_KEYWORDS,
+  mergeKeywords,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/products/")({
   head: () => ({
@@ -16,16 +23,20 @@ export const Route = createFileRoute("/products/")({
       description:
         "Browse Vimash commercial atta chakki pulverizers (flour mill machines) and masala grinding machines in 5, 7.5, 10, 15 and 20 HP with full capacity, motor and dimension specifications.",
       path: "/products",
-      keywords: mergeKeywords([
-        "atta chakki machine",
-        "commercial atta chakki",
-        "atta pulverizer",
-        "flour mill machine",
-        "masala pulverizer",
-        "masala grinding machine",
-        "spice grinding machine",
-        "commercial masala pulverizer",
-      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
+      keywords: mergeKeywords(
+        [
+          "atta chakki machine",
+          "commercial atta chakki",
+          "atta pulverizer",
+          "flour mill machine",
+          "masala pulverizer",
+          "masala grinding machine",
+          "spice grinding machine",
+          "commercial masala pulverizer",
+        ],
+        CORE_KEYWORDS,
+        VIMASH_BRAND_KEYWORDS,
+      ),
     }),
     scripts: [
       {
@@ -55,7 +66,6 @@ export const Route = createFileRoute("/products/")({
   component: Products,
 });
 
-
 type Filter = "all" | Category;
 
 const filters: { id: Filter; label: string; short: string }[] = [
@@ -67,12 +77,18 @@ const filters: { id: Filter; label: string; short: string }[] = [
 function Products() {
   const [filter, setFilter] = useState<Filter>("all");
 
-  const sections = (
-    [
-      { id: "atta" as const, title: "Atta Chakki Pulverizers", copy: "Double chamber flour mill pulverizers with twin cyclone discharge, automatic operation and powder coated SS / MS bodies." },
-      { id: "masala" as const, title: "Masala Grinder Pulverizers", copy: "Strong machines for grinding different types of dry spices into fine powder. Available from 5 HP to 30 HP for commercial use." },
-    ]
-  ).filter((s) => filter === "all" || filter === s.id);
+  const sections = [
+    {
+      id: "atta" as const,
+      title: "Atta Chakki Pulverizers",
+      copy: "Double chamber flour mill pulverizers with twin cyclone discharge, automatic operation and powder coated SS / MS bodies.",
+    },
+    {
+      id: "masala" as const,
+      title: "Masala Grinder Pulverizers",
+      copy: "Strong machines for grinding different types of dry spices into fine powder. Available from 5 HP to 30 HP for commercial use.",
+    },
+  ].filter((s) => filter === "all" || filter === s.id);
 
   return (
     <>
@@ -81,8 +97,6 @@ function Products() {
         title="Ten models. Two grinding lines."
         description="Double chamber atta pulverizers and cyclone masala pulverizers, each available in 5, 7.5, 10, 15 and 20 HP. Every model has its own specification page."
       />
-
-
 
       <section className="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
         <Reveal>
@@ -108,7 +122,11 @@ function Products() {
 
         {sections.map((section) => (
           <div key={section.id} className="mt-16 first:mt-12">
-            <SectionHeading eyebrow={section.id === "atta" ? "Grain line" : "SPICE LINE"} title={section.title} description={section.copy} />
+            <SectionHeading
+              eyebrow={section.id === "atta" ? "Grain line" : "SPICE LINE"}
+              title={section.title}
+              description={section.copy}
+            />
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {products
                 .filter((p) => p.category === section.id)

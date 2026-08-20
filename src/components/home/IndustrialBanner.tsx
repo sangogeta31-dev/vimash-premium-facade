@@ -35,8 +35,7 @@ export function IndustrialBanner() {
                   Machines built in-house, start to finish
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-primary-foreground/70 sm:text-base">
-                  Fabrication, assembly, and full-load testing under one roof in
-                  Ahmedabad.
+                  Fabrication, assembly, and full-load testing under one roof in Ahmedabad.
                 </p>
               </div>
             </div>

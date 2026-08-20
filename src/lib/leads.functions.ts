@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { rateLimit } from "@/lib/rate-limiter.server";
 
 const idSchema = z.object({ leadId: z.string().uuid() });
 
@@ -12,7 +13,10 @@ const submitSchema = z.object({
     .min(8)
     .max(20)
     .regex(/^[0-9+\-\s()]+$/),
-  pincode: z.string().trim().regex(/^\d{6}$/),
+  pincode: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/),
   city: z.string().trim().min(2).max(80),
   state: z.string().trim().max(80).nullable().optional(),
   machineName: z.string().trim().max(160).nullable().optional(),
@@ -22,9 +26,7 @@ const submitSchema = z.object({
 });
 
 export type SubmitLeadResult =
-  | { status: "created" }
-  | { status: "duplicate" }
-  | { status: "error" };
+  { status: "created" } | { status: "duplicate" } | { status: "error" };
 
 /**
  * Normalises an Indian mobile number to its last 10 digits so that
@@ -47,6 +49,11 @@ function normaliseMachine(raw: string | null | undefined): string {
 export const submitLead = createServerFn({ method: "POST" })
   .validator((data: unknown) => submitSchema.parse(data))
   .handler(async ({ data }): Promise<SubmitLeadResult> => {
+    // Rate limit: 5 submissions per IP per 15 minutes
+    if (!rateLimit("submitLead", 5, 15 * 60 * 1000)) {
+      return { status: "error" };
+    }
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const machineName = (data.machineName ?? "General enquiry").trim();
@@ -73,7 +80,6 @@ export const submitLead = createServerFn({ method: "POST" })
     );
 
     if (isDuplicate) return { status: "duplicate" };
-
 
     const leadId = crypto.randomUUID();
     const { error: insertError } = await supabaseAdmin.from("leads").insert({
@@ -104,19 +110,20 @@ export const submitLead = createServerFn({ method: "POST" })
     return { status: "created" };
   });
 
-/** Called right after a website enquiry is stored. Public by design. */
-export const syncLead = createServerFn({ method: "POST" })
-  .validator((data: unknown) => idSchema.parse(data))
-  .handler(async ({ data }) => {
-    const { syncLeadById } = await import("@/lib/odoo.server");
-    return syncLeadById(data.leadId);
-  });
+// syncLead was removed — it was publicly callable without authentication.
+// submitLead already calls syncLeadById internally, and retryLeadSync
+// (admin-only, below) handles manual retries from the Lead Inbox.
 
 /** Admin-only manual retry from the Lead Inbox. */
 export const retryLeadSync = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((data: unknown) => idSchema.parse(data))
   .handler(async ({ data, context }) => {
+    // Rate limit: 20 retries per IP per 15 minutes
+    if (!rateLimit("retryLeadSync", 20, 15 * 60 * 1000)) {
+      throw new Error("Too many requests");
+    }
+
     const { data: isAdmin } = await context.supabase.rpc("has_role", {
       _user_id: context.userId,
       _role: "admin",

@@ -37,8 +37,7 @@ const testimonials = [
 export function Testimonials() {
   const [i, setI] = useState(0);
   const item = testimonials[i];
-  const go = (dir: number) =>
-    setI((p) => (p + dir + testimonials.length) % testimonials.length);
+  const go = (dir: number) => setI((p) => (p + dir + testimonials.length) % testimonials.length);
 
   return (
     <section className="relative isolate overflow-hidden section-navy">
@@ -85,9 +84,7 @@ export function Testimonials() {
               <blockquote className="mt-4 font-display text-lg font-semibold leading-snug text-primary-foreground sm:text-2xl">
                 “{item.quote}”
               </blockquote>
-              <p className="mt-5 text-sm font-semibold text-primary-foreground">
-                {item.name}
-              </p>
+              <p className="mt-5 text-sm font-semibold text-primary-foreground">{item.name}</p>
               <p className="mt-1 text-sm text-primary-foreground/60">{item.role}</p>
             </div>
           </div>

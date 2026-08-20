@@ -1,7 +1,8 @@
 export const site = {
   name: "Vimash Manufacturing India Pvt. Ltd.",
   shortName: "Vimash",
-  tagline: "Vimash Manufacturing Pvt. Ltd. builds reliable atta and masala pulverizers for commercial use. Trusted by businesses across India.",
+  tagline:
+    "Vimash Manufacturing Pvt. Ltd. builds reliable atta and masala pulverizers for commercial use. Trusted by businesses across India.",
   phone: "+91 95749 54050",
   phoneHref: "tel:+919574954050",
   whatsappHref: "https://wa.me/919574954050",
@@ -15,7 +16,7 @@ export const navLinks = [
   { label: "Home", to: "/" },
   { label: "About us", to: "/about" },
   { label: "Products", to: "/products" },
-  
+
   { label: "Gallery", to: "/gallery" },
   { label: "Contact", to: "/contact" },
 ] as const;

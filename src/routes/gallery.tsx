@@ -11,7 +11,13 @@ import { PageHero } from "@/components/PageHero";
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
-import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS, mergeKeywords } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  pageMeta,
+  CORE_KEYWORDS,
+  VIMASH_BRAND_KEYWORDS,
+  mergeKeywords,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -20,7 +26,11 @@ export const Route = createFileRoute("/gallery")({
       description:
         "Photographs of Vimash commercial atta chakki pulverizers and masala grinding machines, the Ahmedabad manufacturing floor, rotor components and quality inspection.",
       path: "/gallery",
-      keywords: mergeKeywords(["atta chakki machine photos", "masala pulverizer machine", "flour mill machine"], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
+      keywords: mergeKeywords(
+        ["atta chakki machine photos", "masala pulverizer machine", "flour mill machine"],
+        CORE_KEYWORDS,
+        VIMASH_BRAND_KEYWORDS,
+      ),
     }),
     scripts: [
       {
@@ -37,16 +47,43 @@ export const Route = createFileRoute("/gallery")({
   component: Gallery,
 });
 
-
 type Tag = "machines" | "plant" | "components";
 
 const items: { src: string; alt: string; tag: Tag; span: string; w: number; h: number }[] = [
-  { src: heroImg, alt: "Commercial pulverizer machine on the shop floor", tag: "machines", span: "lg:col-span-2 lg:row-span-2", w: 1600, h: 1104 },
+  {
+    src: heroImg,
+    alt: "Commercial pulverizer machine on the shop floor",
+    tag: "machines",
+    span: "lg:col-span-2 lg:row-span-2",
+    w: 1600,
+    h: 1104,
+  },
   { src: attaImg, alt: "Atta pulverizer unit", tag: "machines", span: "", w: 1024, h: 768 },
   { src: masalaImg, alt: "Masala pulverizer unit", tag: "machines", span: "", w: 1024, h: 768 },
-  { src: factoryImg, alt: "Manufacturing floor with machines under assembly", tag: "plant", span: "lg:col-span-2", w: 1400, h: 900 },
-  { src: rotorImg, alt: "Precision rotor and bearing detail", tag: "components", span: "", w: 1200, h: 900 },
-  { src: qcImg, alt: "Engineer performing quality inspection", tag: "plant", span: "", w: 1200, h: 900 },
+  {
+    src: factoryImg,
+    alt: "Manufacturing floor with machines under assembly",
+    tag: "plant",
+    span: "lg:col-span-2",
+    w: 1400,
+    h: 900,
+  },
+  {
+    src: rotorImg,
+    alt: "Precision rotor and bearing detail",
+    tag: "components",
+    span: "",
+    w: 1200,
+    h: 900,
+  },
+  {
+    src: qcImg,
+    alt: "Engineer performing quality inspection",
+    tag: "plant",
+    span: "",
+    w: 1200,
+    h: 900,
+  },
 ];
 
 const tabs: { id: "all" | Tag; label: string }[] = [

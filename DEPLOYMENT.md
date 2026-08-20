@@ -10,13 +10,13 @@ Everything below can be done without Lovable Cloud.
 
 ## 1. What runs where
 
-| Piece | Runs on | Notes |
-| --- | --- | --- |
-| Website pages, product pages | Server (SSR) + browser | Needs Node |
-| Enquiry form insert | Browser → Supabase Data API | Uses public keys only |
-| `syncLead` (Odoo push) | Server function | Uses server-only secrets |
-| Admin login + Lead Inbox | Browser → Supabase Auth + RLS | Admin-only via `user_roles` |
-| Sitemap `/sitemap.xml` | Server route | Generated at request time |
+| Piece                        | Runs on                       | Notes                       |
+| ---------------------------- | ----------------------------- | --------------------------- |
+| Website pages, product pages | Server (SSR) + browser        | Needs Node                  |
+| Enquiry form insert          | Browser → Supabase Data API   | Uses public keys only       |
+| `syncLead` (Odoo push)       | Server function               | Uses server-only secrets    |
+| Admin login + Lead Inbox     | Browser → Supabase Auth + RLS | Admin-only via `user_roles` |
+| Sitemap `/sitemap.xml`       | Server route                  | Generated at request time   |
 
 ## 2. Build target
 
@@ -36,6 +36,7 @@ node .output/server/index.mjs
 ```
 
 Hostinger Node.js app settings:
+
 - Application root: project folder
 - Startup file: `.output/server/index.mjs`
 - Node version: 20 or 22
@@ -75,7 +76,6 @@ Leads are pushed with the Odoo JSON-2 API
 the app still works: leads are stored and marked `failed` with the message
 "Odoo CRM is not connected yet", and can be retried from the Lead Inbox once
 the variables are set.
-
 
 ## 4. Moving to the client's own Supabase project
 

@@ -1,8 +1,8 @@
-// Server-only Odoo CRM sync helper (Odoo JSON-2 API).
-// Secrets (ODOO_URL / ODOO_API_KEY) are read here and never leave the server.
+// Server-only Vidu CRM sync helper.
+// Secrets (CRM_URL / CRM_API_KEY) are read here and never leave the server.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-type SyncResult = { status: "synced" | "failed"; error?: string; odooLeadId?: string | null };
+type SyncResult = { status: "synced" | "failed"; error?: string; crmLeadId?: string | null };
 
 type LeadRecord = {
   customer_name: string | null;
@@ -16,7 +16,7 @@ type LeadRecord = {
   source_page: string | null;
 };
 
-/** Human-readable block for the Odoo lead description. */
+/** Human-readable block for the CRM lead description. */
 function buildDescription(lead: LeadRecord): string {
   return [
     ["Machine HP", lead.machine_hp],
@@ -31,40 +31,41 @@ function buildDescription(lead: LeadRecord): string {
 }
 
 /**
- * JSON-2 `create` returns the new record id(s). The exact envelope is not
- * contractually fixed, so accept a bare number, an array of ids, or an object.
+ * CRM API may return the new record id in various formats.
+ * Accept a bare number, an array of ids, or an object.
  */
-function extractOdooLeadId(body: unknown): string | null {
+function extractCrmLeadId(body: unknown): string | null {
   if (typeof body === "number" && Number.isFinite(body)) return String(body);
   if (typeof body === "string" && body.trim() !== "") return body.trim().slice(0, 128);
-  if (Array.isArray(body)) return body.length > 0 ? extractOdooLeadId(body[0]) : null;
+  if (Array.isArray(body)) return body.length > 0 ? extractCrmLeadId(body[0]) : null;
   if (!body || typeof body !== "object") return null;
   const record = body as Record<string, unknown>;
   const nested = record["result"] ?? record["data"] ?? record["ids"];
   if (nested !== undefined && nested !== record) {
-    const fromNested = extractOdooLeadId(nested);
+    const fromNested = extractCrmLeadId(nested);
     if (fromNested) return fromNested;
   }
   for (const key of ["id", "lead_id", "crm_lead_id"]) {
     const value = record[key];
-    const extracted = extractOdooLeadId(value);
+    const extracted = extractCrmLeadId(value);
     if (extracted) return extracted;
   }
   return null;
 }
 
-async function pushToOdoo(lead: LeadRecord): Promise<SyncResult> {
-  const baseUrl = process.env["ODOO_URL"];
-  const apiKey = process.env["ODOO_API_KEY"];
+async function pushToCrm(lead: LeadRecord): Promise<SyncResult> {
+  const baseUrl = process.env["CRM_URL"] || process.env["ODOO_URL"]; // Support legacy var
+  const apiKey = process.env["CRM_API_KEY"] || process.env["ODOO_API_KEY"]; // Support legacy var
 
   if (!baseUrl || !apiKey) {
     return {
       status: "failed",
-      error: "Odoo CRM is not connected yet — lead stored safely in the Lead Inbox.",
+      error: "Vidu CRM is not connected yet — lead stored safely in the Lead Inbox.",
     };
   }
 
-  const endpoint = `${baseUrl.replace(/\/+$/, "")}/json/2/crm.lead/create`;
+  // TODO: Update endpoint for Vidu CRM API
+  const endpoint = `${baseUrl.replace(/\/+$/, "")}/api/leads/create`;
 
   const values: Record<string, string> = {
     name: lead.machine_name?.trim() || "Vimash Website Enquiry",
@@ -75,17 +76,18 @@ async function pushToOdoo(lead: LeadRecord): Promise<SyncResult> {
   if (lead.city?.trim()) values["city"] = lead.city.trim();
 
   try {
-    // 30 second timeout for Odoo API calls
+    // 30 second timeout for CRM API calls
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000);
 
+    // TODO: Update request body format for Vidu CRM API
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({ vals_list: [values] }),
+      body: JSON.stringify({ vals_list: [values] }), // May need adjustment for Vidu
       signal: controller.signal,
     });
 
@@ -98,23 +100,23 @@ async function pushToOdoo(lead: LeadRecord): Promise<SyncResult> {
       const detail = text.trim().slice(0, 300);
       return {
         status: "failed",
-        error: `Odoo responded with ${response.status}${detail ? `: ${detail}` : ""}`,
+        error: `Vidu CRM responded with ${response.status}${detail ? `: ${detail}` : ""}`,
       };
     }
 
-    let odooLeadId: string | null = null;
+    let crmLeadId: string | null = null;
     try {
-      if (text.trim() !== "") odooLeadId = extractOdooLeadId(JSON.parse(text));
+      if (text.trim() !== "") crmLeadId = extractCrmLeadId(JSON.parse(text));
     } catch {
-      odooLeadId = null;
+      crmLeadId = null;
     }
 
-    return { status: "synced", odooLeadId };
+    return { status: "synced", crmLeadId };
   } catch (error) {
-    let errorMessage = "Unknown Odoo sync error";
+    let errorMessage = "Unknown CRM sync error";
     if (error instanceof Error) {
       if (error.name === "AbortError") {
-        errorMessage = "Odoo API request timeout (30s)";
+        errorMessage = "Vidu CRM API request timeout (30s)";
       } else {
         errorMessage = error.message;
       }
@@ -139,7 +141,7 @@ export async function syncLeadById(leadId: string): Promise<SyncResult> {
     return { status: "failed", error: "Lead not found" };
   }
 
-  const result = await pushToOdoo(lead);
+  const result = await pushToCrm(lead);
   const now = new Date().toISOString();
 
   if (result.status === "synced") {
@@ -150,7 +152,7 @@ export async function syncLeadById(leadId: string): Promise<SyncResult> {
         odoo_error: null,
         odoo_last_attempt_at: now,
         odoo_synced_at: now,
-        ...(result.odooLeadId ? { odoo_lead_id: result.odooLeadId } : {}),
+        ...(result.crmLeadId ? { odoo_lead_id: result.crmLeadId } : {}), // Column name stays for DB compat
       })
       .eq("id", leadId);
   } else {
@@ -158,7 +160,7 @@ export async function syncLeadById(leadId: string): Promise<SyncResult> {
       .from("leads")
       .update({
         odoo_sync_status: "failed",
-        odoo_error: result.error ?? "Odoo sync failed",
+        odoo_error: result.error ?? "CRM sync failed",
         odoo_last_attempt_at: now,
         odoo_synced_at: null,
       })

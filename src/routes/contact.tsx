@@ -6,16 +6,22 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { getProduct } from "@/data/products";
 import { site } from "@/data/site";
-import { breadcrumbJsonLd, pageMeta, CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS, mergeKeywords } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  pageMeta,
+  CORE_KEYWORDS,
+  VIMASH_BRAND_KEYWORDS,
+  mergeKeywords,
+} from "@/lib/seo";
 
 /**
  * Only a product slug travels in the URL. The machine name/HP are looked up from
  * local product data, so nothing a visitor types in the URL is trusted or stored.
  */
 function validateSearch(search: Record<string, unknown>): { machine?: string; from?: string } {
-  const raw = typeof search['machine'] === "string" ? search['machine'] : undefined;
+  const raw = typeof search["machine"] === "string" ? search["machine"] : undefined;
   const machine = raw && getProduct(raw) ? raw : undefined;
-  const rawFrom = typeof search['from'] === "string" ? search['from'] : undefined;
+  const rawFrom = typeof search["from"] === "string" ? search["from"] : undefined;
   const from = rawFrom && /^[A-Za-z ]{1,40}$/.test(rawFrom) ? rawFrom : undefined;
   return { ...(machine ? { machine } : {}), ...(from ? { from } : {}) };
 }
@@ -29,12 +35,16 @@ export const Route = createFileRoute("/contact")({
       description:
         "Talk to Vimash Manufacturing about commercial atta chakki machines and masala pulverizers. Share your material and target output for a sized recommendation and quotation.",
       path: "/contact",
-      keywords: mergeKeywords([
-        "atta chakki machine price enquiry",
-        "commercial atta chakki",
-        "masala pulverizer enquiry",
-        "flour mill machine",
-      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
+      keywords: mergeKeywords(
+        [
+          "atta chakki machine price enquiry",
+          "commercial atta chakki",
+          "masala pulverizer enquiry",
+          "flour mill machine",
+        ],
+        CORE_KEYWORDS,
+        VIMASH_BRAND_KEYWORDS,
+      ),
     }),
     scripts: [
       {
@@ -51,11 +61,15 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
-
 const details = [
   { icon: Phone, label: "Sales", value: site.phone, href: site.phoneHref },
   { icon: Mail, label: "Email", value: site.email, href: `mailto:${site.email}` },
-  { icon: MessageCircle, label: "WhatsApp", value: "Chat with an engineer", href: site.whatsappHref },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: "Chat with an engineer",
+    href: site.whatsappHref,
+  },
   { icon: Clock, label: "Working hours", value: site.hours },
 ];
 
@@ -100,7 +114,6 @@ function Contact() {
                   : {})}
               />
 
-
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href={site.phoneHref}
@@ -122,7 +135,6 @@ function Contact() {
             </div>
           </Reveal>
 
-
           <div className="space-y-5">
             {details.map((d, i) => (
               <Reveal key={d.label} delay={i * 90}>
@@ -142,7 +154,9 @@ function Contact() {
                         {d.value}
                       </a>
                     ) : (
-                      <p className="mt-1 font-display text-base font-bold text-charcoal">{d.value}</p>
+                      <p className="mt-1 font-display text-base font-bold text-charcoal">
+                        {d.value}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -157,9 +171,12 @@ function Contact() {
                     <MapPin className="h-5 w-5" />
                   </span>
                   <h3 className="mt-5 font-display text-lg font-bold">Visit the plant</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-primary-foreground/70">{site.address}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-primary-foreground/70">
+                    {site.address}
+                  </p>
                   <p className="mt-4 text-xs text-primary-foreground/50">
-                    Walk-ins welcome during working hours. Call ahead and we'll run a live trial for you.
+                    Walk-ins welcome during working hours. Call ahead and we'll run a live trial for
+                    you.
                   </p>
                 </div>
               </div>

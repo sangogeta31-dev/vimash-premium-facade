@@ -44,18 +44,50 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+/** Append security headers to every outgoing response. */
+function addSecurityHeaders(response: Response): Response {
+  const h = response.headers;
+  // Prevent MIME-type sniffing
+  h.set("X-Content-Type-Options", "nosniff");
+  // Block framing (clickjacking protection)
+  h.set("X-Frame-Options", "DENY");
+  // Control referrer leakage
+  h.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  // Restrict browser features the app doesn't use
+  h.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  // Force HTTPS (1 year, include subdomains)
+  h.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  // Content Security Policy — allow self, inline styles (Tailwind), Google Fonts, Supabase
+  if (!h.has("Content-Security-Policy")) {
+    h.set(
+      "Content-Security-Policy",
+      [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline'",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src 'self' https://fonts.gstatic.com",
+        "img-src 'self' data: blob:",
+        "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in",
+        "frame-ancestors 'none'",
+      ].join("; "),
+    );
+  }
+  return response;
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      return addSecurityHeaders(await normalizeCatastrophicSsrResponse(response));
     } catch (error) {
       console.error(error);
-      return new Response(renderErrorPage(), {
+      const errorResponse = new Response(renderErrorPage(), {
         status: 500,
         headers: { "content-type": "text/html; charset=utf-8" },
       });
+      return addSecurityHeaders(errorResponse);
     }
   },
 };

@@ -222,10 +222,21 @@
 :root {
   --surface-tint: oklch(0.972 0.008 235);
   --surface-tint-2: oklch(0.955 0.012 232);
-  --gradient-tint: linear-gradient(180deg, var(--background) 0%, var(--surface-tint) 24%, var(--surface-tint-2) 100%);
+  --gradient-tint: linear-gradient(
+    180deg,
+    var(--background) 0%,
+    var(--surface-tint) 24%,
+    var(--surface-tint-2) 100%
+  );
   --gradient-tint-soft: linear-gradient(180deg, var(--surface-tint) 0%, var(--background) 100%);
-  --gradient-navy: linear-gradient(160deg, oklch(0.24 0.068 258) 0%, oklch(0.19 0.055 260) 55%, oklch(0.22 0.07 250) 100%);
-  --shadow-soft: 0 2px 6px -2px oklch(0.22 0.062 258 / 0.08), 0 18px 40px -26px oklch(0.22 0.062 258 / 0.28);
+  --gradient-navy: linear-gradient(
+    160deg,
+    oklch(0.24 0.068 258) 0%,
+    oklch(0.19 0.055 260) 55%,
+    oklch(0.22 0.07 250) 100%
+  );
+  --shadow-soft:
+    0 2px 6px -2px oklch(0.22 0.062 258 / 0.08), 0 18px 40px -26px oklch(0.22 0.062 258 / 0.28);
   --shadow-deep: 0 40px 90px -46px oklch(0.22 0.062 258 / 0.45);
 }
 

@@ -24,12 +24,10 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,24 +40,11 @@ function AuthPage() {
     e.preventDefault();
     setBusy(true);
     setError(null);
-    setMessage(null);
 
-    if (mode === "signin") {
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      setBusy(false);
-      if (signInError) return setError(signInError.message);
-      navigate({ to: "/admin/leads" });
-      return;
-    }
-
-    const { error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: `${window.location.origin}/admin/leads` },
-    });
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
-    if (signUpError) return setError(signUpError.message);
-    setMessage("Account created. Ask an existing admin to grant Lead Inbox access.");
+    if (signInError) return setError(signInError.message);
+    navigate({ to: "/admin/leads" });
   }
 
   return (
@@ -68,16 +53,17 @@ function AuthPage() {
         <span className="grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary">
           <LockKeyhole className="h-5 w-5" />
         </span>
-        <h1 className="mt-5 font-display text-2xl font-bold text-charcoal">
-          {mode === "signin" ? "Admin sign in" : "Create admin account"}
-        </h1>
+        <h1 className="mt-5 font-display text-2xl font-bold text-charcoal">Admin sign in</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Access the Vimash Lead Inbox. Website visitors never see this page.
         </p>
 
         <form onSubmit={onSubmit} className="mt-7 space-y-4">
           <div>
-            <label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <label
+              htmlFor="email"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+            >
               Email
             </label>
             <input
@@ -90,7 +76,10 @@ function AuthPage() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <label
+              htmlFor="password"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+            >
               Password
             </label>
             <div className="relative mt-2">
@@ -113,12 +102,10 @@ function AuthPage() {
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
-
             </div>
           </div>
 
           {error && <p className="text-sm text-destructive">{error}</p>}
-          {message && <p className="text-sm text-primary">{message}</p>}
 
           <button
             type="submit"
@@ -126,21 +113,9 @@ function AuthPage() {
             className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-70"
           >
             {busy && <Loader2 className="h-4 w-4 animate-spin" />}
-            {mode === "signin" ? "Sign in" : "Create account"}
+            Sign in
           </button>
         </form>
-
-        <button
-          type="button"
-          onClick={() => {
-            setMode(mode === "signin" ? "signup" : "signin");
-            setError(null);
-            setMessage(null);
-          }}
-          className="mt-5 w-full text-center text-xs font-medium text-muted-foreground transition-colors hover:text-primary"
-        >
-          {mode === "signin" ? "Need an account? Create one" : "Already have an account? Sign in"}
-        </button>
       </div>
     </div>
   );

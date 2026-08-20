@@ -5,7 +5,6 @@ import { navLinks, site } from "@/data/site";
 import logoMark from "@/assets/vimash-mark.png";
 import { cn } from "@/lib/utils";
 
-
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -31,7 +30,6 @@ export function SiteNav() {
           : "border-transparent bg-background",
       )}
     >
-
       <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 lg:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-3">
           <img
@@ -82,7 +80,6 @@ export function SiteNav() {
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
-
 
       <div
         className={cn(

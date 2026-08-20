@@ -1,18 +1,10 @@
 import { CallbackForm } from "@/components/CallbackForm";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  CheckCircle2,
-  Cog,
-  Headphones,
-  ShieldCheck,
-  Wrench,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2, Cog, Headphones, ShieldCheck, Wrench } from "lucide-react";
 
 import heroImg from "@/assets/hero-machine.png";
-import attaImg from "@/assets/atta-pulverizer.jpg";
-import masalaImg from "@/assets/masala-pulverizer.jpg";
-import factoryImg from "@/assets/factory-floor.jpg";
+import mainImg from "@/assets/atta-masala-front.png";
+import factoryImg from "@/assets/factory-floor.png";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Testimonials } from "@/components/Testimonials";
@@ -22,8 +14,13 @@ import { GrainsSpicesSection } from "@/components/home/GrainsSpicesSection";
 import { FeaturedMachineImage } from "@/components/home/FeaturedMachineImage";
 import { site } from "@/data/site";
 import { lightHeroBg } from "@/components/section-backgrounds";
-import { organizationJsonLd, pageMeta, CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS, mergeKeywords } from "@/lib/seo";
-
+import {
+  organizationJsonLd,
+  pageMeta,
+  CORE_KEYWORDS,
+  VIMASH_BRAND_KEYWORDS,
+  mergeKeywords,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,25 +29,26 @@ export const Route = createFileRoute("/")({
       description:
         "Vimash Manufacturing builds commercial atta chakki pulverizers (flour mill machines) and masala pulverizers from 5 HP to 20 HP for grinding businesses across India.",
       path: "/",
-      keywords: mergeKeywords([
-        "atta chakki",
-        "atta chakki machine",
-        "commercial atta chakki",
-        "atta pulverizer",
-        "flour mill machine",
-        "masala pulverizer",
-        "masala grinding machine",
-        "spice grinding machine",
-        "commercial masala pulverizer",
-      ], CORE_KEYWORDS, VIMASH_BRAND_KEYWORDS),
+      keywords: mergeKeywords(
+        [
+          "atta chakki",
+          "atta chakki machine",
+          "commercial atta chakki",
+          "atta pulverizer",
+          "flour mill machine",
+          "masala pulverizer",
+          "masala grinding machine",
+          "spice grinding machine",
+          "commercial masala pulverizer",
+        ],
+        CORE_KEYWORDS,
+        VIMASH_BRAND_KEYWORDS,
+      ),
     }),
-    scripts: [
-      { type: "application/ld+json", children: JSON.stringify(organizationJsonLd()) },
-    ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(organizationJsonLd()) }],
   }),
   component: Home,
 });
-
 
 const whyItems = [
   {
@@ -77,7 +75,11 @@ const whyItems = [
 
 const processSteps = [
   { n: "01", title: "Quality Tested", body: "Every machine is tested before delivery." },
-  { n: "02", title: "Strong Construction", body: "Built with high-quality materials for long life." },
+  {
+    n: "02",
+    title: "Strong Construction",
+    body: "Built with high-quality materials for long life.",
+  },
   { n: "03", title: "Ready to Work", body: "Easy installation with complete after-sales support." },
 ];
 
@@ -99,8 +101,7 @@ function Home() {
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
           style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, var(--background) 100%)",
+            background: "linear-gradient(180deg, transparent 0%, var(--background) 100%)",
           }}
         />
         <div
@@ -153,7 +154,6 @@ function Home() {
         </div>
       </section>
 
-
       {/* Trust */}
       <section className="relative z-10 mx-auto mt-6 max-w-7xl px-5 lg:px-8">
         <TrustCards />
@@ -174,14 +174,14 @@ function Home() {
         <div className="mt-9 grid gap-6 sm:mt-14 sm:gap-8 lg:grid-cols-2">
           {[
             {
-              img: attaImg,
+              img: mainImg,
               tag: "Atta Pulverizers",
               title: "High-Performance Atta Pulverizers",
               body: "Designed for fast grinding with low heat. Get fine flour, better quality, and high production from 5 HP to 20 HP.",
               cta: "View Atta Pulverizer",
             },
             {
-              img: masalaImg,
+              img: mainImg,
               tag: "Masala Pulverizers",
               title: "High-Performance Masala Pulverizers",
               body: "Made for fine spice grinding with strong performance. Helps keep natural aroma and delivers high production from 5 HP to 20 HP.",
@@ -205,7 +205,9 @@ function Home() {
                   <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
                     {cat.tag}
                   </span>
-                  <h3 className="mt-3 font-display text-2xl font-bold text-charcoal">{cat.title}</h3>
+                  <h3 className="mt-3 font-display text-2xl font-bold text-charcoal">
+                    {cat.title}
+                  </h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{cat.body}</p>
                   <Link
                     to="/products"
@@ -224,8 +226,6 @@ function Home() {
       {/* Grains / spices image section (placeholder image) */}
       <GrainsSpicesSection />
 
-
-
       {/* Why */}
       <section className="section-tint blueprint section-seam border-y border-border">
         <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-20">
@@ -241,7 +241,9 @@ function Home() {
                   <span className="grid h-12 w-12 place-items-center rounded-xl bg-primary/8 text-primary">
                     <item.icon className="h-6 w-6" />
                   </span>
-                  <h3 className="mt-5 font-display text-lg font-bold text-charcoal">{item.title}</h3>
+                  <h3 className="mt-5 font-display text-lg font-bold text-charcoal">
+                    {item.title}
+                  </h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
                 </div>
               </Reveal>
@@ -277,7 +279,9 @@ function Home() {
                   <div className="flex gap-5">
                     <span className="font-display text-xl font-bold text-accent">{step.n}</span>
                     <div>
-                      <h3 className="font-display text-base font-bold text-charcoal">{step.title}</h3>
+                      <h3 className="font-display text-base font-bold text-charcoal">
+                        {step.title}
+                      </h3>
                       <p className="mt-1 text-sm text-muted-foreground">{step.body}</p>
                     </div>
                   </div>
@@ -300,49 +304,49 @@ function Home() {
       {/* Large featured machine image (placeholder image) */}
       <FeaturedMachineImage />
 
-
-
       {/* Testimonials */}
       <Testimonials />
-
 
       {/* CTA */}
       <section className="section-tint blueprint section-seam border-t border-border">
         <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8">
-        <Reveal>
-          <div className="overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-elevated)] sm:p-10 lg:p-14">
-            <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
-              <div>
-                <h2 className="font-display text-[1.75rem] font-bold leading-tight text-charcoal sm:text-4xl">
-                  Tell Us Your Requirement
-                </h2>
-                <p className="mt-4 max-w-xl text-muted-foreground">
-                  Share your requirement, and our team will help you choose the right machine. We'll contact you with complete details and pricing.
-                </p>
-                <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                  {["Free Machine Recommendation", "Factory Visit Available", "PAN India Delivery", "Installation & Support"].map(
-                    (item) => (
+          <Reveal>
+            <div className="overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-elevated)] sm:p-10 lg:p-14">
+              <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+                <div>
+                  <h2 className="font-display text-[1.75rem] font-bold leading-tight text-charcoal sm:text-4xl">
+                    Tell Us Your Requirement
+                  </h2>
+                  <p className="mt-4 max-w-xl text-muted-foreground">
+                    Share your requirement, and our team will help you choose the right machine.
+                    We'll contact you with complete details and pricing.
+                  </p>
+                  <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                    {[
+                      "Free Machine Recommendation",
+                      "Factory Visit Available",
+                      "PAN India Delivery",
+                      "Installation & Support",
+                    ].map((item) => (
                       <li key={item} className="flex items-center gap-2 text-sm text-charcoal">
                         <CheckCircle2 className="h-4 w-4 text-accent" />
                         {item}
                       </li>
-                    ),
-                  )}
-                </ul>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <CallbackForm source="Home page" />
+                  <a
+                    href={site.phoneHref}
+                    className="inline-flex min-h-[3.5rem] items-center justify-center gap-2 rounded-full border border-border px-7 py-4 text-base font-semibold text-charcoal transition-colors hover:bg-secondary sm:text-sm"
+                  >
+                    Call {site.phone}
+                  </a>
+                </div>
               </div>
-              <div className="flex flex-col gap-3">
-                <CallbackForm source="Home page" />
-                <a
-                  href={site.phoneHref}
-                  className="inline-flex min-h-[3.5rem] items-center justify-center gap-2 rounded-full border border-border px-7 py-4 text-base font-semibold text-charcoal transition-colors hover:bg-secondary sm:text-sm"
-                >
-                  Call {site.phone}
-                </a>
-              </div>
-
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
         </div>
       </section>
     </>

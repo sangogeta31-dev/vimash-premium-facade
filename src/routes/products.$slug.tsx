@@ -21,7 +21,6 @@ import {
   productSeoTitle,
 } from "@/lib/seo";
 
-
 export const Route = createFileRoute("/products/$slug")({
   loader: ({ params }) => {
     const product = getProduct(params.slug);
@@ -31,7 +30,10 @@ export const Route = createFileRoute("/products/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Machine not found | Vimash Manufacturing" }, { name: "robots", content: "noindex" }],
+        meta: [
+          { title: "Machine not found | Vimash Manufacturing" },
+          { name: "robots", content: "noindex" },
+        ],
       };
     }
     const p = loaderData.product;
@@ -66,13 +68,15 @@ export const Route = createFileRoute("/products/$slug")({
   component: ProductDetail,
 });
 
-
 function MachineNotFound() {
   return (
     <div className="mx-auto max-w-3xl px-5 py-40 text-center">
       <h1 className="font-display text-3xl font-bold text-charcoal">Machine not found</h1>
       <p className="mt-3 text-muted-foreground">This model is not in our catalogue.</p>
-      <Link to="/products" className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
+      <Link
+        to="/products"
+        className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
+      >
         Back to all machines
       </Link>
     </div>
@@ -82,7 +86,9 @@ function MachineNotFound() {
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
   const isAtta = product.category === "atta";
-  const related = products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3);
+  const related = products
+    .filter((p) => p.category === product.category && p.slug !== product.slug)
+    .slice(0, 3);
 
   return (
     <>
@@ -120,7 +126,9 @@ function ProductDetail() {
             <p className="mt-3 text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">
               Model {product.model}
             </p>
-            <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">{product.description}</p>
+            <p className="mt-6 max-w-xl leading-relaxed text-muted-foreground">
+              {product.description}
+            </p>
 
             <dl className="mt-8 grid gap-4 sm:grid-cols-3">
               {[
@@ -129,7 +137,9 @@ function ProductDetail() {
                 { l: "Power use", v: product.powerConsumption },
               ].map((x) => (
                 <div key={x.l} className="rounded-2xl border border-border bg-card p-4">
-                  <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{x.l}</dt>
+                  <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    {x.l}
+                  </dt>
                   <dd className="mt-1.5 font-display text-base font-bold text-charcoal">{x.v}</dd>
                 </div>
               ))}
@@ -156,7 +166,6 @@ function ProductDetail() {
           <Reveal className="order-2 lg:order-2" delay={120}>
             <ProductGallery images={getProductImages(product)} badge={`${product.hp} HP`} />
           </Reveal>
-
         </div>
       </section>
 
@@ -169,7 +178,10 @@ function ProductDetail() {
                 <tbody>
                   {specTable(product).map((row, i) => (
                     <tr key={row.label} className={i % 2 ? "bg-secondary/50" : "bg-card"}>
-                      <th scope="row" className="w-1/2 px-5 py-3.5 text-left font-medium text-muted-foreground">
+                      <th
+                        scope="row"
+                        className="w-1/2 px-5 py-3.5 text-left font-medium text-muted-foreground"
+                      >
                         {row.label}
                       </th>
                       <td className="px-5 py-3.5 font-semibold text-charcoal">{row.value}</td>
@@ -197,7 +209,10 @@ function ProductDetail() {
               <SectionHeading eyebrow="Applications" title="Where it is used" />
               <div className="mt-6 flex flex-wrap gap-2">
                 {product.applications.map((a) => (
-                  <span key={a} className="rounded-full bg-secondary px-4 py-2 text-xs font-medium text-secondary-foreground">
+                  <span
+                    key={a}
+                    className="rounded-full bg-secondary px-4 py-2 text-xs font-medium text-secondary-foreground"
+                  >
                     {a}
                   </span>
                 ))}
@@ -205,7 +220,10 @@ function ProductDetail() {
             </Reveal>
 
             <Reveal delay={200}>
-              <div id="enquiry" className="scroll-mt-28 rounded-3xl border border-border bg-card p-7 shadow-[var(--shadow-elevated)]">
+              <div
+                id="enquiry"
+                className="scroll-mt-28 rounded-3xl border border-border bg-card p-7 shadow-[var(--shadow-elevated)]"
+              >
                 <h3 className="font-display text-xl font-bold text-charcoal">
                   Get a quote for the {product.hp} HP model
                 </h3>
@@ -219,7 +237,6 @@ function ProductDetail() {
                   machineHp={`${product.hp} HP`}
                   source="Product page"
                 />
-
               </div>
             </Reveal>
           </div>
@@ -229,7 +246,10 @@ function ProductDetail() {
       {related.length > 0 && (
         <section className="section-tint blueprint section-seam border-t border-border">
           <div className="relative mx-auto max-w-7xl px-5 py-9 lg:px-8">
-            <SectionHeading eyebrow="Other capacities" title={`More ${isAtta ? "Atta Chakki" : "masala"} pulverizers`} />
+            <SectionHeading
+              eyebrow="Other capacities"
+              title={`More ${isAtta ? "Atta Chakki" : "masala"} pulverizers`}
+            />
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
               {related.map((p, i) => (
                 <Reveal key={p.slug} delay={i * 80} className="h-full">
@@ -239,8 +259,12 @@ function ProductDetail() {
                     className="hover-lift flex h-full flex-col justify-between rounded-2xl border border-border bg-card p-7"
                   >
                     <div>
-                      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">{p.hp} HP</span>
-                      <h3 className="mt-2 font-display text-base font-bold text-charcoal">{p.name}</h3>
+                      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+                        {p.hp} HP
+                      </span>
+                      <h3 className="mt-2 font-display text-base font-bold text-charcoal">
+                        {p.name}
+                      </h3>
                       <p className="mt-2 text-sm text-muted-foreground">{p.capacity}</p>
                     </div>
                     <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-charcoal">
@@ -260,7 +284,6 @@ function ProductDetail() {
         machineHp={`${product.hp} HP`}
         source="Product page"
       />
-
     </>
   );
 }

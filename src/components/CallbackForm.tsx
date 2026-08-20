@@ -6,7 +6,6 @@ import { submitLead } from "@/lib/leads.functions";
 import { lookupPincode } from "@/lib/pincode.functions";
 import { products } from "@/data/products";
 
-
 const HP_OPTIONS = Array.from(new Set(products.map((p) => p.hp))).sort(
   (a, b) => Number(a) - Number(b),
 );
@@ -23,7 +22,10 @@ const formSchema = z.object({
     .min(8, { message: "Enter a valid mobile number" })
     .max(20, { message: "Mobile number is too long" })
     .regex(/^[0-9+\-\s()]+$/, { message: "Enter a valid mobile number" }),
-  pincode: z.string().trim().regex(/^\d{6}$/, { message: "Enter a valid 6-digit pincode" }),
+  pincode: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, { message: "Enter a valid 6-digit pincode" }),
   city: z
     .string()
     .trim()
@@ -65,7 +67,6 @@ export function CallbackForm({
   const dark = variant === "dark";
   // A known machine already carries its HP, so only ask when the enquiry is generic.
   const showHp = !machineName;
-
 
   useEffect(() => {
     if (!/^\d{6}$/.test(pincode)) {
@@ -184,7 +185,6 @@ export function CallbackForm({
     setHp("");
   }
 
-
   return (
     <form onSubmit={handleSubmit} className={cn("w-full", className)}>
       <div
@@ -287,7 +287,11 @@ export function CallbackForm({
               )}
             >
               <span>
-                {hp ? (hp === "Not sure" ? "Not sure — please advise" : `${hp} HP`) : "Machine HP required"}
+                {hp
+                  ? hp === "Not sure"
+                    ? "Not sure — please advise"
+                    : `${hp} HP`
+                  : "Machine HP required"}
               </span>
               <ChevronDown
                 className={cn(
@@ -307,38 +311,38 @@ export function CallbackForm({
                     : "border-border bg-card text-charcoal",
                 )}
               >
-                {[...HP_OPTIONS.map((h) => ({ value: h, label: `${h} HP` })), { value: "Not sure", label: "Not sure — please advise" }].map(
-                  (opt) => (
-                    <li key={opt.value}>
-                      <button
-                        type="button"
-                        role="option"
-                        aria-selected={hp === opt.value}
-                        onClick={() => {
-                          setHp(opt.value);
-                          setHpOpen(false);
-                          resetError();
-                        }}
-                        className={cn(
-                          "flex w-full items-center justify-between rounded-lg px-3.5 py-3 text-left text-base transition-colors sm:py-2.5 sm:text-sm",
-                          hp === opt.value
-                            ? "bg-accent text-accent-foreground"
-                            : dark
-                              ? "hover:bg-primary-foreground/10"
-                              : "hover:bg-secondary",
-                        )}
-                      >
-                        {opt.label}
-                        {hp === opt.value && <Check className="h-4 w-4" />}
-                      </button>
-                    </li>
-                  ),
-                )}
+                {[
+                  ...HP_OPTIONS.map((h) => ({ value: h, label: `${h} HP` })),
+                  { value: "Not sure", label: "Not sure — please advise" },
+                ].map((opt) => (
+                  <li key={opt.value}>
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={hp === opt.value}
+                      onClick={() => {
+                        setHp(opt.value);
+                        setHpOpen(false);
+                        resetError();
+                      }}
+                      className={cn(
+                        "flex w-full items-center justify-between rounded-lg px-3.5 py-3 text-left text-base transition-colors sm:py-2.5 sm:text-sm",
+                        hp === opt.value
+                          ? "bg-accent text-accent-foreground"
+                          : dark
+                            ? "hover:bg-primary-foreground/10"
+                            : "hover:bg-secondary",
+                      )}
+                    >
+                      {opt.label}
+                      {hp === opt.value && <Check className="h-4 w-4" />}
+                    </button>
+                  </li>
+                ))}
               </ul>
             )}
           </div>
         )}
-
 
         <button
           type="submit"
@@ -372,7 +376,26 @@ export function CallbackForm({
               ? `Enquiry for ${machineName} — our team will call you as soon as possible.`
               : "Our team will call you as soon as possible.")}
       </p>
-
+      <p
+        className={cn(
+          "mt-2 px-2 text-xs",
+          dark ? "text-primary-foreground/55" : "text-muted-foreground",
+        )}
+      >
+        By submitting this form, you agree to our{" "}
+        <a
+          href="/privacy-policy"
+          className={cn(
+            "underline transition-colors",
+            dark
+              ? "text-primary-foreground/70 hover:text-primary-foreground"
+              : "text-muted-foreground hover:text-charcoal",
+          )}
+        >
+          Privacy Policy
+        </a>
+        .
+      </p>
     </form>
   );
 }

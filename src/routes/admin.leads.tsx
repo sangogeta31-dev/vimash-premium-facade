@@ -1,8 +1,7 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  
   CheckCircle2,
   Clock,
   Inbox,
@@ -16,6 +15,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { retryLeadSync } from "@/lib/leads.functions";
 import { cn } from "@/lib/utils";
+import { checkAuthSession } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/admin/leads")({
   head: () => ({
@@ -34,6 +34,16 @@ export const Route = createFileRoute("/admin/leads")({
       { name: "robots", content: "noindex" },
     ],
   }),
+  beforeLoad: async () => {
+    try {
+      const { authenticated } = await checkAuthSession();
+      if (!authenticated) throw redirect({ to: "/auth" });
+    } catch (e) {
+      // Re-throw redirect, catch everything else
+      if (e instanceof Response || (e && typeof e === "object" && "to" in e)) throw e;
+      throw redirect({ to: "/auth" });
+    }
+  },
   component: LeadInboxPage,
 });
 
@@ -88,7 +98,6 @@ function LeadInboxPage() {
     null,
   );
 
-
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setAuthState(session ? "in" : "out");
@@ -137,7 +146,14 @@ function LeadInboxPage() {
       if (filter === "synced" && lead.odoo_sync_status !== "synced") return false;
       if (filter === "unsynced" && lead.odoo_sync_status === "synced") return false;
       if (!q) return true;
-      return [lead.customer_name, lead.mobile, lead.machine_name, lead.pincode, lead.city, lead.machine_hp]
+      return [
+        lead.customer_name,
+        lead.mobile,
+        lead.machine_name,
+        lead.pincode,
+        lead.city,
+        lead.machine_hp,
+      ]
         .filter(Boolean)
         .some((field) => field!.toLowerCase().includes(q));
     });
@@ -154,7 +170,6 @@ function LeadInboxPage() {
     setBusyId(null);
   }
 
-
   async function onConfirm() {
     if (!confirmLead) return;
     const { lead, mode } = confirmLead;
@@ -168,7 +183,6 @@ function LeadInboxPage() {
     await queryClient.invalidateQueries({ queryKey: ["leads"] });
     setBusyId(null);
   }
-
 
   if (authState !== "in") {
     return (
@@ -209,7 +223,6 @@ function LeadInboxPage() {
             Refresh
           </button>
         </div>
-
       </div>
 
       <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -297,7 +310,9 @@ function LeadInboxPage() {
                     <td className="px-5 py-4 text-muted-foreground">{lead.city ?? "—"}</td>
                     <td className="px-5 py-4 text-muted-foreground">{lead.pincode ?? "—"}</td>
                     <td className="px-5 py-4 text-muted-foreground">{lead.state ?? "—"}</td>
-                    <td className="px-5 py-4 text-charcoal">{lead.machine_name ?? "General enquiry"}</td>
+                    <td className="px-5 py-4 text-charcoal">
+                      {lead.machine_name ?? "General enquiry"}
+                    </td>
                     <td className="px-5 py-4 text-muted-foreground">
                       {lead.machine_hp
                         ? /hp|not sure/i.test(lead.machine_hp)
@@ -361,7 +376,6 @@ function LeadInboxPage() {
                             <Trash2 className="h-3.5 w-3.5" /> Delete
                           </button>
                         )}
-
                       </div>
                     </td>
                   </tr>
@@ -428,7 +442,6 @@ function LeadInboxPage() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

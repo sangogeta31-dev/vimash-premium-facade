@@ -3,7 +3,6 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { navLinks, site } from "@/data/site";
 import logoMark from "@/assets/vimash-mark.png";
 
-
 export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden bg-primary-deep text-primary-foreground">
@@ -12,18 +11,22 @@ export function SiteFooter() {
         <div className="lg:col-span-1">
           <div className="flex items-center gap-3">
             <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl bg-primary-foreground">
-              <img src={logoMark} alt="Vimash Manufacturing logo" className="h-9 w-9 object-contain" />
+              <img
+                src={logoMark}
+                alt="Vimash Manufacturing logo"
+                className="h-9 w-9 object-contain"
+              />
             </span>
             <span className="font-display text-lg font-bold">Vimash</span>
           </div>
 
-          <p className="mt-5 text-sm leading-relaxed text-primary-foreground/65">
-            {site.tagline}
-          </p>
+          <p className="mt-5 text-sm leading-relaxed text-primary-foreground/65">{site.tagline}</p>
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Navigate</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            Navigate
+          </h3>
           <ul className="mt-5 space-y-3">
             {navLinks.map((link) => (
               <li key={link.to}>
@@ -39,7 +42,9 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Product Range</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            Product Range
+          </h3>
           <ul className="mt-5 space-y-3 text-sm text-primary-foreground/70">
             <li>Atta Pulverizers · 5 – 20 HP</li>
             <li>Masala Pulverizers · 5 – 20 HP</li>
@@ -50,7 +55,9 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Reach Us</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            Reach Us
+          </h3>
           <ul className="mt-5 space-y-4 text-sm text-primary-foreground/70">
             <li className="flex gap-3">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
@@ -74,8 +81,17 @@ export function SiteFooter() {
 
       <div className="relative border-t border-primary-foreground/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-xs text-primary-foreground/50 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-          <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-          <p></p>
+          <p>
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <Link
+              to="/privacy-policy"
+              className="transition-colors hover:text-primary-foreground/80"
+            >
+              Privacy Policy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

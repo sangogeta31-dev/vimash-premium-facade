@@ -1,8 +1,7 @@
-import attaImg from "@/assets/atta-pulverizer.jpg";
-import masalaImg from "@/assets/masala-pulverizer.jpg";
-import heroImg from "@/assets/hero-machine.png";
-import rotorImg from "@/assets/rotor-detail.jpg";
-import qcImg from "@/assets/quality-check.jpg";
+import frontImg from "@/assets/atta-masala-front.png";
+import sideImg from "@/assets/atta-masala-side.png";
+import attaHeroImg from "@/assets/Atta_Chakki.png";
+import masalaHeroImg from "@/assets/Masala_Grinding.png";
 import type { Category, Product } from "./products";
 
 export type ProductImage = { src: string; alt?: string };
@@ -20,16 +19,14 @@ export const productImagesBySlug: Record<string, ProductImage[]> = {
 
 const defaultsByCategory: Record<Category, ProductImage[]> = {
   atta: [
-    { src: attaImg },
-    { src: heroImg },
-    { src: rotorImg, alt: "Precision rotor and bearing detail" },
-    { src: qcImg, alt: "Quality inspection before dispatch" },
+    { src: frontImg, alt: "Front view of Vimash atta machine" },
+    { src: sideImg, alt: "Side view of Vimash atta machine" },
+    { src: attaHeroImg },
   ],
   masala: [
-    { src: masalaImg },
-    { src: heroImg },
-    { src: rotorImg, alt: "Precision rotor and bearing detail" },
-    { src: qcImg, alt: "Quality inspection before dispatch" },
+    { src: frontImg, alt: "Front view of Vimash masala machine" },
+    { src: sideImg, alt: "Side view of Vimash masala machine" },
+    { src: masalaHeroImg },
   ],
 };
 

@@ -17,4 +17,9 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  nitro: {
+    // Target Hostinger Web App hosting (Node.js runtime).
+    // Previously defaulted to "cloudflare" via the Lovable config.
+    preset: "node-server",
+  },
 });

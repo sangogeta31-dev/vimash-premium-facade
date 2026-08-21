@@ -245,7 +245,7 @@ function build(raw: Raw, category: Category): Product {
   } else {
     // Specific names for Masala products
     if (raw.hp === "5")
-      name = "Masala Grinder machine\u00a0 \u00a0 \u00a0 5 HP\u00a0Haldi Grinder Mirchi Grinder";
+      name = "Masala Grinder machine 5 HP Haldi Grinder Mirchi Grinder";
     else if (raw.hp === "7.5") name = "Masala Pulverizer Machine 7.5HP Mirchi Grinding Machine";
     else if (raw.hp === "10") name = "10HP Masala Grinder Haldi Grinder Machine with Cyclone\u00a0";
     else if (raw.hp === "15")

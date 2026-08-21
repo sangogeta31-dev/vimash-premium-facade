@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CheckCircle2,
@@ -11,6 +11,7 @@ import {
   Search,
   ShieldAlert,
   TriangleAlert,
+  X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { retryLeadSync } from "@/lib/leads.functions";
@@ -57,6 +58,8 @@ type Lead = {
 
 type Filter = "all" | "synced" | "unsynced" | "archived";
 
+type BulkConfirm = { ids: string[]; mode: "bin" | "permanent" };
+
 function StatusBadge({ status }: { status: Lead["odoo_sync_status"] }) {
   const map = {
     synced: { label: "Synced", icon: CheckCircle2, cls: "bg-primary/10 text-primary" },
@@ -77,6 +80,34 @@ function StatusBadge({ status }: { status: Lead["odoo_sync_status"] }) {
   );
 }
 
+/** Checkbox that supports the indeterminate state */
+function IndeterminateCheckbox({
+  checked,
+  indeterminate,
+  onChange,
+  ariaLabel,
+}: {
+  checked: boolean;
+  indeterminate?: boolean;
+  onChange: (checked: boolean) => void;
+  ariaLabel: string;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (ref.current) ref.current.indeterminate = indeterminate ?? false;
+  }, [indeterminate]);
+  return (
+    <input
+      ref={ref}
+      type="checkbox"
+      aria-label={ariaLabel}
+      checked={checked}
+      onChange={(e) => onChange(e.target.checked)}
+      className="h-4 w-4 cursor-pointer accent-primary"
+    />
+  );
+}
+
 function LeadInboxPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -89,6 +120,11 @@ function LeadInboxPage() {
   const [confirmLead, setConfirmLead] = useState<{ lead: Lead; mode: "bin" | "permanent" } | null>(
     null,
   );
+
+  // ── Multi-select state ────────────────────────────────────────────────────
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
+  const [bulkConfirm, setBulkConfirm] = useState<BulkConfirm | null>(null);
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -161,6 +197,34 @@ function LeadInboxPage() {
     });
   }, [dated, query, filter]);
 
+  // Clear selection when filter / search / range changes
+  useEffect(() => {
+    setSelected(new Set());
+  }, [filter, query, range]);
+
+  // ── Selection helpers ─────────────────────────────────────────────────────
+  const visibleIds = useMemo(() => visible.map((l) => l.id), [visible]);
+  const selectedCount = selected.size;
+  const allVisibleSelected = visibleIds.length > 0 && visibleIds.every((id) => selected.has(id));
+  const someVisibleSelected = visibleIds.some((id) => selected.has(id)) && !allVisibleSelected;
+
+  function toggleRow(id: string, checked: boolean) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      checked ? next.add(id) : next.delete(id);
+      return next;
+    });
+  }
+
+  function toggleAll(checked: boolean) {
+    setSelected(checked ? new Set(visibleIds) : new Set());
+  }
+
+  function clearSelection() {
+    setSelected(new Set());
+  }
+
+  // ── Single-lead actions ───────────────────────────────────────────────────
   async function onRetry(id: string) {
     setBusyId(id);
     try {
@@ -186,6 +250,24 @@ function LeadInboxPage() {
     setBusyId(null);
   }
 
+  // ── Bulk actions ──────────────────────────────────────────────────────────
+  async function onBulkConfirm() {
+    if (!bulkConfirm) return;
+    const { ids, mode } = bulkConfirm;
+    setBulkConfirm(null);
+    setBulkBusy(true);
+
+    if (mode === "permanent") {
+      await supabase.from("leads").delete().in("id", ids);
+    } else {
+      await supabase.from("leads").update({ archived: true }).in("id", ids);
+    }
+
+    clearSelection();
+    await queryClient.invalidateQueries({ queryKey: ["leads"] });
+    setBulkBusy(false);
+  }
+
   if (authState !== "in") {
     return (
       <div className="grid min-h-[60vh] place-items-center">
@@ -200,6 +282,9 @@ function LeadInboxPage() {
     { key: "unsynced", label: `Pending / failed (${counts.unsynced})` },
     { key: "archived", label: `Bin (${counts.archived})` },
   ];
+
+  const selectedIds = Array.from(selected);
+  const inBinView = filter === "archived";
 
   return (
     <div className="mx-auto max-w-7xl px-5 py-9 lg:px-8">
@@ -288,9 +373,18 @@ function LeadInboxPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[960px] text-left text-sm">
+            <table className="w-full min-w-[1000px] text-left text-sm">
               <thead className="bg-secondary/60 text-xs uppercase tracking-wider text-muted-foreground">
                 <tr>
+                  {/* Select-all checkbox */}
+                  <th className="w-10 px-4 py-4">
+                    <IndeterminateCheckbox
+                      checked={allVisibleSelected}
+                      indeterminate={someVisibleSelected}
+                      onChange={toggleAll}
+                      ariaLabel="Select all visible leads"
+                    />
+                  </th>
                   <th className="px-5 py-4 font-semibold">Customer</th>
                   <th className="px-5 py-4 font-semibold">Mobile</th>
                   <th className="px-5 py-4 font-semibold">City</th>
@@ -305,92 +399,106 @@ function LeadInboxPage() {
                 </tr>
               </thead>
               <tbody>
-                {visible.map((lead) => (
-                  <tr
-                    key={lead.id}
-                    className="border-t border-border/70 transition-colors hover:bg-secondary/40"
-                  >
-                    <td className="px-5 py-4 font-medium text-charcoal">
-                      {lead.customer_name ?? "—"}
-                    </td>
-                    <td className="px-5 py-4 text-charcoal">
-                      <a href={`tel:${lead.mobile}`} className="hover:text-primary">
-                        {lead.mobile}
-                      </a>
-                    </td>
-                    <td className="px-5 py-4 text-muted-foreground">{lead.city ?? "—"}</td>
-                    <td className="px-5 py-4 text-muted-foreground">{lead.pincode ?? "—"}</td>
-                    <td className="px-5 py-4 text-muted-foreground">{lead.state ?? "—"}</td>
-                    <td className="px-5 py-4 text-charcoal">
-                      {lead.machine_name ?? "General enquiry"}
-                    </td>
-                    <td className="px-5 py-4 text-muted-foreground">
-                      {lead.machine_hp
-                        ? /hp|not sure/i.test(lead.machine_hp)
-                          ? lead.machine_hp
-                          : `${lead.machine_hp} HP`
-                        : "—"}
-                    </td>
-                    <td className="px-5 py-4 text-muted-foreground">
-                      {new Date(lead.created_at).toLocaleString("en-IN", {
-                        dateStyle: "medium",
-                        timeStyle: "short",
-                      })}
-                    </td>
-                    <td className="px-5 py-4 text-muted-foreground">
-                      {lead.lead_source}
-                      {lead.source_page && (
-                        <span className="mt-0.5 block text-xs text-muted-foreground/70">
-                          {lead.source_page}
-                        </span>
+                {visible.map((lead) => {
+                  const isSelected = selected.has(lead.id);
+                  return (
+                    <tr
+                      key={lead.id}
+                      className={cn(
+                        "border-t border-border/70 transition-colors",
+                        isSelected ? "bg-primary/5" : "hover:bg-secondary/40",
                       )}
-                    </td>
+                    >
+                      {/* Row checkbox */}
+                      <td className="px-4 py-4">
+                        <IndeterminateCheckbox
+                          checked={isSelected}
+                          onChange={(checked) => toggleRow(lead.id, checked)}
+                          ariaLabel={`Select lead from ${lead.customer_name ?? lead.mobile}`}
+                        />
+                      </td>
+                      <td className="px-5 py-4 font-medium text-charcoal">
+                        {lead.customer_name ?? "—"}
+                      </td>
+                      <td className="px-5 py-4 text-charcoal">
+                        <a href={`tel:${lead.mobile}`} className="hover:text-primary">
+                          {lead.mobile}
+                        </a>
+                      </td>
+                      <td className="px-5 py-4 text-muted-foreground">{lead.city ?? "—"}</td>
+                      <td className="px-5 py-4 text-muted-foreground">{lead.pincode ?? "—"}</td>
+                      <td className="px-5 py-4 text-muted-foreground">{lead.state ?? "—"}</td>
+                      <td className="px-5 py-4 text-charcoal">
+                        {lead.machine_name ?? "General enquiry"}
+                      </td>
+                      <td className="px-5 py-4 text-muted-foreground">
+                        {lead.machine_hp
+                          ? /hp|not sure/i.test(lead.machine_hp)
+                            ? lead.machine_hp
+                            : `${lead.machine_hp} HP`
+                          : "—"}
+                      </td>
+                      <td className="px-5 py-4 text-muted-foreground">
+                        {new Date(lead.created_at).toLocaleString("en-IN", {
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        })}
+                      </td>
+                      <td className="px-5 py-4 text-muted-foreground">
+                        {lead.lead_source}
+                        {lead.source_page && (
+                          <span className="mt-0.5 block text-xs text-muted-foreground/70">
+                            {lead.source_page}
+                          </span>
+                        )}
+                      </td>
 
-                    <td className="px-5 py-4">
-                      <StatusBadge status={lead.odoo_sync_status} />
-                      {lead.odoo_error && lead.odoo_sync_status === "failed" && (
-                        <p className="mt-1 max-w-[220px] text-xs text-muted-foreground">
-                          {lead.odoo_error}
-                        </p>
-                      )}
-                    </td>
-                    <td className="px-5 py-4">
-                      <div className="flex items-center justify-end gap-2">
-                        {lead.odoo_sync_status !== "synced" && (
-                          <button
-                            onClick={() => onRetry(lead.id)}
-                            disabled={busyId === lead.id}
-                            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-60"
-                          >
-                            {busyId === lead.id ? (
-                              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                            ) : (
-                              <RefreshCw className="h-3.5 w-3.5" />
-                            )}
-                            Retry sync
-                          </button>
+                      <td className="px-5 py-4">
+                        <StatusBadge status={lead.odoo_sync_status} />
+                        {lead.odoo_error && lead.odoo_sync_status === "failed" && (
+                          <p className="mt-1 max-w-[220px] text-xs text-muted-foreground">
+                            {lead.odoo_error}
+                          </p>
                         )}
-                        {lead.archived ? (
-                          <button
-                            onClick={() => setConfirmLead({ lead, mode: "permanent" })}
-                            disabled={busyId === lead.id}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" /> Delete permanently
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => setConfirmLead({ lead, mode: "bin" })}
-                            disabled={busyId === lead.id}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" /> Delete
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          {lead.odoo_sync_status !== "synced" && (
+                            <button
+                              onClick={() => onRetry(lead.id)}
+                              disabled={busyId === lead.id}
+                              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+                            >
+                              {busyId === lead.id ? (
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              ) : (
+                                <RefreshCw className="h-3.5 w-3.5" />
+                              )}
+                              Retry sync
+                            </button>
+                          )}
+                          {lead.archived ? (
+                            <button
+                              onClick={() => setConfirmLead({ lead, mode: "permanent" })}
+                              disabled={busyId === lead.id}
+                              className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" /> Delete permanently
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => setConfirmLead({ lead, mode: "bin" })}
+                              disabled={busyId === lead.id}
+                              className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-3 py-1.5 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" /> Delete
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -402,6 +510,53 @@ function LeadInboxPage() {
         permanently from Bin.
       </p>
 
+      {/* ── Floating bulk-action bar ─────────────────────────────────────── */}
+      {selectedCount > 0 && (
+        <div className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2">
+          <div className="flex items-center gap-3 rounded-2xl border border-border bg-card px-5 py-3 shadow-[var(--shadow-elevated)] backdrop-blur-md">
+            <span className="min-w-[5ch] text-sm font-semibold text-charcoal">
+              {selectedCount} selected
+            </span>
+            <div className="h-4 w-px bg-border" />
+            {inBinView ? (
+              <button
+                disabled={bulkBusy}
+                onClick={() => setBulkConfirm({ ids: selectedIds, mode: "permanent" })}
+                className="inline-flex items-center gap-1.5 rounded-full bg-destructive px-4 py-2 text-xs font-semibold text-destructive-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+              >
+                {bulkBusy ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Trash2 className="h-3.5 w-3.5" />
+                )}
+                Delete permanently
+              </button>
+            ) : (
+              <button
+                disabled={bulkBusy}
+                onClick={() => setBulkConfirm({ ids: selectedIds, mode: "bin" })}
+                className="inline-flex items-center gap-1.5 rounded-full border border-destructive/40 px-4 py-2 text-xs font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
+              >
+                {bulkBusy ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Trash2 className="h-3.5 w-3.5" />
+                )}
+                Move to Bin
+              </button>
+            )}
+            <button
+              onClick={clearSelection}
+              aria-label="Clear selection"
+              className="ml-1 grid h-7 w-7 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-secondary hover:text-charcoal"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Single-lead confirm dialog ───────────────────────────────────── */}
       {confirmLead && (
         <div
           role="dialog"
@@ -448,6 +603,56 @@ function LeadInboxPage() {
               >
                 <Trash2 className="h-4 w-4" />
                 {confirmLead.mode === "permanent" ? "Delete permanently" : "Move to Bin"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Bulk confirm dialog ──────────────────────────────────────────── */}
+      {bulkConfirm && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="bulk-confirm-title"
+          className="fixed inset-0 z-50 grid place-items-center bg-charcoal/50 p-5 backdrop-blur-sm"
+          onClick={() => setBulkConfirm(null)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md rounded-3xl border border-border bg-card p-7 shadow-[var(--shadow-elevated)]"
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-destructive/10">
+              <TriangleAlert className="h-5 w-5 text-destructive" />
+            </div>
+            <h2
+              id="bulk-confirm-title"
+              className="mt-4 font-display text-xl font-bold text-charcoal"
+            >
+              {bulkConfirm.mode === "permanent"
+                ? `Delete ${bulkConfirm.ids.length} leads permanently?`
+                : `Move ${bulkConfirm.ids.length} leads to Bin?`}
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {bulkConfirm.mode === "permanent"
+                ? "This will permanently remove all selected leads from the database. This action cannot be undone."
+                : "All selected leads will be moved to Bin and hidden from the main list."}
+            </p>
+            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
+              <button
+                onClick={() => setBulkConfirm(null)}
+                className="rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-charcoal transition-colors hover:bg-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={onBulkConfirm}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-destructive px-5 py-2.5 text-sm font-semibold text-destructive-foreground transition-transform hover:-translate-y-0.5"
+              >
+                <Trash2 className="h-4 w-4" />
+                {bulkConfirm.mode === "permanent"
+                  ? `Delete ${bulkConfirm.ids.length} permanently`
+                  : `Move ${bulkConfirm.ids.length} to Bin`}
               </button>
             </div>
           </div>

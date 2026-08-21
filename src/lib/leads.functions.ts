@@ -49,65 +49,70 @@ function normaliseMachine(raw: string | null | undefined): string {
 export const submitLead = createServerFn({ method: "POST" })
   .validator((data: unknown) => submitSchema.parse(data))
   .handler(async ({ data }): Promise<SubmitLeadResult> => {
-    // Rate limit: 5 submissions per IP per 15 minutes
-    if (!rateLimit("submitLead", 5, 15 * 60 * 1000)) {
+    try {
+      // Rate limit: 5 submissions per IP per 15 minutes
+      if (!rateLimit("submitLead", 5, 15 * 60 * 1000)) {
+        return { status: "error" };
+      }
+
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+      const machineName = (data.machineName ?? "General enquiry").trim();
+      const machineKey = normaliseMachine(machineName);
+      const mobileKey = normaliseMobile(data.mobile);
+
+      // Narrow by machine name case-insensitively in SQL, then compare the
+      // normalised mobile in code (formatting varies too much for a SQL match).
+      // Only "synced" or "pending" leads count — a previously failed sync must
+      // never block the customer from enquiring again.
+      const { data: existing, error: lookupError } = await supabaseAdmin
+        .from("leads")
+        .select("id, mobile, machine_name, odoo_sync_status")
+        .eq("archived", false)
+        .in("odoo_sync_status", ["synced", "pending"])
+        .ilike("machine_name", machineName);
+
+      if (lookupError) return { status: "error" };
+
+      const isDuplicate = (existing ?? []).some(
+        (lead) =>
+          normaliseMobile(lead.mobile) === mobileKey &&
+          normaliseMachine(lead.machine_name) === machineKey,
+      );
+
+      if (isDuplicate) return { status: "duplicate" };
+
+      const leadId = crypto.randomUUID();
+      const { error: insertError } = await supabaseAdmin.from("leads").insert({
+        id: leadId,
+        customer_name: data.name,
+        mobile: data.mobile.trim(),
+        city: data.city,
+        state: data.state ?? null,
+        pincode: data.pincode,
+        machine_name: machineName,
+        machine_slug: data.machineSlug ?? null,
+        machine_hp: data.machineHp ?? null,
+        lead_source: "Website",
+        source_page: data.sourcePage ?? "Website",
+        odoo_sync_status: "pending",
+      });
+
+      if (insertError) return { status: "error" };
+
+      // Stored first, then pushed to Odoo — a sync failure never loses the lead.
+      const { syncLeadById } = await import("@/lib/odoo.server");
+      try {
+        await syncLeadById(leadId);
+      } catch {
+        // Sync status is already persisted by syncLeadById; never fail the visitor.
+      }
+
+      return { status: "created" };
+    } catch {
+      // Catch-all: bad credentials, missing table, network failure — never abort HTTP.
       return { status: "error" };
     }
-
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-
-    const machineName = (data.machineName ?? "General enquiry").trim();
-    const machineKey = normaliseMachine(machineName);
-    const mobileKey = normaliseMobile(data.mobile);
-
-    // Narrow by machine name case-insensitively in SQL, then compare the
-    // normalised mobile in code (formatting varies too much for a SQL match).
-    // Only "synced" or "pending" leads count — a previously failed sync must
-    // never block the customer from enquiring again.
-    const { data: existing, error: lookupError } = await supabaseAdmin
-      .from("leads")
-      .select("id, mobile, machine_name, odoo_sync_status")
-      .eq("archived", false)
-      .in("odoo_sync_status", ["synced", "pending"])
-      .ilike("machine_name", machineName);
-
-    if (lookupError) return { status: "error" };
-
-    const isDuplicate = (existing ?? []).some(
-      (lead) =>
-        normaliseMobile(lead.mobile) === mobileKey &&
-        normaliseMachine(lead.machine_name) === machineKey,
-    );
-
-    if (isDuplicate) return { status: "duplicate" };
-
-    const leadId = crypto.randomUUID();
-    const { error: insertError } = await supabaseAdmin.from("leads").insert({
-      id: leadId,
-      customer_name: data.name,
-      mobile: data.mobile.trim(),
-      city: data.city,
-      state: data.state ?? null,
-      pincode: data.pincode,
-      machine_name: machineName,
-      machine_slug: data.machineSlug ?? null,
-      machine_hp: data.machineHp ?? null,
-      lead_source: "Website",
-      source_page: data.sourcePage ?? "Website",
-      odoo_sync_status: "pending",
-    });
-
-    if (insertError) return { status: "error" };
-
-    // Stored first, then pushed to Odoo — a sync failure never loses the lead.
-    const { syncLeadById } = await import("@/lib/odoo.server");
-    try {
-      await syncLeadById(leadId);
-    } catch {
-      // Sync status is already persisted by syncLeadById; never fail the visitor.
-    }
-
-    return { status: "created" };
   });
 
 // syncLead was removed — it was publicly callable without authentication.

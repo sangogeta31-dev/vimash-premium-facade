@@ -330,31 +330,65 @@ function CheckoutPage() {
 
   return (
     <>
-      {/* ── Compact header ───────────────────────────────────────────────── */}
-      <section className="border-b border-border bg-background">
-        <div className="mx-auto max-w-4xl px-5 pb-6 pt-28 lg:px-8 lg:pb-6 lg:pt-28">
+      {/* ── Checkout header ──────────────────────────────────────────────── */}
+      <section className="border-b border-border bg-secondary/35">
+        <div className="mx-auto max-w-6xl px-5 pb-8 pt-24 sm:pb-10 sm:pt-28 lg:px-8">
           <Reveal>
             <Link
               to="/cart"
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent"
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-accent"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> Back to Cart
             </Link>
+            <div className="mt-6 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+                  Secure checkout
+                </p>
+                <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-charcoal sm:text-4xl">
+                  Complete your order
+                </h1>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                  Enter your delivery details, then pay safely with Razorpay.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-charcoal text-background">
+                  1
+                </span>
+                <span>Details</span>
+                <span className="h-px w-5 bg-border" />
+                <span className="grid h-7 w-7 place-items-center rounded-full border border-border bg-background">
+                  2
+                </span>
+                <span>Payment</span>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
 
       {/* ── Main checkout layout ─────────────────────────────────────────── */}
-      <section className="mx-auto max-w-4xl px-5 py-8 lg:px-8 lg:py-12">
-        <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+      <section className="bg-secondary/15 py-6 sm:py-10">
+        <div className="mx-auto max-w-6xl px-5 lg:px-8">
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
           {/* ──────────────────────────── LEFT: Form ───────────────────────── */}
-          <form onSubmit={handlePayNow} className="space-y-8" id="checkout-form">
+          <form
+            onSubmit={handlePayNow}
+            className="min-w-0 space-y-6 rounded-3xl border border-border bg-card p-5 shadow-[var(--shadow-elevated)] sm:p-7 lg:p-8"
+            id="checkout-form"
+          >
             {/* ── Order items (compact, mobile-first) ──────────────────── */}
             <Reveal>
-              <div className="rounded-2xl border border-border bg-card p-5">
-                <h2 className="font-display text-lg font-bold text-charcoal">
-                  Your Order
-                </h2>
+              <div className="rounded-2xl border border-border bg-background p-4 sm:p-5 lg:hidden">
+                <div className="flex items-center justify-between gap-4">
+                  <h2 className="font-display text-lg font-bold text-charcoal">
+                    Order overview
+                  </h2>
+                  <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-muted-foreground">
+                    {itemCount} item{itemCount === 1 ? "" : "s"}
+                  </span>
+                </div>
                 <div className="mt-4 space-y-3">
                   {items.map((item) => {
                     const images = getProductImages(item.product);
@@ -362,10 +396,10 @@ function CheckoutPage() {
                     return (
                       <div
                         key={item.productSlug}
-                        className="flex items-center gap-3 border-b border-border/50 pb-3 last:border-0 last:pb-0"
+                        className="flex min-w-0 items-center gap-3 border-b border-border/60 pb-3 last:border-0 last:pb-0"
                       >
                         {/* Thumbnail */}
-                        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-secondary">
+                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-secondary sm:h-14 sm:w-14">
                           {thumb && (
                             <img
                               src={thumb}
@@ -425,12 +459,19 @@ function CheckoutPage() {
 
             {/* ── Contact ──────────────────────────────────────────────── */}
             <Reveal delay={60}>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-accent" />
-                  <h2 className="font-display text-lg font-bold text-charcoal">
-                    Contact
-                  </h2>
+              <div className="rounded-2xl border border-border bg-background p-4 sm:p-5">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent/10 text-accent">
+                    <Phone className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <h2 className="font-display text-lg font-bold text-charcoal">
+                      Contact details
+                    </h2>
+                    <p className="text-xs text-muted-foreground">
+                      For your payment and delivery updates
+                    </p>
+                  </div>
                 </div>
                 <FormField
                   id="phone"
@@ -447,16 +488,23 @@ function CheckoutPage() {
 
             {/* ── Delivery ─────────────────────────────────────────────── */}
             <Reveal delay={100}>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-accent" />
-                  <h2 className="font-display text-lg font-bold text-charcoal">
-                    Delivery
-                  </h2>
+              <div className="rounded-2xl border border-border bg-background p-4 sm:p-5">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent/10 text-accent">
+                    <MapPin className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <h2 className="font-display text-lg font-bold text-charcoal">
+                      Delivery address
+                    </h2>
+                    <p className="text-xs text-muted-foreground">
+                      Where should we send your machine?
+                    </p>
+                  </div>
                 </div>
 
                 {/* Name row */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <FormField
                     id="firstName"
                     label="First name"
@@ -487,7 +535,7 @@ function CheckoutPage() {
                 />
 
                 {/* City / State / PIN */}
-                <div className="grid grid-cols-[1fr_1fr_auto] gap-3">
+                <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_7rem]">
                   <FormField
                     id="city"
                     label="City"
@@ -533,7 +581,7 @@ function CheckoutPage() {
                   </div>
 
                   {/* PIN code */}
-                  <div className="w-28">
+                  <div className="w-full sm:w-28">
                     <FormField
                       id="pincode"
                       label="PIN code"
@@ -559,25 +607,30 @@ function CheckoutPage() {
 
             {/* ── Payment ──────────────────────────────────────────────── */}
             <Reveal delay={140}>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <CreditCard className="h-4 w-4 text-accent" />
-                  <h2 className="font-display text-lg font-bold text-charcoal">
-                    Payment
-                  </h2>
+              <div className="rounded-2xl border border-border bg-background p-4 sm:p-5">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent/10 text-accent">
+                    <CreditCard className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <h2 className="font-display text-lg font-bold text-charcoal">
+                      Payment method
+                    </h2>
+                    <p className="text-xs text-muted-foreground">
+                      Your payment is processed securely by Razorpay
+                    </p>
+                  </div>
                 </div>
 
-                <div className="rounded-xl border border-border bg-secondary/30 p-4">
+                <div className="rounded-xl border border-green-200 bg-green-50/70 p-4">
                   <div className="flex items-center gap-2.5">
                     <ShieldCheck className="h-5 w-5 text-green-600" />
                     <span className="text-sm font-semibold text-charcoal">
-                      Razorpay Secure
+                      Razorpay secure payment
                     </span>
                   </div>
                   <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                    After clicking "Pay now", you will be redirected to Razorpay
-                    Secure to complete your purchase safely via UPI, Credit/Debit
-                    Card, or Netbanking.
+                    Pay by UPI, card, or netbanking in the Razorpay payment window.
                   </p>
                 </div>
               </div>
@@ -594,20 +647,11 @@ function CheckoutPage() {
 
             {/* ── Actions (mobile: sticky bottom, desktop: inline) ──────── */}
             <Reveal delay={160}>
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <Link
-                  to="/products"
-                  search={{}}
-                  className="order-2 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-accent sm:order-1"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  Return to shopping
-                </Link>
-
+              <div className="border-t border-border pt-5">
                 <button
                   type="submit"
-                   disabled={submitting || !razorpayReady}
-                  className="order-1 inline-flex items-center justify-center gap-2.5 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-70 sm:order-2"
+                  disabled={submitting || !razorpayReady}
+                  className="inline-flex w-full items-center justify-center gap-2.5 rounded-2xl bg-accent px-6 py-4 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-70 sm:w-auto sm:min-w-52"
                 >
                   {submitting ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -616,50 +660,62 @@ function CheckoutPage() {
                   ) : (
                     <Lock className="h-4 w-4" />
                   )}
-                  {!razorpayReady ? "Loading secure checkout…" : "Pay now"}
+                  {!razorpayReady ? "Loading secure checkout…" : "Continue to secure payment"}
                 </button>
+                <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <ShieldCheck className="h-3.5 w-3.5 text-green-600" />
+                  Your payment details are protected with 256-bit encryption.
+                </p>
               </div>
             </Reveal>
           </form>
 
           {/* ─────────────────────── RIGHT: Sticky summary (desktop) ────── */}
-          <div className="hidden lg:block">
-            <div className="sticky top-24 space-y-5">
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 space-y-4">
               <Reveal delay={80}>
                 {/* Company branding */}
-                <div className="flex items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4">
+                <div className="flex items-center gap-3 rounded-2xl bg-primary-deep px-5 py-4 text-primary-foreground shadow-[var(--shadow-deep)]">
                   <img
                     src="/favicon.png"
                     alt={site.shortName}
-                    className="h-10 w-10 rounded-lg object-contain"
+                    className="h-10 w-10 rounded-xl bg-background p-1.5 object-contain"
                   />
                   <div>
-                    <p className="text-sm font-bold text-charcoal leading-tight">
+                    <p className="text-sm font-bold leading-tight">
                       {site.name}
+                    </p>
+                    <p className="mt-0.5 text-xs text-primary-foreground/65">
+                      Secure online checkout
                     </p>
                   </div>
                 </div>
               </Reveal>
 
               <Reveal delay={120}>
-                <div className="rounded-2xl border border-border bg-card p-5">
-                  <h3 className="font-display text-lg font-bold text-charcoal">
-                    Order Summary
-                  </h3>
+                <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-elevated)]">
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="font-display text-lg font-bold text-charcoal">
+                      Order summary
+                    </h3>
+                    <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-muted-foreground">
+                      {itemCount} item{itemCount === 1 ? "" : "s"}
+                    </span>
+                  </div>
 
                   <div className="mt-4 space-y-3">
                     {items.map((item) => (
                       <div
                         key={item.productSlug}
-                        className="flex items-center justify-between text-sm"
+                        className="flex min-w-0 items-start justify-between gap-3 text-sm"
                       >
-                        <span className="text-muted-foreground">
+                        <span className="min-w-0 text-muted-foreground">
                           {item.product.name}{" "}
                           {item.quantity > 1 && (
                             <span className="text-xs">×{item.quantity}</span>
                           )}
                         </span>
-                        <span className="font-semibold text-charcoal">
+                        <span className="shrink-0 font-semibold text-charcoal">
                           {item.itemTotalDisplay}
                         </span>
                       </div>
@@ -692,7 +748,7 @@ function CheckoutPage() {
 
               {/* Trust badges */}
               <Reveal delay={160}>
-                <div className="flex items-center gap-3 rounded-xl bg-green-50 px-4 py-3 text-xs text-green-700">
+                <div className="flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-xs leading-relaxed text-green-700">
                   <ShieldCheck className="h-4 w-4 shrink-0" />
                   <span>
                     256-bit SSL encrypted · Secured by Razorpay · UPI, Cards &
@@ -701,7 +757,8 @@ function CheckoutPage() {
                 </div>
               </Reveal>
             </div>
-          </div>
+          </aside>
+        </div>
         </div>
       </section>
     </>

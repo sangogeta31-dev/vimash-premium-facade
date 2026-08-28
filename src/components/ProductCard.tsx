@@ -77,7 +77,7 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
           <Link
             to="/products/$slug"
             params={{ slug: product.slug }}
-            className="mt-auto inline-flex min-h-[3.25rem] items-center justify-between rounded-xl border border-border px-4 py-3 text-base sm:text-sm font-semibold text-charcoal transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground"
+            className="mt-auto inline-flex min-h-[3.25rem] items-center justify-between rounded-xl border border-border px-4 py-3 text-base font-semibold text-charcoal transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground sm:text-sm"
           >
             View details & get quote
             <ArrowUpRight className="h-4 w-4" />

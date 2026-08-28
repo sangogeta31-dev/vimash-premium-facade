@@ -1,25 +1,57 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { rateLimit } from "@/lib/rate-limiter.server";
-
-const idSchema = z.object({ leadId: z.string().uuid() });
+import { sanitizeForStorage } from "@/lib/sanitize";
 
 const submitSchema = z.object({
-  name: z.string().trim().min(2).max(80),
+  name: z
+    .string()
+    .trim()
+    .min(2)
+    .max(80)
+    .refine(
+      (val) => !/<|>|<script|<\/script|javascript:|onerror|onclick/i.test(val),
+      { message: "Invalid characters detected in name" }
+    ),
   mobile: z
     .string()
     .trim()
     .min(8)
     .max(20)
-    .regex(/^[0-9+\-\s()]+$/),
+    .regex(/^[0-9+\-\s()]+$/, { message: "Mobile number contains invalid characters" }),
   pincode: z
     .string()
     .trim()
-    .regex(/^\d{6}$/),
-  city: z.string().trim().min(2).max(80),
-  state: z.string().trim().max(80).nullable().optional(),
-  machineName: z.string().trim().max(160).nullable().optional(),
+    .regex(/^\d{6}$/, { message: "Pincode must be exactly 6 digits" }),
+  city: z
+    .string()
+    .trim()
+    .min(2)
+    .max(80)
+    .refine(
+      (val) => !/<|>|<script|<\/script|javascript:|onerror|onclick/i.test(val),
+      { message: "Invalid characters detected in city" }
+    ),
+  state: z
+    .string()
+    .trim()
+    .max(80)
+    .refine(
+      (val) => !val || !/<|>|<script|<\/script|javascript:|onerror|onclick/i.test(val),
+      { message: "Invalid characters detected in state" }
+    )
+    .nullable()
+    .optional(),
+  machineName: z
+    .string()
+    .trim()
+    .max(160)
+    .refine(
+      (val) => !val || !/<|>|<script|<\/script|javascript:|onerror|onclick/i.test(val),
+      { message: "Invalid characters detected in machine name" }
+    )
+    .nullable()
+    .optional(),
   machineSlug: z.string().trim().max(160).nullable().optional(),
   machineHp: z.string().trim().max(40).nullable().optional(),
   sourcePage: z.string().trim().max(160).optional(),
@@ -42,9 +74,17 @@ function normaliseMachine(raw: string | null | undefined): string {
 }
 
 /**
- * Public: the single entry point for website enquiries.
+ * Public: submits a lead enquiry from the website.
+ * 
+ * Security features:
+ * - CSRF protection (via global middleware in src/start.ts)
+ * - Rate limiting (5 submissions per IP per 15 minutes)
+ * - Server-side duplicate detection
+ * - Input validation via Zod schema
+ * 
  * Duplicate detection (same mobile + same machine) happens here, server-side,
- * before anything is written to the database or pushed to Odoo.
+ * before anything is written to the database. VIDU CRM pulls new leads from
+ * the authenticated feed endpoint instead of receiving a push from here.
  */
 export const submitLead = createServerFn({ method: "POST" })
   .validator((data: unknown) => submitSchema.parse(data))
@@ -63,13 +103,12 @@ export const submitLead = createServerFn({ method: "POST" })
 
       // Narrow by machine name case-insensitively in SQL, then compare the
       // normalised mobile in code (formatting varies too much for a SQL match).
-      // Only "synced" or "pending" leads count — a previously failed sync must
-      // never block the customer from enquiring again.
+      // Archived leads are intentionally excluded, so a customer can submit a
+      // fresh enquiry after an earlier lead was moved to the Bin.
       const { data: existing, error: lookupError } = await supabaseAdmin
         .from("leads")
-        .select("id, mobile, machine_name, odoo_sync_status")
+        .select("id, mobile, machine_name")
         .eq("archived", false)
-        .in("odoo_sync_status", ["synced", "pending"])
         .ilike("machine_name", machineName);
 
       if (lookupError) return { status: "error" };
@@ -85,56 +124,23 @@ export const submitLead = createServerFn({ method: "POST" })
       const leadId = crypto.randomUUID();
       const { error: insertError } = await supabaseAdmin.from("leads").insert({
         id: leadId,
-        customer_name: data.name,
+        customer_name: sanitizeForStorage(data.name),
         mobile: data.mobile.trim(),
-        city: data.city,
-        state: data.state ?? null,
+        city: sanitizeForStorage(data.city),
+        state: sanitizeForStorage(data.state) || null,
         pincode: data.pincode,
-        machine_name: machineName,
+        machine_name: sanitizeForStorage(machineName),
         machine_slug: data.machineSlug ?? null,
         machine_hp: data.machineHp ?? null,
         lead_source: "Website",
         source_page: data.sourcePage ?? "Website",
-        odoo_sync_status: "pending",
       });
 
       if (insertError) return { status: "error" };
-
-      // Stored first, then pushed to Odoo — a sync failure never loses the lead.
-      const { syncLeadById } = await import("@/lib/odoo.server");
-      try {
-        await syncLeadById(leadId);
-      } catch {
-        // Sync status is already persisted by syncLeadById; never fail the visitor.
-      }
 
       return { status: "created" };
     } catch {
       // Catch-all: bad credentials, missing table, network failure — never abort HTTP.
       return { status: "error" };
     }
-  });
-
-// syncLead was removed — it was publicly callable without authentication.
-// submitLead already calls syncLeadById internally, and retryLeadSync
-// (admin-only, below) handles manual retries from the Lead Inbox.
-
-/** Admin-only manual retry from the Lead Inbox. */
-export const retryLeadSync = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .validator((data: unknown) => idSchema.parse(data))
-  .handler(async ({ data, context }) => {
-    // Rate limit: 20 retries per IP per 15 minutes
-    if (!rateLimit("retryLeadSync", 20, 15 * 60 * 1000)) {
-      throw new Error("Too many requests");
-    }
-
-    const { data: isAdmin } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
-    if (!isAdmin) throw new Error("Forbidden");
-
-    const { syncLeadById } = await import("@/lib/odoo.server");
-    return syncLeadById(data.leadId);
   });

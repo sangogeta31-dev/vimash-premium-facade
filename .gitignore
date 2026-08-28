@@ -34,3 +34,7 @@ dist-ssr
 # Environment variables
 # NOTE: .env holds only public VITE_ keys and must stay tracked so builds work.
 .env
+# Security audit reports (may contain quoted keys)
+*AUDIT*.md
+*FIX*.md
+*SECURITY*.md

@@ -2,7 +2,7 @@ import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { checkAuthSession } from "@/lib/auth.functions";
+import { checkAuthSession, checkAdminRole } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/admin/")({
   ssr: false,
@@ -17,8 +17,16 @@ export const Route = createFileRoute("/admin/")({
   }),
   beforeLoad: async () => {
     try {
+      // First check authentication
       const { authenticated } = await checkAuthSession();
       if (!authenticated) throw redirect({ to: "/auth" });
+      
+      // Then check admin role - server-side verification
+      const { isAdmin } = await checkAdminRole();
+      if (!isAdmin) {
+        // Non-admin authenticated users get redirected to home
+        throw redirect({ to: "/" });
+      }
     } catch (e) {
       // Re-throw redirect, catch everything else
       if (e instanceof Response || (e && typeof e === "object" && "to" in e)) throw e;

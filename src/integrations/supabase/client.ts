@@ -54,6 +54,13 @@ function createSupabaseClient() {
       storage: typeof window !== "undefined" ? localStorage : undefined,
       persistSession: true,
       autoRefreshToken: true,
+      detectSessionInUrl: true,
+      // Session configuration for security
+      // Access tokens expire after 1 hour (Supabase default)
+      // Refresh tokens expire after 1 week (can be extended via refresh)
+      // Inactivity timeout is handled client-side via useSessionTimeout hook
+      storageKey: "vimash_auth",
+      flowType: "pkce", // Use PKCE flow for enhanced security
     },
   });
 }

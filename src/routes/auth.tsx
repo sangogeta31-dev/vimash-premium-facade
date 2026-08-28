@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Eye, EyeOff, Loader2, LockKeyhole } from "lucide-react";
+import { Eye, EyeOff, Loader2, LockKeyhole, ShieldAlert } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { signInUser } from "@/lib/auth-signin.functions";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -29,6 +30,7 @@ function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [rateLimited, setRateLimited] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -40,11 +42,40 @@ function AuthPage() {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    setRateLimited(false);
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-    setBusy(false);
-    if (signInError) return setError(signInError.message);
-    navigate({ to: "/admin/leads" });
+    try {
+      // Check rate limits server-side before authenticating in this browser.
+      const result = await signInUser({ data: { email } });
+
+      if (!result.success) {
+        setError(result.error);
+        if (result.rateLimited) {
+          setRateLimited(true);
+        }
+        setBusy(false);
+        return;
+      }
+
+      // Sign in in the browser so Supabase persists the session used by the
+      // admin route guard. A server function cannot write browser localStorage.
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+
+      if (signInError) {
+        setError("Invalid email or password. Please check your credentials and try again.");
+        setBusy(false);
+        return;
+      }
+
+      await navigate({ to: "/admin/leads" });
+    } catch {
+      // Handle unexpected errors
+      setError("An unexpected error occurred. Please try again.");
+      setBusy(false);
+    }
   }
 
   return (
@@ -105,7 +136,18 @@ function AuthPage() {
             </div>
           </div>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && (
+            <div
+              className={`flex items-start gap-3 rounded-xl border p-4 text-sm ${
+                rateLimited
+                  ? "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200"
+                  : "border-destructive/20 bg-destructive/10 text-destructive"
+              }`}
+            >
+              {rateLimited && <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0" />}
+              <p>{error}</p>
+            </div>
+          )}
 
           <button
             type="submit"

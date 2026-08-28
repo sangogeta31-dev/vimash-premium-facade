@@ -26,11 +26,6 @@ export type Database = {
           machine_name: string | null
           machine_slug: string | null
           mobile: string
-          odoo_error: string | null
-          odoo_last_attempt_at: string | null
-          odoo_lead_id: string | null
-          odoo_sync_status: Database["public"]["Enums"]["odoo_sync_status"]
-          odoo_synced_at: string | null
           pincode: string | null
           source_page: string | null
           state: string | null
@@ -47,11 +42,6 @@ export type Database = {
           machine_name?: string | null
           machine_slug?: string | null
           mobile: string
-          odoo_error?: string | null
-          odoo_last_attempt_at?: string | null
-          odoo_lead_id?: string | null
-          odoo_sync_status?: Database["public"]["Enums"]["odoo_sync_status"]
-          odoo_synced_at?: string | null
           pincode?: string | null
           source_page?: string | null
           state?: string | null
@@ -68,11 +58,6 @@ export type Database = {
           machine_name?: string | null
           machine_slug?: string | null
           mobile?: string
-          odoo_error?: string | null
-          odoo_last_attempt_at?: string | null
-          odoo_lead_id?: string | null
-          odoo_sync_status?: Database["public"]["Enums"]["odoo_sync_status"]
-          odoo_synced_at?: string | null
           pincode?: string | null
           source_page?: string | null
           state?: string | null
@@ -80,27 +65,63 @@ export type Database = {
         }
         Relationships: []
       }
-      site_translations: {
+      payment_orders: {
         Row: {
+          amount_paise: number
           created_at: string
+          currency: string
+          customer_first_name: string
+          customer_last_name: string
+          customer_phone: string
+          delivery_address: string
+          delivery_city: string
+          delivery_pincode: string
+          delivery_state: string
           id: string
-          lang: string
-          source_text: string
-          translated_text: string
+          items: Json
+          paid_at: string | null
+          payment_status: "pending" | "paid"
+          razorpay_order_id: string
+          razorpay_payment_id: string | null
+          updated_at: string
         }
         Insert: {
+          amount_paise: number
           created_at?: string
+          currency?: string
+          customer_first_name: string
+          customer_last_name?: string
+          customer_phone: string
+          delivery_address: string
+          delivery_city: string
+          delivery_pincode: string
+          delivery_state: string
           id?: string
-          lang: string
-          source_text: string
-          translated_text: string
+          items: Json
+          paid_at?: string | null
+          payment_status?: "pending" | "paid"
+          razorpay_order_id: string
+          razorpay_payment_id?: string | null
+          updated_at?: string
         }
         Update: {
+          amount_paise?: number
           created_at?: string
+          currency?: string
+          customer_first_name?: string
+          customer_last_name?: string
+          customer_phone?: string
+          delivery_address?: string
+          delivery_city?: string
+          delivery_pincode?: string
+          delivery_state?: string
           id?: string
-          lang?: string
-          source_text?: string
-          translated_text?: string
+          items?: Json
+          paid_at?: string | null
+          payment_status?: "pending" | "paid"
+          razorpay_order_id?: string
+          razorpay_payment_id?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -140,7 +161,6 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
-      odoo_sync_status: "pending" | "synced" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -269,7 +289,6 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
-      odoo_sync_status: ["pending", "synced", "failed"],
     },
   },
 } as const

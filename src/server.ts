@@ -20,7 +20,17 @@ async function getServerEntry(): Promise<ServerEntry> {
 
 // h3 swallows in-handler throws into a normal 500 Response with body
 // {"unhandled":true,"message":"HTTPError"} — try/catch alone never fires for those.
-async function normalizeCatastrophicSsrResponse(response: Response): Promise<Response> {
+function requestAbortedResponse(): Response {
+  // 499 is the conventional status for a client-closed request. The client
+  // has already disconnected, so there is no useful response body to send.
+  return new Response(null, { status: 499 });
+}
+
+async function normalizeCatastrophicSsrResponse(
+  response: Response,
+  request: Request,
+): Promise<Response> {
+  if (request.signal.aborted) return requestAbortedResponse();
   if (response.status < 500) return response;
   const contentType = response.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) return response;
@@ -44,34 +54,79 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
-/** Append security headers to every outgoing response. */
+/**
+ * Append comprehensive security headers to every outgoing response.
+ * 
+ * This is a fallback layer for server.ts responses that don't go through
+ * the TanStack Start middleware (e.g., static assets, error pages).
+ * 
+ * Headers should match those in src/start.ts for consistency.
+ */
 function addSecurityHeaders(response: Response): Response {
   const h = response.headers;
-  // Prevent MIME-type sniffing
-  h.set("X-Content-Type-Options", "nosniff");
-  // Block framing (clickjacking protection)
+  
+  // === Clickjacking Protection ===
   h.set("X-Frame-Options", "DENY");
-  // Control referrer leakage
+  
+  // === MIME-Type Sniffing Protection ===
+  h.set("X-Content-Type-Options", "nosniff");
+  
+  // === Referrer Policy ===
   h.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  // Restrict browser features the app doesn't use
-  h.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
-  // Force HTTPS (1 year, include subdomains)
-  h.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
-  // Content Security Policy — allow self, inline styles (Tailwind), Google Fonts, Supabase
-  if (!h.has("Content-Security-Policy")) {
-    h.set(
-      "Content-Security-Policy",
-      [
-        "default-src 'self'",
-        "script-src 'self' 'unsafe-inline'",
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-        "font-src 'self' https://fonts.gstatic.com",
-        "img-src 'self' data: blob:",
-        "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in",
-        "frame-ancestors 'none'",
-      ].join("; "),
-    );
+  
+  // === XSS Protection (Legacy) ===
+  h.set("X-XSS-Protection", "1; mode=block");
+  
+  // === Permissions Policy ===
+  h.set(
+    "Permissions-Policy",
+    [
+      "geolocation=()",
+      "microphone=()",
+      "camera=()",
+      "payment=(self \"https://*.razorpay.com\")",
+      "usb=()",
+      "magnetometer=(self \"https://*.razorpay.com\")",
+      "gyroscope=(self \"https://*.razorpay.com\")",
+      "accelerometer=(self \"https://*.razorpay.com\")",
+      "ambient-light-sensor=()",
+    ].join(", ")
+  );
+  
+  // === Strict Transport Security (HSTS) ===
+  const isProduction = process.env["NODE_ENV"] === "production";
+  if (isProduction) {
+    h.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
   }
+  
+  // === Cross-Origin Policies ===
+  h.set("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  h.set("Cross-Origin-Resource-Policy", "same-site");
+  // Razorpay Checkout runs in a cross-origin frame. Leaving this header unset
+  // preserves the third-party request behaviour it requires.
+  h.delete("Cross-Origin-Embedder-Policy");
+  
+  // === Content Security Policy ===
+  // Only set if not already present (TanStack Start middleware may have set it)
+  if (!h.has("Content-Security-Policy")) {
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.razorpay.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' data: https: blob:",
+      "font-src 'self' data: https://fonts.gstatic.com",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com",
+      "frame-src https://*.razorpay.com",
+      "frame-ancestors 'none'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      ...(isProduction ? ["upgrade-insecure-requests"] : []),
+    ].join("; ");
+    
+    h.set("Content-Security-Policy", csp);
+  }
+  
   return response;
 }
 
@@ -80,8 +135,9 @@ export default {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return addSecurityHeaders(await normalizeCatastrophicSsrResponse(response));
+      return addSecurityHeaders(await normalizeCatastrophicSsrResponse(response, request));
     } catch (error) {
+      if (request.signal.aborted) return addSecurityHeaders(requestAbortedResponse());
       console.error(error);
       const errorResponse = new Response(renderErrorPage(), {
         status: 500,

@@ -143,7 +143,8 @@ export function CallbackForm({
 
     const selectedHp = showHp ? (hp === "Not sure" ? "Not sure" : `${hp} HP`) : (machineHp ?? null);
 
-    // Storing, duplicate detection and the Odoo push all happen server-side.
+    // Storing and duplicate detection happen server-side; VIDU CRM pulls the
+    // stored lead through the authenticated feed endpoint.
     let result: { status: "created" | "duplicate" | "error" };
     try {
       result = await submitLead({

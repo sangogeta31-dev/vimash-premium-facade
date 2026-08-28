@@ -5,6 +5,7 @@ import masalaImg from "@/assets/atta-masala-front.png";
 import type { Product } from "@/data/products";
 import { productImageAlt } from "@/lib/seo";
 import { Reveal } from "./Reveal";
+import { AddToCartButton } from "./AddToCartButton";
 
 export function ProductCard({ product, delay = 0 }: { product: Product; delay?: number }) {
   const isAtta = product.category === "atta";
@@ -81,6 +82,13 @@ export function ProductCard({ product, delay = 0 }: { product: Product; delay?: 
             View details & get quote
             <ArrowUpRight className="h-4 w-4" />
           </Link>
+
+          <AddToCartButton
+            productSlug={product.slug}
+            variant="outline"
+            size="md"
+            className="mt-3 w-full"
+          />
         </div>
       </article>
     </Reveal>

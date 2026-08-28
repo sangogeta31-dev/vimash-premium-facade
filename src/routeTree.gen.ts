@@ -12,13 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CartRouteImport } from './routes/cart'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as OrderSuccessRouteImport } from './routes/order-success'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
+import { Route as ApiCrmEnquiriesRouteImport } from './routes/api.crm.enquiries'
+import { Route as ApiRazorpayWebhookRouteImport } from './routes/api.razorpay.webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,6 +40,16 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -43,6 +58,11 @@ const ContactRoute = ContactRouteImport.update({
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderSuccessRoute = OrderSuccessRouteImport.update({
+  id: '/order-success',
+  path: '/order-success',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -70,43 +90,68 @@ const ProductsSlugRoute = ProductsSlugRouteImport.update({
   path: '/products/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCrmEnquiriesRoute = ApiCrmEnquiriesRouteImport.update({
+  id: '/api/crm/enquiries',
+  path: '/api/crm/enquiries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRazorpayWebhookRoute = ApiRazorpayWebhookRouteImport.update({
+  id: '/api/razorpay/webhook',
+  path: '/api/razorpay/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/order-success': typeof OrderSuccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/products/': typeof ProductsIndexRoute
+  '/api/crm/enquiries': typeof ApiCrmEnquiriesRoute
+  '/api/razorpay/webhook': typeof ApiRazorpayWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/order-success': typeof OrderSuccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/products': typeof ProductsIndexRoute
+  '/api/crm/enquiries': typeof ApiCrmEnquiriesRoute
+  '/api/razorpay/webhook': typeof ApiRazorpayWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
+  '/order-success': typeof OrderSuccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/products/': typeof ProductsIndexRoute
+  '/api/crm/enquiries': typeof ApiCrmEnquiriesRoute
+  '/api/razorpay/webhook': typeof ApiRazorpayWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -114,50 +159,70 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
+    | '/cart'
+    | '/checkout'
     | '/contact'
     | '/gallery'
+    | '/order-success'
     | '/sitemap.xml'
     | '/admin/leads'
     | '/products/$slug'
     | '/admin/'
     | '/products/'
+    | '/api/crm/enquiries'
+    | '/api/razorpay/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/auth'
+    | '/cart'
+    | '/checkout'
     | '/contact'
     | '/gallery'
+    | '/order-success'
     | '/sitemap.xml'
     | '/admin/leads'
     | '/products/$slug'
     | '/admin'
     | '/products'
+    | '/api/crm/enquiries'
+    | '/api/razorpay/webhook'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/auth'
+    | '/cart'
+    | '/checkout'
     | '/contact'
     | '/gallery'
+    | '/order-success'
     | '/sitemap.xml'
     | '/admin/leads'
     | '/products/$slug'
     | '/admin/'
     | '/products/'
+    | '/api/crm/enquiries'
+    | '/api/razorpay/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
+  OrderSuccessRoute: typeof OrderSuccessRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
+  ApiCrmEnquiriesRoute: typeof ApiCrmEnquiriesRoute
+  ApiRazorpayWebhookRoute: typeof ApiRazorpayWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -183,6 +248,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -195,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order-success': {
+      id: '/order-success'
+      path: '/order-success'
+      fullPath: '/order-success'
+      preLoaderRoute: typeof OrderSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -232,6 +318,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/crm/enquiries': {
+      id: '/api/crm/enquiries'
+      path: '/api/crm/enquiries'
+      fullPath: '/api/crm/enquiries'
+      preLoaderRoute: typeof ApiCrmEnquiriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/razorpay/webhook': {
+      id: '/api/razorpay/webhook'
+      path: '/api/razorpay/webhook'
+      fullPath: '/api/razorpay/webhook'
+      preLoaderRoute: typeof ApiRazorpayWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -239,13 +339,18 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
+  OrderSuccessRoute: OrderSuccessRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminLeadsRoute: AdminLeadsRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
+  ApiCrmEnquiriesRoute: ApiCrmEnquiriesRoute,
+  ApiRazorpayWebhookRoute: ApiRazorpayWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

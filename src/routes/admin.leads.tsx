@@ -1,9 +1,7 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  CheckCircle2,
-  Clock,
   Inbox,
   Loader2,
   Trash2,
@@ -14,23 +12,44 @@ import {
   X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { retryLeadSync } from "@/lib/leads.functions";
 import { cn } from "@/lib/utils";
 import { LeadDateRange, defaultLeadRange, type LeadRange } from "@/components/admin/LeadDateRange";
+import { checkAuthSession, checkAdminRole } from "@/lib/auth.functions";
+import { sanitizeForDisplay } from "@/lib/sanitize";
+import { useSessionTimeout } from "@/hooks/use-session-timeout";
+import { SessionTimeoutWarning } from "@/components/SessionTimeoutWarning";
 
 export const Route = createFileRoute("/admin/leads")({
+  beforeLoad: async () => {
+    try {
+      // First check authentication
+      const { authenticated } = await checkAuthSession();
+      if (!authenticated) throw redirect({ to: "/auth" });
+      
+      // Then check admin role - server-side verification
+      const { isAdmin } = await checkAdminRole();
+      if (!isAdmin) {
+        // Non-admin authenticated users get redirected to home
+        throw redirect({ to: "/" });
+      }
+    } catch (e) {
+      // Re-throw redirect, catch everything else
+      if (e instanceof Response || (e && typeof e === "object" && "to" in e)) throw e;
+      throw redirect({ to: "/auth" });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Lead Inbox — Vimash Manufacturing Admin" },
       {
         name: "description",
         content:
-          "Every website enquiry stored safely, with Odoo CRM sync status and retry for failed leads.",
+          "Every website enquiry stored safely and synced to VIDU CRM automatically.",
       },
       { property: "og:title", content: "Lead Inbox — Vimash Manufacturing Admin" },
       {
         property: "og:description",
-        content: "Every website enquiry stored safely with Odoo CRM sync status.",
+        content: "Every website enquiry stored safely and synced to VIDU CRM automatically.",
       },
       { name: "robots", content: "noindex" },
     ],
@@ -50,35 +69,13 @@ type Lead = {
   lead_source: string;
   source_page: string | null;
 
-  odoo_sync_status: "pending" | "synced" | "failed";
-  odoo_error: string | null;
   archived: boolean;
   created_at: string;
 };
 
-type Filter = "all" | "synced" | "unsynced" | "archived";
+type Filter = "all" | "archived";
 
 type BulkConfirm = { ids: string[]; mode: "bin" | "permanent" };
-
-function StatusBadge({ status }: { status: Lead["odoo_sync_status"] }) {
-  const map = {
-    synced: { label: "Synced", icon: CheckCircle2, cls: "bg-primary/10 text-primary" },
-    pending: { label: "Pending", icon: Clock, cls: "bg-muted text-muted-foreground" },
-    failed: { label: "Failed", icon: TriangleAlert, cls: "bg-destructive/10 text-destructive" },
-  } as const;
-  const { label, icon: Icon, cls } = map[status];
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
-        cls,
-      )}
-    >
-      <Icon className="h-3.5 w-3.5" />
-      {label}
-    </span>
-  );
-}
 
 /** Checkbox that supports the indeterminate state */
 function IndeterminateCheckbox({
@@ -126,6 +123,17 @@ function LeadInboxPage() {
   const [bulkBusy, setBulkBusy] = useState(false);
   const [bulkConfirm, setBulkConfirm] = useState<BulkConfirm | null>(null);
 
+  // ── Session timeout for admin inactivity ──────────────────────────────────
+  // Auto-logout after 30 minutes of inactivity with 2-minute warning
+  const sessionTimeout = useSessionTimeout({
+    onWarning: () => {
+      console.log("[Admin] Session expiring soon - showing warning");
+    },
+    onTimeout: () => {
+      console.log("[Admin] Session expired - redirecting to login");
+    },
+  });
+
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setAuthState(session ? "in" : "out");
@@ -145,7 +153,7 @@ function LeadInboxPage() {
       const { data, error } = await supabase
         .from("leads")
         .select(
-          "id, customer_name, mobile, city, state, pincode, machine_name, machine_hp, lead_source, source_page, odoo_sync_status, odoo_error, archived, created_at",
+          "id, customer_name, mobile, city, state, pincode, machine_name, machine_hp, lead_source, source_page, archived, created_at",
         )
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -170,8 +178,6 @@ function LeadInboxPage() {
   const counts = useMemo(
     () => ({
       all: dated.filter((l) => !l.archived).length,
-      synced: dated.filter((l) => !l.archived && l.odoo_sync_status === "synced").length,
-      unsynced: dated.filter((l) => !l.archived && l.odoo_sync_status !== "synced").length,
       archived: dated.filter((l) => l.archived).length,
     }),
     [dated],
@@ -181,8 +187,6 @@ function LeadInboxPage() {
     const q = query.trim().toLowerCase();
     return dated.filter((lead) => {
       if (filter === "archived" ? !lead.archived : lead.archived) return false;
-      if (filter === "synced" && lead.odoo_sync_status !== "synced") return false;
-      if (filter === "unsynced" && lead.odoo_sync_status === "synced") return false;
       if (!q) return true;
       return [
         lead.customer_name,
@@ -222,18 +226,6 @@ function LeadInboxPage() {
 
   function clearSelection() {
     setSelected(new Set());
-  }
-
-  // ── Single-lead actions ───────────────────────────────────────────────────
-  async function onRetry(id: string) {
-    setBusyId(id);
-    try {
-      await retryLeadSync({ data: { leadId: id } });
-    } catch {
-      /* status stays failed */
-    }
-    await queryClient.invalidateQueries({ queryKey: ["leads"] });
-    setBusyId(null);
   }
 
   async function onConfirm() {
@@ -278,8 +270,6 @@ function LeadInboxPage() {
 
   const filters: { key: Filter; label: string }[] = [
     { key: "all", label: `All leads (${counts.all})` },
-    { key: "synced", label: `Synced (${counts.synced})` },
-    { key: "unsynced", label: `Pending / failed (${counts.unsynced})` },
     { key: "archived", label: `Bin (${counts.archived})` },
   ];
 
@@ -287,7 +277,15 @@ function LeadInboxPage() {
   const inBinView = filter === "archived";
 
   return (
-    <div className="mx-auto max-w-7xl px-5 py-9 lg:px-8">
+    <>
+      {/* Session Timeout Warning Dialog */}
+      <SessionTimeoutWarning
+        open={sessionTimeout.showingWarning}
+        timeRemaining={sessionTimeout.timeRemaining}
+        onExtendSession={sessionTimeout.extendSession}
+      />
+
+      <div className="mx-auto max-w-7xl px-5 py-9 lg:px-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
@@ -297,8 +295,8 @@ function LeadInboxPage() {
             Every website enquiry, safely stored
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Leads are saved here first and then pushed to Odoo CRM. If a sync fails, retry it —
-            nothing is ever lost or deleted.
+            Leads are saved here first and synced to VIDU CRM automatically. Nothing is ever lost
+            or deleted.
           </p>
         </div>
         <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:w-auto">
@@ -394,7 +392,6 @@ function LeadInboxPage() {
                   <th className="px-5 py-4 font-semibold">HP</th>
                   <th className="px-5 py-4 font-semibold">Date &amp; time</th>
                   <th className="px-5 py-4 font-semibold">Source</th>
-                  <th className="px-5 py-4 font-semibold">Odoo sync</th>
                   <th className="px-5 py-4 text-right font-semibold">Actions</th>
                 </tr>
               </thead>
@@ -414,22 +411,26 @@ function LeadInboxPage() {
                         <IndeterminateCheckbox
                           checked={isSelected}
                           onChange={(checked) => toggleRow(lead.id, checked)}
-                          ariaLabel={`Select lead from ${lead.customer_name ?? lead.mobile}`}
+                          ariaLabel={`Select lead from ${sanitizeForDisplay(lead.customer_name) || lead.mobile}`}
                         />
                       </td>
                       <td className="px-5 py-4 font-medium text-charcoal">
-                        {lead.customer_name ?? "—"}
+                        {sanitizeForDisplay(lead.customer_name) || "—"}
                       </td>
                       <td className="px-5 py-4 text-charcoal">
                         <a href={`tel:${lead.mobile}`} className="hover:text-primary">
                           {lead.mobile}
                         </a>
                       </td>
-                      <td className="px-5 py-4 text-muted-foreground">{lead.city ?? "—"}</td>
+                      <td className="px-5 py-4 text-muted-foreground">
+                        {sanitizeForDisplay(lead.city) || "—"}
+                      </td>
                       <td className="px-5 py-4 text-muted-foreground">{lead.pincode ?? "—"}</td>
-                      <td className="px-5 py-4 text-muted-foreground">{lead.state ?? "—"}</td>
+                      <td className="px-5 py-4 text-muted-foreground">
+                        {sanitizeForDisplay(lead.state) || "—"}
+                      </td>
                       <td className="px-5 py-4 text-charcoal">
-                        {lead.machine_name ?? "General enquiry"}
+                        {sanitizeForDisplay(lead.machine_name) || "General enquiry"}
                       </td>
                       <td className="px-5 py-4 text-muted-foreground">
                         {lead.machine_hp
@@ -454,29 +455,7 @@ function LeadInboxPage() {
                       </td>
 
                       <td className="px-5 py-4">
-                        <StatusBadge status={lead.odoo_sync_status} />
-                        {lead.odoo_error && lead.odoo_sync_status === "failed" && (
-                          <p className="mt-1 max-w-[220px] text-xs text-muted-foreground">
-                            {lead.odoo_error}
-                          </p>
-                        )}
-                      </td>
-                      <td className="px-5 py-4">
                         <div className="flex items-center justify-end gap-2">
-                          {lead.odoo_sync_status !== "synced" && (
-                            <button
-                              onClick={() => onRetry(lead.id)}
-                              disabled={busyId === lead.id}
-                              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-60"
-                            >
-                              {busyId === lead.id ? (
-                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                              ) : (
-                                <RefreshCw className="h-3.5 w-3.5" />
-                              )}
-                              Retry sync
-                            </button>
-                          )}
                           {lead.archived ? (
                             <button
                               onClick={() => setConfirmLead({ lead, mode: "permanent" })}
@@ -582,7 +561,7 @@ function LeadInboxPage() {
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
               {confirmLead.lead.customer_name
-                ? `${confirmLead.lead.customer_name} · ${confirmLead.lead.mobile}`
+                ? `${sanitizeForDisplay(confirmLead.lead.customer_name)} · ${confirmLead.lead.mobile}`
                 : confirmLead.lead.mobile}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -659,5 +638,6 @@ function LeadInboxPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

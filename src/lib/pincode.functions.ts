@@ -6,7 +6,15 @@ const pincodeSchema = z.object({ pincode: z.string().regex(/^\d{6}$/) });
 
 export type PincodeLookup = { state: string | null; city: string | null };
 
-/** Public: resolves an Indian pincode to its state and district via India Post. */
+/**
+ * Public: resolves an Indian pincode to its state and district via India Post API.
+ * 
+ * Security features:
+ * - CSRF protection (via global middleware in src/start.ts)
+ * - Rate limiting (30 lookups per IP per 5 minutes)
+ * - Input validation via Zod schema
+ * - 10 second timeout for external API call
+ */
 export const lookupPincode = createServerFn({ method: "POST" })
   .validator((data: unknown) => pincodeSchema.parse(data))
   .handler(async ({ data }): Promise<PincodeLookup> => {

@@ -5,6 +5,7 @@ import masalaImg from "@/assets/masala-pulverizer.jpg";
 import { CallbackForm } from "@/components/CallbackForm";
 import { ProductGallery } from "@/components/ProductGallery";
 import { getProductImages } from "@/data/product-images";
+import { AddToCartButton } from "@/components/AddToCartButton";
 
 import { QuoteBand } from "@/components/QuoteBand";
 import { Reveal } from "@/components/Reveal";
@@ -149,9 +150,14 @@ function ProductDetail() {
             </dl>
 
             <div className="mt-8 flex flex-wrap gap-3">
+              <AddToCartButton
+                productSlug={product.slug}
+                variant="primary"
+                size="lg"
+              />
               <a
                 href="#enquiry"
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-accent px-7 py-3.5 text-sm font-semibold text-accent transition-colors duration-300 hover:bg-accent hover:text-accent-foreground"
               >
                 Get Quote
                 <ArrowUpRight className="h-4 w-4" />

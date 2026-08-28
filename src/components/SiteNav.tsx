@@ -1,10 +1,30 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks, site } from "@/data/site";
 import { products } from "@/data/products";
 import logoMark from "@/assets/vimash-mark.png";
 import { cn } from "@/lib/utils";
+import { CartIcon } from "@/components/CartIcon";
+import { useCart } from "@/hooks/use-cart";
+
+function CartBadge() {
+  const { cart } = useCart();
+  const itemCount = cart.itemCount;
+
+  if (itemCount === 0) return null;
+
+  return (
+    <span
+      className={cn(
+        "absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[0.65rem] font-bold text-accent-foreground",
+        itemCount > 99 && "text-[0.55rem]"
+      )}
+    >
+      {itemCount > 99 ? "99+" : itemCount}
+    </span>
+  );
+}
 
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -50,7 +70,7 @@ export function SiteNav() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {navLinks.map((link) =>
             link.to === "/products" ? (
               <div key={link.to} className="group/mega relative">
@@ -120,6 +140,7 @@ export function SiteNav() {
               </Link>
             ),
           )}
+          <CartIcon />
           <a
             href={site.phoneHref}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-transform duration-300 hover:-translate-y-0.5"
@@ -129,14 +150,25 @@ export function SiteNav() {
           </a>
         </nav>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-border bg-background/70 text-charcoal lg:hidden"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <Link
+            to="/cart"
+            className="relative inline-flex items-center justify-center rounded-xl border border-border bg-background/70 p-2.5 text-charcoal transition-colors hover:border-accent hover:text-accent"
+            aria-label={`Shopping cart`}
+          >
+            <ShoppingCart className="h-5 w-5" />
+            <CartBadge />
+          </Link>
+          
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-border bg-background/70 text-charcoal"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       <div
@@ -157,6 +189,13 @@ export function SiteNav() {
               {link.label}
             </Link>
           ))}
+          <Link
+            to="/cart"
+            className="rounded-lg px-3 py-3 font-display text-lg font-semibold text-charcoal transition-colors hover:bg-secondary"
+            activeProps={{ className: "text-primary bg-secondary" }}
+          >
+            Cart
+          </Link>
           <a
             href={site.phoneHref}
             className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground"

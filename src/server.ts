@@ -89,7 +89,6 @@ function addSecurityHeaders(response: Response): Response {
       "magnetometer=(self \"https://*.razorpay.com\")",
       "gyroscope=(self \"https://*.razorpay.com\")",
       "accelerometer=(self \"https://*.razorpay.com\")",
-      "ambient-light-sensor=()",
     ].join(", ")
   );
   
@@ -111,11 +110,11 @@ function addSecurityHeaders(response: Response): Response {
   if (!h.has("Content-Security-Policy")) {
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.razorpay.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.razorpay.com https://www.googletagmanager.com https://googleads.g.doubleclick.net",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com https://www.google.com https://ad.doubleclick.net",
       "frame-src https://*.razorpay.com",
       "frame-ancestors 'none'",
       "object-src 'none'",

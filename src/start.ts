@@ -86,7 +86,6 @@ const securityHeadersMiddleware = createMiddleware().server(async ({ next, reque
       "magnetometer=(self \"https://*.razorpay.com\")",
       "gyroscope=(self \"https://*.razorpay.com\")",
       "accelerometer=(self \"https://*.razorpay.com\")",
-      "ambient-light-sensor=()",
     ].join(", ")
   );
 
@@ -123,8 +122,9 @@ const securityHeadersMiddleware = createMiddleware().server(async ({ next, reque
     "default-src 'self'",
 
     // Scripts: TanStack Start needs unsafe-eval for client-side hydration.
-    // Razorpay Checkout is loaded only on the checkout page.
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.razorpay.com",
+    // Razorpay Checkout is loaded only on the checkout page. Google Tag
+    // Manager hosts the single, global Google Ads tag in the root document.
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.razorpay.com https://www.googletagmanager.com https://googleads.g.doubleclick.net",
 
     // Styles: Tailwind uses utility classes, needs unsafe-inline
     // Allow Google Fonts for typography
@@ -136,8 +136,9 @@ const securityHeadersMiddleware = createMiddleware().server(async ({ next, reque
     // Fonts: Allow self-hosted and Google Fonts
     "font-src 'self' data: https://fonts.gstatic.com",
 
-    // AJAX/WebSocket: Supabase (Realtime), Pincode API and Razorpay Checkout.
-    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com",
+    // AJAX/WebSocket: Supabase (Realtime), Pincode API, Razorpay Checkout,
+    // and Google Ads conversion collection.
+    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com https://www.google.com https://ad.doubleclick.net",
 
     // Razorpay Checkout opens a trusted cross-origin payment frame.
     "frame-src https://*.razorpay.com",

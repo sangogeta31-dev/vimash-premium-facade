@@ -12,7 +12,7 @@ import { useEffect, type MouseEvent as ReactMouseEvent, type ReactNode } from "r
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { gtagReportConversion } from "../lib/google-ads";
+import { gtagReportConversion, gtagReportWhatsAppConversion } from "../lib/google-ads";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingActions } from "@/components/FloatingActions";
@@ -139,7 +139,7 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = pathname.startsWith("/admin") || pathname.startsWith("/auth");
 
-  const handleCallLinkClick = (event: ReactMouseEvent<HTMLDivElement>) => {
+  const handleConversionLinkClick = (event: ReactMouseEvent<HTMLDivElement>) => {
     if (event.defaultPrevented || !(event.target instanceof Element)) {
       return;
     }
@@ -148,13 +148,22 @@ function RootComponent() {
     if (callLink) {
       // Do not prevent the default action: the dialer should open immediately.
       gtagReportConversion();
+      return;
+    }
+
+    const whatsAppLink = event.target.closest<HTMLAnchorElement>(
+      'a[href^="https://wa.me/"], a[href^="https://api.whatsapp.com/"], a[href^="https://web.whatsapp.com/"]',
+    );
+    if (whatsAppLink) {
+      // Do not prevent the default action: WhatsApp should open immediately.
+      gtagReportWhatsAppConversion();
     }
   };
 
   return (
     <QueryClientProvider client={queryClient}>
       <div
-        onClick={isAdmin ? undefined : handleCallLinkClick}
+        onClick={isAdmin ? undefined : handleConversionLinkClick}
         className={
           isAdmin
             ? "flex min-h-screen flex-col bg-background"

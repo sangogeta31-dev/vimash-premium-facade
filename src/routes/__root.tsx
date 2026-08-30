@@ -116,6 +116,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <meta name="google-site-verification" content="QFbr1uJSbIg4aBK_70v0RfGpFoid_3czysz8jpfU0sI" />
         {/* Google tag (gtag.js) — global Ads measurement, loaded once for all routes. */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17830238258" />
         <script

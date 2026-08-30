@@ -138,7 +138,7 @@ const securityHeadersMiddleware = createMiddleware().server(async ({ next, reque
 
     // AJAX/WebSocket: Supabase (Realtime), Pincode API, Razorpay Checkout,
     // and Google Ads conversion collection.
-    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com https://www.google.com https://ad.doubleclick.net",
+    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com https://www.google.com https://ad.doubleclick.net https://googleads.g.doubleclick.net https://www.google.co.in",
 
     // Razorpay Checkout opens a trusted cross-origin payment frame.
     "frame-src https://*.razorpay.com",

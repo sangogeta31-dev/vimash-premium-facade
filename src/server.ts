@@ -64,19 +64,19 @@ function isH3SwallowedErrorBody(body: string): boolean {
  */
 function addSecurityHeaders(response: Response): Response {
   const h = response.headers;
-  
+
   // === Clickjacking Protection ===
   h.set("X-Frame-Options", "DENY");
-  
+
   // === MIME-Type Sniffing Protection ===
   h.set("X-Content-Type-Options", "nosniff");
-  
+
   // === Referrer Policy ===
   h.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  
+
   // === XSS Protection (Legacy) ===
   h.set("X-XSS-Protection", "1; mode=block");
-  
+
   // === Permissions Policy ===
   h.set(
     "Permissions-Policy",
@@ -91,20 +91,20 @@ function addSecurityHeaders(response: Response): Response {
       "accelerometer=(self \"https://*.razorpay.com\")",
     ].join(", ")
   );
-  
+
   // === Strict Transport Security (HSTS) ===
   const isProduction = process.env["NODE_ENV"] === "production";
   if (isProduction) {
     h.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
   }
-  
+
   // === Cross-Origin Policies ===
   h.set("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
   h.set("Cross-Origin-Resource-Policy", "same-site");
   // Razorpay Checkout runs in a cross-origin frame. Leaving this header unset
   // preserves the third-party request behaviour it requires.
   h.delete("Cross-Origin-Embedder-Policy");
-  
+
   // === Content Security Policy ===
   // Only set if not already present (TanStack Start middleware may have set it)
   if (!h.has("Content-Security-Policy")) {
@@ -114,7 +114,7 @@ function addSecurityHeaders(response: Response): Response {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com https://www.google.com https://ad.doubleclick.net",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.postalpincode.in https://*.razorpay.com https://www.google.com https://ad.doubleclick.net https://googleads.g.doubleclick.net https://www.google.co.in",
       "frame-src https://*.razorpay.com",
       "frame-ancestors 'none'",
       "object-src 'none'",
@@ -122,10 +122,10 @@ function addSecurityHeaders(response: Response): Response {
       "form-action 'self'",
       ...(isProduction ? ["upgrade-insecure-requests"] : []),
     ].join("; ");
-    
+
     h.set("Content-Security-Policy", csp);
   }
-  
+
   return response;
 }
 

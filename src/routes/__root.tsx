@@ -8,10 +8,11 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { gtagReportConversion } from "../lib/google-ads";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingActions } from "@/components/FloatingActions";
@@ -137,9 +138,22 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = pathname.startsWith("/admin") || pathname.startsWith("/auth");
 
+  const handleCallLinkClick = (event: ReactMouseEvent<HTMLDivElement>) => {
+    if (event.defaultPrevented || !(event.target instanceof Element)) {
+      return;
+    }
+
+    const callLink = event.target.closest<HTMLAnchorElement>('a[href^="tel:"]');
+    if (callLink) {
+      // Do not prevent the default action: the dialer should open immediately.
+      gtagReportConversion();
+    }
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <div
+        onClick={isAdmin ? undefined : handleCallLinkClick}
         className={
           isAdmin
             ? "flex min-h-screen flex-col bg-background"

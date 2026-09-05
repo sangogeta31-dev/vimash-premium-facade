@@ -112,11 +112,16 @@ export function SiteFooter() {
       </div>
 
       <div className="relative border-t border-primary-foreground/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-xs text-primary-foreground/50 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-xs text-primary-foreground/50 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <p>
-            © {new Date().getFullYear()} {site.name}. All rights reserved.
+            &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p></p>
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <Link to="/privacy" className="hover:text-primary-foreground transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-primary-foreground transition-colors">Terms &amp; Conditions</Link>
+            <Link to="/shipping" className="hover:text-primary-foreground transition-colors">Shipping &amp; Exchange</Link>
+            <Link to="/refund" className="hover:text-primary-foreground transition-colors">Cancellation &amp; Refund</Link>
+          </div>
         </div>
       </div>
     </footer>

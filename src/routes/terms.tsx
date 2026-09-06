@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/PageHero";
-import { Reveal } from "@/components/Reveal";
+
 import { site } from "@/data/site";
 import { pageMeta } from "@/lib/seo";
 import grainsBg from "@/assets/bg-light-flour.jpg";
@@ -28,7 +28,7 @@ function TermsPage() {
       />
 
       <section className="mx-auto max-w-4xl px-5 py-12 lg:px-8 lg:py-20">
-        <Reveal>
+        <div>
           <div className="prose prose-sm max-w-none">
             <p className="text-xs text-muted-foreground">
               Last Updated: January 15, 2025
@@ -354,7 +354,7 @@ function TermsPage() {
               </div>
             </div>
           </div>
-        </Reveal>
+        </div>
       </section>
     </>
   );

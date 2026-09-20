@@ -10,7 +10,7 @@ export const Route = createFileRoute("/shipping")({
     ...pageMeta({
       title: "Shipping and Exchange Policy | Vimash Manufacturing",
       description:
-        "Shipping, delivery, and exchange policy for Vimash Manufacturing Private Limited - PAN India delivery for industrial pulverizer machines.",
+        "Shipping, delivery, and exchange policy for Vimash Manufacturing India Private Limited - PAN India delivery for industrial pulverizer machines.",
       path: "/shipping",
     }),
   }),

@@ -88,9 +88,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Vimash Manufacturing Private Limited builds commercial atta and masala pulverizer machines from 5 HP to 30 HP.",
+          "Vimash Manufacturing India Private Limited builds commercial atta and masala pulverizer machines from 5 HP to 30 HP.",
       },
-      { name: "author", content: "Vimash Manufacturing Private Limited" },
+      { name: "author", content: "Vimash Manufacturing India Private Limited" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/privacy")({
     ...pageMeta({
       title: "Privacy Policy | Vimash Manufacturing",
       description:
-        "Privacy policy for Vimash Manufacturing Private Limited - How we collect, use, and protect your personal information.",
+        "Privacy policy for Vimash Manufacturing India Private Limited - How we collect, use, and protect your personal information.",
       path: "/privacy",
     }),
   }),

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/refund")({
     ...pageMeta({
       title: "Cancellation and Refund Policy | Vimash Manufacturing",
       description:
-        "Cancellation and refund policy for Vimash Manufacturing Private Limited - Order cancellation, refund processing, and return conditions.",
+        "Cancellation and refund policy for Vimash Manufacturing India Private Limited - Order cancellation, refund processing, and return conditions.",
       path: "/refund",
     }),
   }),

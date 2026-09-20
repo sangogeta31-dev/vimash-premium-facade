@@ -32,7 +32,7 @@ export const Route = createFileRoute("/about")({
     ...pageMeta({
       title: "About Vimash — Atta Chakki & Masala Pulverizer Manufacturer",
       description:
-        "Vimash Manufacturing Pvt. Ltd. makes commercial atta chakki pulverizers and masala grinding machines in Ahmedabad. Own factory, tested machines, PAN India delivery and support.",
+        "Vimash Manufacturing Private Limited makes commercial atta chakki pulverizers and masala grinding machines in Ahmedabad. Own factory, tested machines, PAN India delivery and support.",
       path: "/about",
       keywords: mergeKeywords(
         [
@@ -99,7 +99,7 @@ function About() {
         image={grainsBg}
         eyebrow="About us"
         title="We make Atta Chakki machines"
-        description="Vimash Manufacturing Pvt. Ltd. is based in Ahmedabad, India. We make commercial atta and masala Chakki for daily production."
+        description="Vimash Manufacturing Private Limited is based in Ahmedabad, India. We make commercial atta and masala Chakki for daily production."
       />
 
       {/* What we make */}

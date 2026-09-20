@@ -10,7 +10,7 @@ export const Route = createFileRoute("/terms")({
     ...pageMeta({
       title: "Terms and Conditions | Vimash Manufacturing",
       description:
-        "Terms and conditions for purchasing atta chakki and masala pulverizer machines from Vimash Manufacturing Pvt. Ltd.",
+        "Terms and conditions for purchasing atta chakki and masala pulverizer machines from Vimash Manufacturing Private Limited",
       path: "/terms",
     }),
   }),
